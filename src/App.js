@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Upload } from 'antd';
 import './App.css';
 import 'antd/dist/antd.css';
+import logo from './logo.svg';
 
 import Annotation from './Annotation';
 import { Button } from 'antd';
