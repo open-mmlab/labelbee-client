@@ -1,63 +1,25 @@
 import React, { useState } from 'react';
-import { Upload } from 'antd';
 import './App.css';
 import 'antd/dist/antd.css';
 import logo from './logo.svg';
 
 import Annotation from './Annotation';
-import { Button } from 'antd';
+import { fileList as mockFileList } from './mock/index';
 
-function App() {
-  const [imgList, setImgList] = useState([]);
-  const [isAnnotation, setIsAnnotation] = useState(false);
+const App = () => {
+  const [fileList, setFileList] = useState(mockFileList);
 
-  const uploadProps = {
-    action: '',
-    onChange({ file, fileList }) {
-      if (file.status !== 'uploading') {
-        const reader = new FileReader();
-        reader.addEventListener(
-          'load',
-          function () {
-            console.log('src', reader.result);
-            setImgList([...imgList, reader.result]);
-          },
-          false,
-        );
-        reader.readAsDataURL(file.originFileObj);
-      }
-    },
-    defaultFileList: [],
-  };
-
-  const nextStep = () => {
-    if (imgList.length > 0) {
-      setIsAnnotation(true);
-    }
-  };
+  console.log(mockFileList);
 
   const goBack = (data) => {
     console.log('goBack', data);
   };
 
-  if (isAnnotation) {
-    return <Annotation imgList={imgList} goBack={goBack} />;
+  if (fileList.length > 0) {
+    return <Annotation fileList={fileList} goBack={goBack} />;
   }
 
-  return (
-    <div className='App'>
-      <div>
-        <Upload {...uploadProps}>
-          <Button>Upload</Button>
-        </Upload>
-        {imgList.map((v, i) => (
-          <img key={i} src={v} />
-        ))}
-
-        <Button onClick={nextStep}>下一步</Button>
-      </div>
-    </div>
-  );
-}
+  return <div className='App'>123</div>;
+};
 
 export default App;

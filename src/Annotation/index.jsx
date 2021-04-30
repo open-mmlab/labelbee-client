@@ -36,6 +36,8 @@ const config = {
 };
 
 const Annotation = (props) => {
+  const { fileList, goBack } = props;
+
   const exportData = (data) => {
     console.log('exportData', data);
   };
@@ -45,9 +47,10 @@ const Annotation = (props) => {
       <RectTool
         tool={'rectTool'}
         exportData={exportData}
-        imgList={props.imgList}
-        goBack={props.goBack}
+        imgList={fileList}
+        goBack={goBack}
         config={JSON.stringify(config)}
+        data={[]}
       />
     </div>
   );
