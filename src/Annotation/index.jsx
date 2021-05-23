@@ -1,6 +1,6 @@
 import React from 'react';
-import RectTool from 'little-bee';
-import 'little-bee/dist/index.css';
+import AnnotationOperation from 'label-bee';
+import 'label-bee/dist/index.css';
 
 const Annotation = (props) => {
   const { fileList, goBack, stepList, step } = props;
@@ -11,17 +11,14 @@ const Annotation = (props) => {
 
   return (
     <div>
-      <RectTool
-        tool={'rectTool'}
+      <AnnotationOperation
         exportData={exportData}
         imgList={fileList}
         goBack={goBack}
         stepList={stepList}
-        data={[]}
         step={step}
       />
     </div>
   );
 };
-
 export default Annotation;
