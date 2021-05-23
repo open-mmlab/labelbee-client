@@ -31,6 +31,42 @@ const rectConfigString = JSON.stringify({
   customFormat: '',
 });
 
+const tagConfigString = JSON.stringify({
+  showConfirm: true,
+  skipWhileNoDependencies: false,
+  inputList: [
+    {
+      key: '类别1',
+      value: 'class1',
+      isMulti: false,
+      subSelected: [
+        { key: '选项1', value: 'option1', isDefault: false },
+        { key: '选项2', value: 'option1-2', isDefault: false },
+      ],
+    },
+    {
+      key: '类别2',
+      value: 'class-AH',
+      isMulti: false,
+      subSelected: [
+        { key: '选项2-1', value: 'option2-1', isMulti: false },
+        { key: '选项2-2', value: 'option2-2', isDefault: false },
+        { key: '选项2-3', value: 'option2-3', isDefault: false },
+      ],
+    },
+    {
+      key: '类别3',
+      value: 'class-0P',
+      isMulti: false,
+      subSelected: [
+        { key: '选项3-1', value: 'option3-1', isMulti: false },
+        { key: '选项3-2', value: 'option3-2', isDefault: false },
+        { key: '选项3-3', value: 'option3-3', isDefault: false },
+      ],
+    },
+  ],
+});
+
 export const stepList = [
   {
     step: 1,
