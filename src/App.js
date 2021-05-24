@@ -8,7 +8,7 @@ import { stepList } from './mock/taskConfig';
 const App = () => {
 
   
-  const [fileList, setFileList] = useState(mockFileList.map((i) => ({ url: i, result: rectDefaultResult  })));
+  const [fileList, setFileList] = useState(mockFileList.map((url, i) => ({ id: i + 1, url, result: rectDefaultResult  })));
 
   const goBack = (data) => {
     console.log('goBack', data);
