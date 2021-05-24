@@ -1,29 +1,29 @@
-# 标注工具 sdk demo 测试
+# 标注工具 sdk - Demo
 
-## 运行方式
+## 本地开发
 
-### 方式一 - (推荐)使用 pnpm 进行包依赖的安装。
-
-1. pnpm install
-
-2. pnpm install ~/your-path/little-bee
-   （直接通过本地路径进行安装， 在这之前需要 clone little-bee 下来， ）
-
-3. pnpm run start 运行
-
-
-### 方式二 - 使用 npm link 进行依赖安装
-
-1. 在 label-bee 项目内创建一个全局的软链
+### 拉取代码
 
 ```bash
-   cd xxx/label-bee
-   sudo npm link
+$ git clone git@gitlab.bj.sensetime.com:fdc/frontend/bee-sdk-demo.git
+$ cd bee-sdk-demo
+$ yarn install
 ```
 
-2. 进入本项目然后链接
+### 依赖获取
 
 ```bash
-   cd xxx/bee-sdk-demo
-   npm link label-bee
+$ cd ../
+$ git clone -b v1.0.0 git@gitlab.bj.sensetime.com:fdc/frontend/label-bee.git
+$ cd label-bee
+$ npm link
+
+$ cd ../bee-sdk-demo
+$ npm link label-bee
+```
+
+### 启动项目
+```bash
+$ node ./script/static.js ## 启动静态服务器获取本地图片
+$ yarn start
 ```
