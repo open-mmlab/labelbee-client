@@ -4,6 +4,7 @@
 
 ```bash
 $ npm install
+$ node ./script/static.js ## 启动静态服务器获取本地图片
 $ npm run start
 ```
 
