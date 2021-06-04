@@ -1,5 +1,13 @@
 # 标注工具 sdk - Demo
 
+## 快速使用
+
+```bash
+$ npm install
+$ npm run start
+```
+
+
 ## 本地开发
 
 ### 拉取代码

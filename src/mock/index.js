@@ -3,7 +3,6 @@ export const fileList = ['500001884', '500001885', '500001886', '100000031654', 
   (i) => `${MOCK_URL}/${i}.jpg`,
 );
 
-
 export const rectDefaultResult = JSON.stringify({
   height: 200,
   width: 100,
@@ -23,7 +22,18 @@ export const rectDefaultResult = JSON.stringify({
         order: 1,
         attribute: '',
         textAttribute: '',
-      }
-    ]
-  }
-})
+      },
+    ],
+  },
+});
+
+export const tagDefaultResult = JSON.stringify({
+  height: 200,
+  width: 100,
+  rotate: 0,
+  step_1: {
+    dataSource: 0,
+    tool: 'tagTool',
+    result: [],
+  },
+});

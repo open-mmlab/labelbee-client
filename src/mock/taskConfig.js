@@ -47,7 +47,7 @@ const tagConfigString = JSON.stringify({
     {
       key: '类别2',
       value: 'class-AH',
-      isMulti: false,
+      isMulti: true,
       subSelected: [
         { key: '选项2-1', value: 'option2-1', isMulti: false },
         { key: '选项2-2', value: 'option2-2', isDefault: false },
@@ -67,11 +67,50 @@ const tagConfigString = JSON.stringify({
   ],
 });
 
+const polygonnConfigString = JSON.stringify({
+  lineType: 0,
+  lineColor: 0,
+  lowerLimitPointNum: 3,
+  upperLimitPointNum: 20,
+  edgeAdsorption: true,
+  drawOutsideTarget: false,
+  copyBackwardResult: false,
+  isShowOrder: false,
+  attributeConfigurable: true,
+  attributeList: [
+    { key: '类别1', value: '类别1' },
+    { key: '类别tT', value: 'class-tT' },
+    { key: '类别FM', value: 'class-FM' },
+    { key: '类别r6', value: 'class-r6' },
+    { key: '类别Rs22222类别Rs22222', value: 'class-Rs' },
+    { key: '类别rp', value: 'class-rp' },
+    { key: '类别rp2', value: 'class-rp2' },
+    { key: '类别rp3', value: 'class-rp3' },
+    { key: '类别Rs4', value: 'class-Rs4' },
+    { key: '类别rp5', value: 'class-rp5' },
+  ],
+  textConfigurable: true,
+  textCheckType: 0,
+  customFormat: '',
+});
+
 export const stepList = [
+  // {
+  //   step: 1,
+  //   dataSourceStep: 0,
+  //   tool: 'polygonTool',
+  //   config: polygonnConfigString,
+  // },
   {
     step: 1,
     dataSourceStep: 0,
     tool: 'rectTool',
     config: rectConfigString,
   },
+  // {
+  //   step: 1,
+  //   dataSourceStep: 0,
+  //   tool: 'tagTool',
+  //   config: tagConfigString,
+  // },
 ];
