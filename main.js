@@ -1,5 +1,6 @@
 const electron = require('electron');
 const platform = require('os').platform(); // 获取平台：https://nodejs.org/api/os.html#os_os_platform
+
 // 控制app生命周期.
 const app = electron.app;
 // 浏览器窗口.
@@ -9,6 +10,9 @@ const Menu = electron.Menu;
 const path = require('path');
 const url = require('url');
 const ipc = electron.ipcMain;
+
+const ipcListen = require('./electron/ipcEvent');
+
 let mainWindow;
 
 ipc.on('app close window', (sys, msg) => {
@@ -93,6 +97,7 @@ function createWindow() {
     webPreferences: {
       nodeIntegration: true, //允许使用node的方式引入
       webSecurity: false, // 允许使用本地资源
+      contextIsolation: false,
     },
     backgroundColor: '#B1FF9D',
   });
@@ -115,6 +120,21 @@ function createWindow() {
   if (startUrl.startsWith('http')) {
     // mainWindow.webContents.openDevTools();
   }
+
+  ipcListen(mainWindow);
+  electron.protocol.interceptFileProtocol(
+    'file',
+    (req, callback) => {
+      const url = req.url.substr(8);
+      console.log(url)
+      callback(decodeURI(url));
+    },
+    (error) => {
+      if (error) {
+        console.error('Failed to register protocol');
+      }
+    },
+  );
 
   mainWindow.webContents.openDevTools();
   mainWindow.on('closed', function () {
