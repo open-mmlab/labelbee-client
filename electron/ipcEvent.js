@@ -19,6 +19,11 @@ const ipcListen = (mainWindow) => {
       });
   });
 
+  ipc.on(EIpcEvent.SaveResult, (event, fileList) => {
+    fileList.forEach((file) => {
+      fs.writeFileSync(file.url.substr(8) + '.json', file.result);
+    });
+  });
 };
 
 module.exports = ipcListen;
