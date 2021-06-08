@@ -1,5 +1,6 @@
 const { EIpcEvent } = require('../src/constant/event');
 const { getFilesFromDirectory } = require('./file.');
+const { IMAGE_SUFFIX } = require('../src/constant/file');
 
 const fs = require('fs');
 
@@ -13,7 +14,7 @@ const ipcListen = (mainWindow) => {
       })
       .then((r) => {
         if (!r.canceled) {
-          const files = getFilesFromDirectory(r.filePaths);
+          const files = getFilesFromDirectory(r.filePaths, IMAGE_SUFFIX);
           event.reply(EIpcEvent.SelectedImage, files);
         }
       });
