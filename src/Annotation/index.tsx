@@ -5,16 +5,16 @@ import { EIpcEvent } from '../constant/event';
 
 const electron = window.require && window.require('electron');
 
-const Annotation = (props) => {
+const Annotation = (props: any) => {
   const { fileList, goBack, stepList, step } = props;
 
-  const exportData = (data) => {
+  const exportData = (data: any) => {
     if (electron) {
       electron.ipcRenderer.send(EIpcEvent.SaveResult, data);
     }
   };
 
-  const onSubmit = (data) => {
+  const onSubmit = (data: any) => {
     // 翻页时触发当前页面数据的输出
     console.log('submitData', data);
   };

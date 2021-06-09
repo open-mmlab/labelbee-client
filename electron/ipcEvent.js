@@ -1,5 +1,5 @@
 const { EIpcEvent } = require('../src/constant/event');
-const { getFilesFromDirectory } = require('./file.');
+const { getFilesFromDirectory } = require('./file');
 const { IMAGE_SUFFIX } = require('../src/constant/file');
 
 const fs = require('fs');
