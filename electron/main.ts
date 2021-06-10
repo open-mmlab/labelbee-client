@@ -11,7 +11,7 @@ const path = require('path');
 const url = require('url');
 const ipc = electron.ipcMain;
 
-const ipcListen = require('./electron/ipcEvent');
+import { ipcListen } from './ipcEvent';
 
 let mainWindow;
 
@@ -26,7 +26,7 @@ const setupMenu = () => {
   const menu = new Menu();
   mainWindow.setMenu(menu);
 
-  const template = [
+  const template: any = [
     {
       label: 'Application',
       submenu: [
@@ -41,7 +41,7 @@ const setupMenu = () => {
           label: 'Quit',
           accelerator: 'Command+Q',
           click: () => {
-            quit();
+            app.quit();
           },
         },
       ],
@@ -126,14 +126,14 @@ function createWindow() {
     'file',
     (req, callback) => {
       const url = req.url.substr(8);
-      console.log(url)
+      console.log(url);
       callback(decodeURI(url));
     },
-    (error) => {
-      if (error) {
-        console.error('Failed to register protocol');
-      }
-    },
+    // (error) => {
+    //   if (error) {
+    //     console.error('Failed to register protocol');
+    //   }
+    // },
   );
 
   mainWindow.webContents.openDevTools();

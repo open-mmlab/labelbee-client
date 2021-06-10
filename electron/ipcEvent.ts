@@ -1,18 +1,16 @@
-const { EIpcEvent } = require('../src/constant/event');
-const { getFilesFromDirectory } = require('./file');
-const { IMAGE_SUFFIX } = require('../src/constant/file');
-
+import { EIpcEvent } from '../src/constant/event';
+import { getFilesFromDirectory } from './file';
+import { IMAGE_SUFFIX } from '../src/constant/file';
 const fs = require('fs');
-
 const { ipcMain: ipc, dialog } = require('electron');
 
-const ipcListen = (mainWindow) => {
+export const ipcListen = (mainWindow) => {
   ipc.on(EIpcEvent.SelectImage, (event) => {
     dialog
       .showOpenDialog(mainWindow, {
         properties: ['openFile', 'openDirectory'],
       })
-      .then((r) => {
+      .then((r: any) => {
         if (!r.canceled) {
           const files = getFilesFromDirectory(r.filePaths, IMAGE_SUFFIX);
           event.reply(EIpcEvent.SelectedImage, files);
@@ -26,5 +24,3 @@ const ipcListen = (mainWindow) => {
     });
   });
 };
-
-module.exports = ipcListen;

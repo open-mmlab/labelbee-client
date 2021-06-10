@@ -2,7 +2,6 @@
   "name": "react_hook",
   "version": "0.1.0",
   "private": true,
-  "main": "main.js",
   "homepage": "./",
   "dependencies": {
     "@babel/core": "7.9.0",
@@ -79,9 +78,7 @@
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
     "test": "node scripts/test.js",
-    "electron": "electron .",
-    "start:electron": "node scripts/start.js",
-    "electron-dev": "ELECTRON_START_URL=http://localhost:3000/ electron .",
+    "electron-dev": "tsc -p electron/tsconfig.json && ELECTRON_START_URL=http://localhost:3000/ electron electron/dist/main.js",
     "packager": "npm run build && rm -rf dist && electron-builder --mac",
     "package": "electron-forge package –-platform=win",
     "make": "electron-forge make",
