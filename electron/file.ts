@@ -13,7 +13,11 @@ const getFileSuffix = (filename) => {
  * @param dirPath
  * @param existFiles
  */
-const getFilesFromDirectory = (dirPaths, supportedSuffix, existFiles) => {
+export const getFilesFromDirectory = (
+  dirPaths: string | string[],
+  supportedSuffix: string[],
+  existFiles?: string[],
+) => {
   const dirFiles = existFiles || [];
   const dirPath = Array.isArray(dirPaths) ? dirPaths[0] : dirPaths;
   const stat = fs.lstatSync(dirPath);
@@ -38,7 +42,4 @@ const getFilesFromDirectory = (dirPaths, supportedSuffix, existFiles) => {
   }
 
   return dirFiles;
-};
-module.exports = {
-  getFilesFromDirectory,
 };

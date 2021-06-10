@@ -17,7 +17,7 @@ const App = () => {
 
       ipcRenderer.once(EIpcEvent.SelectedImage, function (event: any, paths: any) {
         setFileList(
-          paths.map((url, i) => ({ id: i + 1, url: 'file:///' + url, result: rectDefaultResult })),
+          paths.map((url: string, i: number) => ({ id: i + 1, url: 'file:///' + url, result: rectDefaultResult })),
         );
       });
     }
