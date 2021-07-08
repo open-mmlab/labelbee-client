@@ -1,0 +1,16 @@
+.main {
+  position: relative;
+  height: 400px;
+  overflow: hidden;
+  .projectTypeSelected {
+    position: absolute;
+
+    margin-right: 10px;
+    border-right: 1px solid black;
+    width: 68px;
+  }
+
+  .config {
+    margin-left: 100px;
+  }
+}

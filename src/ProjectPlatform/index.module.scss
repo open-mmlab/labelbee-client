@@ -1,0 +1,81 @@
+$navWidth: 300px;
+$projectMarginTop: 10px;
+
+.main {
+  position: relative;
+  background-color: #f1f1f1;
+  overflow: hidden;
+
+  .nav {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 300px;
+    height: 100vh;
+    padding: 16px 30px;
+    .title {
+      font-size: 40px;
+      margin-bottom: 20px;
+      color: #6371ff;
+    }
+    .create {
+      &:hover {
+        background: #eaeaea;
+        cursor: pointer;
+      }
+
+      padding: 8px 0px;
+
+      font-size: 20px;
+      display: flex;
+      align-items: center;
+      .icon {
+        margin-right: 13px;
+        font-size: 28px;
+      }
+    }
+  }
+
+  .projectList {
+    margin: $projectMarginTop $navWidth;
+    height: calc(100vh - #{$projectMarginTop} * 2);
+    padding: 20px;
+    border: 1px solid #f1f1f1;
+    background: white;
+    .title {
+      font-size: 18px;
+      margin-bottom: 20px;
+    }
+    .project {
+      &:hover {
+        background: #e2e2e2;
+      }
+      border-radius: 10px;
+      display: flex;
+      height: 150px;
+      padding: 30px;
+      position: relative;
+
+      .icon {
+        font-size: 60px;
+        // float: left;
+        margin-right: 20px;
+      }
+      .detailInfo {
+        .detail {
+          color: #8e8e8e;
+        }
+      }
+      .createdAt {
+        position: absolute;
+        right: 30px;
+        top: 40px;
+      }
+      .setting {
+        position: absolute;
+        right: 30px;
+        bottom: 40px;
+      }
+    }
+  }
+}
