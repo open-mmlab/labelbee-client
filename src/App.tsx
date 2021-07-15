@@ -1,23 +1,43 @@
-import React, { useState } from 'react';
+import React, { useContext, useEffect } from 'react';
 import './App.css';
 import 'antd/dist/antd.css';
 import Annotation from './Annotation';
 import ProjectPlatform from './ProjectPlatform';
 import { stepList } from './mock/taskConfig';
-
+import { AnnotationContext } from './store';
+import { EStore } from './constant/store';
 
 const App = () => {
-  const [fileList, setFileList] = useState([]);
+  const {
+    state: { fileList, currentProjectInfo },
+    dispatch
+  } = useContext(AnnotationContext);
 
-  if (fileList.length > 0) {
+  useEffect(() => {
+    try {
+      const projectListString = localStorage.getItem(EStore.LOCAL_PROJECT_LIST) || '[]';
+      const projectList = JSON.parse(projectListString);
+      
+      if (projectList.length > 0) {
+        dispatch({
+          type: 'UPDATE_PROJECT_LIST',
+          payload: {
+            projectList
+          }
+        })
+      }
+    } catch {
+      
+    }
+  }, [dispatch])
+
+  if (currentProjectInfo && fileList.length > 0) {
     return <Annotation fileList={fileList} stepList={stepList} step={1} />;
-  
   }
 
   return (
     <div className='App'>
-      <ProjectPlatform setFileList={setFileList} />
-      {/* <button onClick={openDir}>open</button> */}
+      <ProjectPlatform />
     </div>
   );
 };

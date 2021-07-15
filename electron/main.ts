@@ -1,3 +1,5 @@
+import { ipcListen } from './ipcEvent';
+
 const electron = require('electron');
 const platform = require('os').platform(); // 获取平台：https://nodejs.org/api/os.html#os_os_platform
 
@@ -11,16 +13,12 @@ const path = require('path');
 const url = require('url');
 const ipc = electron.ipcMain;
 
-import { ipcListen } from './ipcEvent';
-
 let mainWindow;
 
 ipc.on('app close window', (sys, msg) => {
   console.log(sys, msg);
   mainWindow.close();
 });
-
-console.log(platform);
 
 const setupMenu = () => {
   const menu = new Menu();

@@ -1,63 +1,50 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { FileAddTwoTone, SmileTwoTone, SettingOutlined } from '@ant-design/icons';
 import styles from './index.module.scss';
 import { EIpcEvent } from '../constant/event';
-import {  rectDefaultResult } from '../mock/index';
 import CreateProjectModal from './CreateProjectModal';
-const electron = window.require && window.require("electron")
+import { AnnotationContext, IProjectInfo } from '../store';
+const electron = window.require && window.require('electron');
 
 interface IProps {
-  setFileList: any
 }
 
+const ipcRenderer = electron && electron.ipcRenderer;
+
 const ProjectPlatform: React.FC<IProps> = (props) => {
+  const {
+    state: { projectList },
+    dispatch,
+  } = useContext(AnnotationContext);
+
   const [hoverIndex, setHoverIndex] = useState(-1);
   const [createModalVisible, setCreateModalVisible] = useState(false);
 
-  const list = [
-    {
-      name: '我是项目名字',
-      type: '目标检测',
-      filePath: '/User/luozefeng/Desktop/let-me-see',
-      createdAt: '2021-07-07',
-    },
-    {
-      name: '我是项目名字',
-      type: '目标检测',
-      filePath: '/User/luozefeng/Desktop/let-me-see',
-      createdAt: '2021-07-07',
-    },
-    {
-      name: '我是项目名字',
-      type: '目标检测',
-      filePath: '/User/luozefeng/Desktop/let-me-see',
-      createdAt: '2021-07-07',
-    },
-    {
-      name: '我是项目名字',
-      type: '目标检测',
-      filePath: '/User/luozefeng/Desktop/let-me-see',
-      createdAt: '2021-07-07',
-    },
-  ];
+  const createProject = () => {
+    setCreateModalVisible(true);
+  };
 
-  const openDir = () => {
-    const ipcRenderer = electron && electron.ipcRenderer;
+  const startAnnotation = (projectInfo: IProjectInfo) => {
+    dispatch({
+      type: 'UPDATE_CURRENT_PROJECTINFO',
+      payload: {
+        projectInfo,
+      },
+    });
+
+    // 加载当前路径下的所有图片
     if (ipcRenderer) {
-      ipcRenderer.send(EIpcEvent.SelectImage);
-
-      ipcRenderer.once(EIpcEvent.SelectedImage, function (event: any, paths: any) {
-        props.setFileList(
-          paths.map((url: string, i: number) => ({ id: i + 1, url: 'file:///' + url, result: rectDefaultResult })),
-        );
+      ipcRenderer.send(EIpcEvent.SendDirectoryImages, projectInfo.path);
+      ipcRenderer.once(EIpcEvent.GetDirectoryImages, function (event: any, fileList: any[]) {
+        dispatch({
+          type: 'UPDATE_FILE_LIST',
+          payload: {
+            fileList,
+          },
+        });
       });
     }
   };
-
-  const createProject = () =>{ 
-    setCreateModalVisible(true)
-  }
-
 
   return (
     <div className={styles.main}>
@@ -72,12 +59,13 @@ const ProjectPlatform: React.FC<IProps> = (props) => {
       <div className={styles.projectList}>
         <div className={styles.title}>全部项目列表</div>
         <div className={styles.list}>
-          {list.map((info, i) => (
+          {projectList.map((info, i) => (
             <div
               className={styles.project}
+              key={i}
               onMouseEnter={() => setHoverIndex(i)}
               onMouseLeave={() => setHoverIndex(-1)}
-              onDoubleClick={openDir}
+              onDoubleClick={() => startAnnotation(info)}
             >
               <div className={styles.icon}>
                 <SmileTwoTone />
@@ -86,7 +74,7 @@ const ProjectPlatform: React.FC<IProps> = (props) => {
                 <div className={styles.title}>{info.name}</div>
                 <div className={styles.detail}>
                   <div>{info.type}</div>
-                  <div>{info.filePath}</div>
+                  <div>{info.path}</div>
                 </div>
               </div>
               <div className={styles.createdAt}>{info.createdAt}</div>
@@ -100,7 +88,10 @@ const ProjectPlatform: React.FC<IProps> = (props) => {
         </div>
       </div>
 
-      <CreateProjectModal visible={createModalVisible}/>
+      <CreateProjectModal
+        visible={createModalVisible}
+        onCancel={() => setCreateModalVisible(false)}
+      />
     </div>
   );
 };
