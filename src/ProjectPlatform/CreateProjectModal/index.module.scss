@@ -8,6 +8,10 @@
     margin-right: 10px;
     border-right: 1px solid black;
     width: 68px;
+
+    .selected {
+      color: red;
+    }
   }
 
   .config {

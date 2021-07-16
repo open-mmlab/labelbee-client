@@ -5,10 +5,11 @@ const electron = window.require && window.require('electron');
 
 interface IProps {
   // path: string;
+  key: string 
   onChange?: (value: any) => void;
 }
 
-const SelectFolder: React.FC<IProps> = ({ onChange }) => {
+const SelectFolder: React.FC<IProps> = ({ onChange, key }) => {
   const [path, setPath] = useState('');
   const pathRef = useRef<HTMLInputElement>(null);
   const { dispatch } = React.useContext(AnnotationContext);
@@ -33,7 +34,7 @@ const SelectFolder: React.FC<IProps> = ({ onChange }) => {
   };
 
   return (
-    <div>
+    <div key={key}>
       <button onClick={openDir}>选择文件夹</button>
       {path}
       <input style={{ visibility: 'hidden' }} ref={pathRef} />

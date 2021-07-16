@@ -1,15 +1,24 @@
-import { EStore } from '@/constant/store';
+import { EStore, EToolName } from '@/constant/store';
 import * as React from 'react';
 
 export interface IProjectInfo {
   name: string;
   path: string;
-  type: string;
+  resultPath: string;
+  toolName: EToolName
   createdAt: string;
+  stepList: IStepInfo[]
 }
 
-interface IFileInfo {
+export interface IStepInfo {
+  step: 1,
+  tool: EToolName,
+  config: string
+}
+
+export interface IFileInfo {
   url: string;
+  result: string;
 }
 
 interface IAnnotation {
@@ -18,18 +27,18 @@ interface IAnnotation {
   currentProjectInfo?: IProjectInfo; // 当前项目信息
 }
 
-type Action = { type: 'UPDATE_FILE_LIST' | 'ADD_PROJECT_LIST' | 'UPDATE_PROJECT_LIST' | 'UPDATE_CURRENT_PROJECTINFO'; payload: any };
+type Action = {
+  type:
+    | 'UPDATE_FILE_LIST'
+    | 'ADD_PROJECT_LIST'
+    | 'UPDATE_PROJECT_LIST'
+    | 'UPDATE_CURRENT_PROJECTINFO';
+  payload: any;
+};
 
 const initialState: IAnnotation = {
   fileList: [],
-  projectList: [
-    {
-      name: '我是初始化数据',
-      type: '目标检测',
-      path: '/Users/luozefeng/Desktop/Adrea Iguodala/little',
-      createdAt: '2021-07-07',
-    },
-  ],
+  projectList: [],
 };
 
 const reducer = (state: IAnnotation = initialState, action: Action) => {
@@ -39,20 +48,20 @@ const reducer = (state: IAnnotation = initialState, action: Action) => {
 
       return { ...state, fileList };
     }
-    
 
     case 'UPDATE_PROJECT_LIST': {
       const projectList = action.payload.projectList;
+      localStorage.setItem(EStore.LOCAL_PROJECT_LIST, JSON.stringify(projectList));
 
       return { ...state, projectList };
     }
 
     case 'ADD_PROJECT_LIST': {
       const projectList = action.payload.projectList;
-      const newProjectList =  [...state.projectList, ...projectList];
-      
-      localStorage.setItem(EStore.LOCAL_PROJECT_LIST, JSON.stringify(newProjectList))
-      return { ...state, projectList:newProjectList };
+      const newProjectList = [...state.projectList, ...projectList];
+
+      localStorage.setItem(EStore.LOCAL_PROJECT_LIST, JSON.stringify(newProjectList));
+      return { ...state, projectList: newProjectList };
     }
 
     case 'UPDATE_CURRENT_PROJECTINFO': {

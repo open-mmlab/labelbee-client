@@ -69,11 +69,18 @@ export const getResultFromImg = (path: string, supportedSuffix: string[]) => {
  * @param supportedSuffix
  * @returns
  */
-export const getResultFromFiles = (files: any[], supportedSuffix: string[]) => {
-  return files.map((file, i) => {
-    const url = 'file:///' + file;
+export const getResultFromFiles = (
+  files: any[],
+  supportedSuffix: string[],
+  path: string,
+  resultPath: string,
+) => {
+  return files.map((url, i) => {
     try {
-      const result = fs.readFileSync(getResultFromImg(file, supportedSuffix));
+      const result = fs.readFileSync(
+        getResultFromImg(getResultPathFromImgPath(url, path, resultPath), supportedSuffix),
+      );
+      
       return {
         id: i + 1,
         result: result.toString(),
@@ -87,4 +94,24 @@ export const getResultFromFiles = (files: any[], supportedSuffix: string[]) => {
       };
     }
   });
+};
+
+/**
+ * 通过图片路径 + 图片文件夹 + 结果文件夹路径，得到结果文件夹
+ * @param url 
+ * @param path 
+ * @param resultPath 
+ * @returns 
+ */
+export const getResultPathFromImgPath = (url: string, path: string, resultPath: string) => {
+  const urls = url.split(path);
+  if (urls.length === 1) {
+    // 返回自己
+    return url;
+  }
+
+  urls.shift();
+  urls.unshift(resultPath);
+
+  return urls.join('');
 };

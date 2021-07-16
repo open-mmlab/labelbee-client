@@ -36,7 +36,12 @@ const Annotation = (props: any) => {
 
     // 将数据保存的到本地
     if (electron) {
-      electron.ipcRenderer.send(EIpcEvent.SaveResult, fileList);
+      electron.ipcRenderer.send(
+        EIpcEvent.SaveResult,
+        imgList,
+        currentProjectInfo?.path,
+        currentProjectInfo?.resultPath,
+      );
     }
   };
 
@@ -45,7 +50,10 @@ const Annotation = (props: any) => {
       <AnnotationOperation
         headerName={currentProjectInfo?.name}
         onSubmit={onSubmit}
-        imgList={fileList}
+        imgList={fileList.map((file: any) => ({
+          ...file,
+          url: 'file:///' + file.url,
+        }))}
         goBack={goBack}
         stepList={stepList}
         step={step}

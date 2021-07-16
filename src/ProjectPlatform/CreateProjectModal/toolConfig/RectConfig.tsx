@@ -9,7 +9,10 @@ const RectConfig: React.FC<{}> = () => {
         <Input placeholder='input placeholder' />
       </Form.Item>
       <Form.Item name="path" label='选择图片文件夹'>
-        <SelectFolder />
+        <SelectFolder  key='path'/>
+      </Form.Item>
+      <Form.Item name="resultPath" label='选择结果文件夹'>
+        <SelectFolder key='resultPath' />
       </Form.Item>
     </>
   );

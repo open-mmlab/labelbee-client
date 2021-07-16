@@ -1,8 +1,9 @@
 import { EIpcEvent } from '../src/constant/event';
-import { getFilesFromDirectory, getResultFromFiles } from './file';
+import { getFilesFromDirectory, getResultFromFiles, getResultPathFromImgPath } from './file';
 import { IMAGE_SUFFIX } from '../src/constant/file';
 const fs = require('fs');
 const { ipcMain: ipc, dialog } = require('electron');
+const fse = require('fs-extra');
 
 export const ipcListen = (mainWindow) => {
   ipc.on(EIpcEvent.SelectImage, (event) => {
@@ -18,9 +19,18 @@ export const ipcListen = (mainWindow) => {
       });
   });
 
-  ipc.on(EIpcEvent.SaveResult, (event, fileList) => {
+  ipc.on(EIpcEvent.SaveResult, (event, fileList, path, resultPath) => {
     fileList.forEach((file) => {
-      fs.writeFileSync(file.url.substr(8) + '.json', file.result);
+      const imgUrl = file.url.substr(8);
+      const resultUrl = getResultPathFromImgPath(imgUrl, path, resultPath) + '.json';
+
+      fse.outputFile(resultUrl, file.result, err => {
+        if(err) {
+          console.log(err);
+        } else {
+          console.log(resultUrl, ' The file was saved!');
+        }
+      })
     });
   });
 
@@ -38,13 +48,9 @@ export const ipcListen = (mainWindow) => {
   });
 
   // 获取当前目录下数据
-  ipc.on(EIpcEvent.SendDirectoryImages, (event, paths) => {
-    const files = getFilesFromDirectory(paths, IMAGE_SUFFIX);
-    const newFiles = getResultFromFiles(
-      files,
-      IMAGE_SUFFIX,
-    );
-
+  ipc.on(EIpcEvent.SendDirectoryImages, (event, path, resultPath) => {
+    const files = getFilesFromDirectory(path, IMAGE_SUFFIX);
+    const newFiles = getResultFromFiles(files, IMAGE_SUFFIX, path, resultPath);
     event.reply(EIpcEvent.GetDirectoryImages, newFiles);
   });
 };

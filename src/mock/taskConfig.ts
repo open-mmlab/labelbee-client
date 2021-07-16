@@ -1,4 +1,4 @@
-const rectConfigString = JSON.stringify({
+export const rectConfigString = JSON.stringify({
   showConfirm: false,
   skipWhileNoDependencies: false,
   drawOutsideTarget: false,
@@ -31,7 +31,7 @@ const rectConfigString = JSON.stringify({
   customFormat: '',
 });
 
-const tagConfigString = JSON.stringify({
+export const tagConfigString = JSON.stringify({
   showConfirm: true,
   skipWhileNoDependencies: false,
   inputList: [
@@ -67,7 +67,7 @@ const tagConfigString = JSON.stringify({
   ],
 });
 
-const polygonnConfigString = JSON.stringify({
+export const polygonnConfigString = JSON.stringify({
   lineType: 0,
   lineColor: 0,
   lowerLimitPointNum: 3,
