@@ -42,3 +42,20 @@ export const TOOL_NAME: {[a: string]: string} = {
   [EToolName.Tag]: '图像分类',
   [EToolName.Polygon]: '图像分割',
 }
+
+// 文本标注类型
+export enum ETextType {
+  AnyString, // 任意字符
+  Order, // 序号
+  EnglishOnly, // 仅英文
+  NumberOnly, // 仅数字
+  CustomFormat, // 自定义文本格式
+}
+
+export const TEXT_TYPE = {
+  0: '任意字符',
+  1: '序号',
+  2: '仅英文',
+  3: '仅数字',
+  4: '自定义文本格式',
+};

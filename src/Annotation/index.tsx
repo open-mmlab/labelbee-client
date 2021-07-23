@@ -13,9 +13,9 @@ const Annotation = (props: any) => {
   } = useContext(AnnotationContext);
   const { fileList, step, stepList } = props;
 
-  const onSubmit = (data: any) => {
+  const onSubmit = (data: any, submitType: any, i: number) => {
     // 翻页时触发当前页面数据的输出
-    console.log('submitData1', data);
+    console.log('submitData1', data, submitType, i);
   };
 
   const goBack = (imgList: any[]) => {

@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import classnames from 'classnames';
-import { Modal, Form } from 'antd';
+import { Modal, Form, Menu } from 'antd';
 import styles from './index.module.scss';
 import RectConfig from './toolConfig/RectConfig';
 import { AnnotationContext } from '../../store';
 import { EToolName, TOOL_NAME } from '@/constant/store';
 import { polygonnConfigString, rectConfigString, tagConfigString } from '@/mock/taskConfig';
+import DefaultConfig from './toolConfig/DefaultConfig';
 
 interface IProps {
   visible: boolean;
@@ -57,7 +58,6 @@ const CreateProjectModal: React.FC<IProps> = ({ visible, onCancel }) => {
     }
   }, [form, visible]);
 
-
   const createProject = () => {
     form.validateFields().then((values) => {
       dispatch({
@@ -77,25 +77,40 @@ const CreateProjectModal: React.FC<IProps> = ({ visible, onCancel }) => {
     });
   };
 
+  const currentToolConfig = () => {
+    switch (toolName) {
+      case EToolName.Rect:
+        return <RectConfig />;
+      case EToolName.Tag:
+        return <div>Tag</div>;
+      case EToolName.Polygon:
+        return <div>Polygon</div>;
+      default: {
+        return null;
+      }
+    }
+  };
+
   return (
     <Modal visible={visible} width={800} title='创建项目' onOk={createProject} onCancel={onCancel}>
       <div className={styles.main}>
-        <div className={styles.projectTypeSelected}>
+        <Menu
+          defaultSelectedKeys={[toolName]}
+          defaultOpenKeys={[toolName]}
+          className={styles.projectTypeSelected}
+        >
           {annotationTypeList.map((annotationType) => (
-            <div
-              className={classnames({
-                [styles.selected]: annotationType.key === toolName,
-              })}
-              key={annotationType.key}
-              onClick={() => setToolName(annotationType.key)}
-            >
-              {annotationType.name}
-            </div>
+            <Menu.Item key={annotationType.key}>{annotationType.name}</Menu.Item>
           ))}
-        </div>
+        </Menu>
         <div className={styles.config}>
-          <Form layout='vertical' form={form}>
-            <RectConfig />
+          <Form 
+          
+          layout='vertical'
+          
+          form={form}>
+            <DefaultConfig />
+            {currentToolConfig()}
           </Form>
         </div>
       </div>

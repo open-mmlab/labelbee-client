@@ -1,11 +1,13 @@
 import React, { useState, useRef } from 'react';
+import { Input } from 'antd';
+import { FolderOpenOutlined } from '@ant-design/icons'
 import { EIpcEvent } from '../../constant/event';
 import { AnnotationContext } from '../../store';
 const electron = window.require && window.require('electron');
 
 interface IProps {
   // path: string;
-  key: string 
+  key: string;
   onChange?: (value: any) => void;
 }
 
@@ -34,10 +36,8 @@ const SelectFolder: React.FC<IProps> = ({ onChange, key }) => {
   };
 
   return (
-    <div key={key}>
-      <button onClick={openDir}>选择文件夹</button>
-      {path}
-      <input style={{ visibility: 'hidden' }} ref={pathRef} />
+    <div key={key} style={{ marginBottom: 20 }}>
+      <Input addonAfter={<FolderOpenOutlined onClick={openDir} />} value={path} />
     </div>
   );
 };
