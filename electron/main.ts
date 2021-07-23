@@ -98,25 +98,27 @@ function createWindow() {
       contextIsolation: false,
     },
     backgroundColor: '#B1FF9D',
+    icon: path.join(__dirname, "./../../../build/sensebee.ico")
   });
 
   // 这里要注意一下，这里是让浏览器窗口加载网页。
   // 如果是开发环境，则url为http://localhost:3000（package.json中配置）
   // 如果是生产环境，则url为build/index.html
   const startUrl =
-    process.env.ELECTRON_START_URL ||
-    url.format({
-      pathname: path.join(__dirname, './build/index.html'),
-      protocol: 'file:',
-      slashes: true,
-    });
+  process.env.ELECTRON_START_URL ||
+  url.format({
+    pathname: path.join(__dirname, './../../../build/index.html'),
+    protocol: 'file:',
+    slashes: true,
+  });
+  
   setupMenu();
   // 加载网页之后，会创建`渲染进程`
   mainWindow.loadURL(startUrl);
 
   // 打开chrome浏览器开发者工具.
   if (startUrl.startsWith('http')) {
-    // mainWindow.webContents.openDevTools();
+    mainWindow.webContents.openDevTools();
   }
 
   ipcListen(mainWindow);
@@ -134,7 +136,6 @@ function createWindow() {
     // },
   );
 
-  mainWindow.webContents.openDevTools();
   mainWindow.on('closed', function () {
     mainWindow = null;
   });

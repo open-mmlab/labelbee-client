@@ -1,23 +1,17 @@
 {
-  "name": "react_hook",
+  "name": "SenseBee-Client",
   "version": "0.1.0",
   "private": true,
   "homepage": "./",
+  "author": "laoluo",
+  "description": "This is SenseBee-Client",
+  "main": "./electron/dist/electron/main.js",
   "dependencies": {
     "@ant-design/icons": "^4.6.2",
     "@babel/core": "7.9.0",
     "@svgr/webpack": "4.3.3",
-    "@testing-library/jest-dom": "^4.2.4",
-    "@testing-library/react": "^9.3.2",
-    "@testing-library/user-event": "^7.1.2",
-    "@types/jest": "^26.0.23",
-    "@types/node": "^15.0.1",
-    "@types/react": "^17.0.4",
-    "@types/react-dom": "^17.0.3",
-    "@types/react-router-dom": "^5.1.7",
-    "@typescript-eslint/eslint-plugin": "^2.10.0",
-    "@typescript-eslint/parser": "^2.10.0",
-    "antd": "^4.15.0",
+    "@types/lodash": "^4.14.171",
+    "antd": "~4.15.0",
     "babel-eslint": "10.1.0",
     "babel-jest": "^24.9.0",
     "babel-loader": "8.1.0",
@@ -30,6 +24,7 @@
     "dotenv": "8.2.0",
     "dotenv-expand": "5.1.0",
     "electron-squirrel-startup": "^1.0.0",
+    "electron-webpack": "^2.8.2",
     "eslint": "^6.6.0",
     "eslint-config-react-app": "^5.2.1",
     "eslint-loader": "3.0.3",
@@ -46,9 +41,34 @@
     "jest-environment-jsdom-fourteen": "1.0.1",
     "jest-resolve": "24.9.0",
     "jest-watch-typeahead": "0.4.2",
-    "label-bee": "^1.0.0",
     "lodash": "^4.17.21",
+    "monaco-editor-webpack-plugin": "^4.1.1",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "react-monaco-editor": "^0.43.0",
+    "workbox-webpack-plugin": "4.3.1"
+  },
+  "devDependencies": {
+    "@electron-forge/cli": "^6.0.0-beta.54",
+    "@electron-forge/maker-deb": "^6.0.0-beta.54",
+    "@electron-forge/maker-rpm": "^6.0.0-beta.54",
+    "@electron-forge/maker-squirrel": "^6.0.0-beta.54",
+    "@electron-forge/maker-zip": "^6.0.0-beta.54",
+    "@testing-library/jest-dom": "^4.2.4",
+    "@testing-library/react": "^9.3.2",
+    "@testing-library/user-event": "^7.1.2",
+    "@types/jest": "^26.0.23",
+    "@types/node": "^15.0.1",
+    "@types/react": "^17.0.4",
+    "@types/react-dom": "^17.0.3",
+    "@types/react-router-dom": "^5.1.7",
+    "@typescript-eslint/eslint-plugin": "^2.10.0",
+    "@typescript-eslint/parser": "^2.10.0",
+    "electron": "^12.0.2",
+    "electron-builder": "^22.10.5",
+    "koa": "^2.13.1",
     "mini-css-extract-plugin": "0.9.0",
+    "node-sass": "4.14.1",
     "optimize-css-assets-webpack-plugin": "5.0.3",
     "pnp-webpack-plugin": "1.6.4",
     "postcss-flexbugs-fixes": "4.1.0",
@@ -56,10 +76,8 @@
     "postcss-normalize": "8.0.1",
     "postcss-preset-env": "6.7.0",
     "postcss-safe-parser": "4.0.1",
-    "react": "^16.13.1",
     "react-app-polyfill": "^1.0.6",
     "react-dev-utils": "^10.2.1",
-    "react-dom": "^16.13.1",
     "react-router-dom": "^5.2.0",
     "resolve": "1.15.0",
     "resolve-url-loader": "3.1.1",
@@ -70,19 +88,21 @@
     "terser-webpack-plugin": "2.3.8",
     "ts-pnp": "1.1.6",
     "typescript": "^4.2.4",
+    "universalify": "^2.0.0",
     "url-loader": "2.3.0",
     "webpack": "4.42.0",
     "webpack-dev-server": "3.11.0",
-    "webpack-manifest-plugin": "2.2.0",
-    "workbox-webpack-plugin": "4.3.1"
+    "webpack-manifest-plugin": "2.2.0"
   },
   "scripts": {
     "start": "node scripts/start.js",
-    "build": "node scripts/build.js",
+    "build": "rm -rf build && node scripts/build.js",
     "test": "node scripts/test.js",
     "build-electron": "rm -rf electron/dist && tsc -p electron/tsconfig.json",
     "electron-dev": "yarn build-electron && ELECTRON_START_URL=http://localhost:3000/ electron electron/dist/electron/main.js",
-    "packager": "npm run build && rm -rf dist && electron-builder --mac",
+    "packager:mac": "npm run build && rm -rf dist && electron-builder -m",
+    "packager:win": "npm run build && rm -rf dist && electron-builder -w",
+    "packager:debug": "electron-builder --mac --dir",
     "package": "electron-forge package –-platform=win",
     "make": "electron-forge make",
     "publish": "electron-forge publish"
@@ -157,17 +177,6 @@
       "react-app"
     ]
   },
-  "devDependencies": {
-    "@electron-forge/cli": "^6.0.0-beta.54",
-    "@electron-forge/maker-deb": "^6.0.0-beta.54",
-    "@electron-forge/maker-rpm": "^6.0.0-beta.54",
-    "@electron-forge/maker-squirrel": "^6.0.0-beta.54",
-    "@electron-forge/maker-zip": "^6.0.0-beta.54",
-    "electron": "^12.0.2",
-    "electron-builder": "^22.10.5",
-    "koa": "^2.13.1",
-    "node-sass": "4.14.1"
-  },
   "config": {
     "forge": {
       "packagerConfig": {},
@@ -175,7 +184,7 @@
         {
           "name": "@electron-forge/maker-squirrel",
           "config": {
-            "name": "react_hook"
+            "name": "sensebee-client"
           }
         },
         {
@@ -194,5 +203,32 @@
         }
       ]
     }
+  },
+  "build": {
+    "appId": "com.example.electron-boilerplate",
+    "directories": {
+      "buildResources": "resources"
+    },
+    "files": [
+      "build",
+      "electron",
+      "public"
+    ],
+    "extraFiles": [
+      "credentials"
+    ],
+    "mac": {
+      "target": [
+        "dmg",
+        "zip"
+      ]
+    },
+    "win": {
+      "target": [
+        "nsis",
+        "zip"
+      ]
+    },
+    "publish": null
   }
 }
