@@ -1,10 +1,10 @@
 // import SenseInput from '@/components/customAntd/Input';
-import { Col, Row, Select, Switch, Input as SenseInput, Form } from 'antd';
-import React, { useEffect } from 'react';
+import { Col, Row, Switch, Input as SenseInput, Form, FormInstance } from 'antd';
+import React from 'react';
 import styles from './index.module.scss';
 import { MapStateJSONTab } from './attributeConfig';
 import TextConfigurable from './textConfigurable';
-import { EToolName, ETextType } from '@/constant/store';
+import { EToolName } from '@/constant/store';
 
 function checkNumber(v: string) {
   const reg = /^[1-9]\d*$/g;
@@ -27,13 +27,13 @@ export const rectScopeChange = (value: string) => {
 
 interface IProps {
   toolName?: EToolName;
+  from?: FormInstance;
 }
 
-const textConfigurable = true;
 const drawOutsideTarget = false;
 const copyBackwardResult = false;
 const isShowOrder = false;
-const minWidth = 1, minHeight = 1, attributeConfigurable= true, textCheckType = 1 ,customFormat = '';
+const minWidth = 1, minHeight = 1;
 const isAllReadOnly = false;
 
 const rectConfig = [
@@ -55,10 +55,6 @@ const rectConfig = [
 ];
 
 const RectConfig = (props: IProps) => {
-  const {} = props;
-  const updateData = (payload: object) => {};
-  const isNotDependOrigin = false;
-
   return (
     <React.Fragment>
       <div className={styles.selectedMain}>
@@ -79,45 +75,40 @@ const RectConfig = (props: IProps) => {
       </div>
       {rectConfig.map((info, index) => (
         <Form.Item valuePropName='checked' key={info.key} label={info.name} name={info.key} initialValue={info.value}>
-          <Switch style={{ textAlign: 'right' }} />
+          <Switch />
         </Form.Item>
       ))}
       <Form.Item name="textConfigurableContext">
         <TextConfigurable />
       </Form.Item>
-      {/*<TextConfigurable*/}
-      {/*  textConfigurable={textConfigurable}*/}
-      {/*  textCheckType={textCheckType}*/}
-      {/*  customFormat={customFormat}*/}
-      {/*  isAllReadOnly={isAllReadOnly}*/}
-      {/*  updateData={updateData}*/}
-      {/*/>*/}
-      <div className={styles.switchMain}>
-        <div className={styles.selectedName}>属性标注</div>
-        <Switch
-          checked={attributeConfigurable}
-          onChange={() => {
-            updateData({ attributeConfigurable: !attributeConfigurable });
-          }}
-          disabled={isAllReadOnly}
-        />
-      </div>
-      {attributeConfigurable && (
-        <MapStateJSONTab
-          isAttributeList={true}
-          inputList={[{
-            key: '类别1',
-            value: '类别1',
-          }]}
-          readonly={isAllReadOnly}
-          updateData={() => {}}
-        />
-      )}
+      <Form.Item valuePropName='checked' label="属性标注" name="attributeConfigurable" initialValue={false}>
+        <Switch disabled={isAllReadOnly} onChange={(val) => {
+          console.log(val)
+        }} />
+      </Form.Item>
+
+      <Form.Item shouldUpdate>
+        {() => {
+          return props.from?.getFieldValue('attributeConfigurable') && (
+            <MapStateJSONTab
+              isAttributeList={true}
+              inputList={props.from?.getFieldValue('attributeList') || [{
+                key: '类别1',
+                value: '类别1',
+              }]}
+              readonly={isAllReadOnly}
+              updateData={(values: any) => {
+                props.from?.setFieldsValue({attributeList: values.inputList})
+              }}
+            />
+          )
+        }}
+      </Form.Item>
     </React.Fragment>
   );
 };
 
-export default React.memo(RectConfig);
+export default RectConfig;
 // function mapStateToProps({ editAnnotation, createStep, stepConfig }: any) {
 //   return { editAnnotation, createStep, stepConfig };
 // }

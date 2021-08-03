@@ -61,7 +61,6 @@ const CreateProjectModal: React.FC<IProps> = ({ visible, onCancel }) => {
   const createProject = () => {
     form.validateFields().then((values) => {
       console.log('-=-===', values)
-      return
       dispatch({
         type: 'ADD_PROJECT_LIST',
         payload: {
@@ -82,7 +81,7 @@ const CreateProjectModal: React.FC<IProps> = ({ visible, onCancel }) => {
   const currentToolConfig = () => {
     switch (toolName) {
       case EToolName.Rect:
-        return <RectConfig />;
+        return <RectConfig from={form} />;
       case EToolName.Tag:
         return <div>Tag</div>;
       case EToolName.Polygon:
