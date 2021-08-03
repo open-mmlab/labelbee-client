@@ -4,7 +4,7 @@ import React from 'react';
 import styles from './index.module.scss';
 import { MapStateJSONTab } from './attributeConfig';
 import TextConfigurable from './textConfigurable';
-import { EToolName } from '@/constant/store';
+import { ETextType, EToolName } from '@/constant/store';
 
 function checkNumber(v: string) {
   const reg = /^[1-9]\d*$/g;
@@ -27,7 +27,7 @@ export const rectScopeChange = (value: string) => {
 
 interface IProps {
   toolName?: EToolName;
-  from?: FormInstance;
+  form?: FormInstance;
 }
 
 const drawOutsideTarget = false;
@@ -55,6 +55,12 @@ const rectConfig = [
 ];
 
 const RectConfig = (props: IProps) => {
+  const attributeConfigurableChange = (val: boolean) => {
+    props.form?.setFieldsValue({attributeList: val ? [{
+        key: '类别1',
+        value: '类别1',
+      }] : null})
+  }
   return (
     <React.Fragment>
       <div className={styles.selectedMain}>
@@ -78,27 +84,26 @@ const RectConfig = (props: IProps) => {
           <Switch />
         </Form.Item>
       ))}
-      <Form.Item name="textConfigurableContext">
+      <Form.Item name="textConfigurableContext" initialValue={{
+        textConfigurable: false,
+        textCheckType: ETextType.AnyString,
+        customFormat: ''
+      }}>
         <TextConfigurable />
       </Form.Item>
       <Form.Item valuePropName='checked' label="属性标注" name="attributeConfigurable" initialValue={false}>
-        <Switch disabled={isAllReadOnly} onChange={(val) => {
-          console.log(val)
-        }} />
+        <Switch disabled={isAllReadOnly} onChange={attributeConfigurableChange} />
       </Form.Item>
 
       <Form.Item shouldUpdate>
         {() => {
-          return props.from?.getFieldValue('attributeConfigurable') && (
+          return props.form?.getFieldValue('attributeConfigurable') && (
             <MapStateJSONTab
               isAttributeList={true}
-              inputList={props.from?.getFieldValue('attributeList') || [{
-                key: '类别1',
-                value: '类别1',
-              }]}
+              inputList={props.form?.getFieldValue('attributeList')}
               readonly={isAllReadOnly}
               updateData={(values: any) => {
-                props.from?.setFieldsValue({attributeList: values.inputList})
+                props.form?.setFieldsValue({attributeList: values.inputList})
               }}
             />
           )

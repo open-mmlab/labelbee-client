@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import classnames from 'classnames';
 import { Modal, Form, Menu } from 'antd';
+import { omit } from 'lodash';
 import styles from './index.module.scss';
 import RectConfig from './toolConfig/RectConfig';
 import { AnnotationContext } from '../../store';
@@ -58,18 +59,30 @@ const CreateProjectModal: React.FC<IProps> = ({ visible, onCancel }) => {
     }
   }, [form, visible]);
 
+  const formatData = (values: any) => {
+    // 参考 src/mock/taskConfig.ts
+    if(toolName === EToolName.Rect) {
+      const textConfigurable = values.textConfigurableContext
+      let result = omit(values, ['textConfigurableContext'])
+      return JSON.stringify({...textConfigurable, ...result, attributeList: form.getFieldValue('attributeList')})
+    }
+  }
+
   const createProject = () => {
     form.validateFields().then((values) => {
-      console.log('-=-===', values)
+      const { name, path, resultPath} = values;
+      const result = formatData(omit(values, ['name', 'path', 'resultPath']))
       dispatch({
         type: 'ADD_PROJECT_LIST',
         payload: {
           projectList: [
             {
-              ...values,
+              name,
+              path,
+              resultPath,
               toolName,
               createdAt: '2021-07-07',
-              stepList: [{ step: 1, tool: toolName, config: getConfigString(toolName) }],
+              stepList: [{ step: 1, tool: toolName, config: result }],
             },
           ],
         },
@@ -81,7 +94,7 @@ const CreateProjectModal: React.FC<IProps> = ({ visible, onCancel }) => {
   const currentToolConfig = () => {
     switch (toolName) {
       case EToolName.Rect:
-        return <RectConfig from={form} />;
+        return <RectConfig form={form} />;
       case EToolName.Tag:
         return <div>Tag</div>;
       case EToolName.Polygon:
@@ -105,10 +118,8 @@ const CreateProjectModal: React.FC<IProps> = ({ visible, onCancel }) => {
           ))}
         </Menu>
         <div className={styles.config}>
-          <Form 
-          
+          <Form
           layout='vertical'
-          
           form={form}>
             <DefaultConfig />
             {currentToolConfig()}

@@ -48,11 +48,11 @@ const TextConfigurable: React.FC<IProps> = ({ value = {}, onChange }) => {
       <div className={styles.switchMain}>
         <div className={styles.selectedName}>文本标注</div>
         <Switch
-          checked={value.textConfigurable ?? textConfigurable}
+          checked={value.textConfigurable}
           onChange={onSwitchChange}
         />
       </div>
-      {textConfigurable && (
+      {(value.textConfigurable || textConfigurable) && (
         <SenseSelect
           style={{ width: '100%', marginBottom: '24px' }}
           value={~~(value.textCheckType ?? ETextType.AnyString) as ETextType}
