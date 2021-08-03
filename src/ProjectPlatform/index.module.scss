@@ -45,6 +45,11 @@ $projectMarginTop: 10px;
     .title {
       font-size: 18px;
       margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      .tag {
+        margin-left: 10px;
+      }
     }
     .project {
       &:hover {
@@ -69,12 +74,18 @@ $projectMarginTop: 10px;
       .createdAt {
         position: absolute;
         right: 30px;
-        top: 40px;
+        top: 32px;
       }
       .setting {
         position: absolute;
         right: 30px;
         bottom: 40px;
+      }
+      .deleteButton {
+        position: absolute;
+        cursor: pointer;
+        right: 30px;
+        bottom: 30px;
       }
     }
   }

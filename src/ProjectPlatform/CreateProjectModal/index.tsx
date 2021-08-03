@@ -1,43 +1,117 @@
-import React from 'react';
-import { Modal } from 'antd';
+import React, { useState, useEffect } from 'react';
+import classnames from 'classnames';
+import { Modal, Form, Menu } from 'antd';
 import styles from './index.module.scss';
-import RectConfig from './RectConfig';
+import RectConfig from './toolConfig/RectConfig';
+import { AnnotationContext } from '../../store';
+import { EToolName, TOOL_NAME } from '@/constant/store';
+import { polygonnConfigString, rectConfigString, tagConfigString } from '@/mock/taskConfig';
+import DefaultConfig from './toolConfig/DefaultConfig';
 
 interface IProps {
   visible: boolean;
+  onCancel: () => void;
 }
 
 const annotationTypeList = [
   {
-    name: '目标检测',
+    name: TOOL_NAME[EToolName.Rect],
+    key: EToolName.Rect,
   },
   {
-    name: '图像分类',
+    name: TOOL_NAME[EToolName.Tag],
+    key: EToolName.Tag,
   },
   {
-    name: '图像分割',
+    name: TOOL_NAME[EToolName.Polygon],
+    key: EToolName.Polygon,
   },
 ];
 
-const ProjectTypeSelected = () => {
-  return (
-    <div>
-      {annotationTypeList.map((annotationType) => (
-        <div>{annotationType.name}</div>
-      ))}
-    </div>
-  );
+const getConfigString = (toolName: EToolName) => {
+  switch (toolName) {
+    case EToolName.Rect:
+      return rectConfigString;
+    case EToolName.Tag:
+      return tagConfigString;
+    case EToolName.Polygon:
+      return polygonnConfigString;
+
+    default: {
+      return '{}';
+    }
+  }
 };
 
-const CreateProjectModal: React.FC<IProps> = ({ visible }) => {
+const CreateProjectModal: React.FC<IProps> = ({ visible, onCancel }) => {
+  const [toolName, setToolName] = useState<EToolName>(EToolName.Rect);
+  const {
+    dispatch,
+    state: { fileList },
+  } = React.useContext(AnnotationContext);
+
+  const [form] = Form.useForm();
+
+  useEffect(() => {
+    if (visible === false) {
+      form.resetFields();
+    }
+  }, [form, visible]);
+
+  const createProject = () => {
+    form.validateFields().then((values) => {
+      dispatch({
+        type: 'ADD_PROJECT_LIST',
+        payload: {
+          projectList: [
+            {
+              ...values,
+              toolName,
+              createdAt: '2021-07-07',
+              stepList: [{ step: 1, tool: toolName, config: getConfigString(toolName) }],
+            },
+          ],
+        },
+      });
+      onCancel();
+    });
+  };
+
+  const currentToolConfig = () => {
+    switch (toolName) {
+      case EToolName.Rect:
+        return <RectConfig />;
+      case EToolName.Tag:
+        return <div>Tag</div>;
+      case EToolName.Polygon:
+        return <div>Polygon</div>;
+      default: {
+        return null;
+      }
+    }
+  };
+
   return (
-    <Modal visible={true} width={800} title='创建项目'>
+    <Modal visible={visible} width={800} title='创建项目' onOk={createProject} onCancel={onCancel}>
       <div className={styles.main}>
-        <div className={styles.projectTypeSelected}>
-          <ProjectTypeSelected />
-        </div>
+        <Menu
+          defaultSelectedKeys={[toolName]}
+          defaultOpenKeys={[toolName]}
+          className={styles.projectTypeSelected}
+        >
+          {annotationTypeList.map((annotationType) => (
+            <Menu.Item key={annotationType.key}>{annotationType.name}</Menu.Item>
+          ))}
+        </Menu>
         <div className={styles.config}>
-          <RectConfig />
+          <Form 
+          
+          layout='vertical'
+          
+          form={form}>
+            <DefaultConfig />
+            {currentToolConfig()}
+          </Form>
         </div>
       </div>
     </Modal>

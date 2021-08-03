@@ -43,3 +43,75 @@ export const getFilesFromDirectory = (
 
   return dirFiles;
 };
+
+/**
+ * 获取当前图片的json url
+ * @param path
+ * @param supportedSuffix
+ * @returns
+ */
+export const getResultFromImg = (path: string, supportedSuffix: string[]) => {
+  const fileName = path.split('.');
+
+  const suffix = fileName.slice(-1)[0];
+
+  if (supportedSuffix.includes(suffix)) {
+    fileName.push('json');
+    return fileName.join('.');
+  }
+
+  return '';
+};
+
+/**
+ * 获取当前路径下的结果集合
+ * @param files
+ * @param supportedSuffix
+ * @returns
+ */
+export const getResultFromFiles = (
+  files: any[],
+  supportedSuffix: string[],
+  path: string,
+  resultPath: string,
+) => {
+  return files.map((url, i) => {
+    try {
+      const result = fs.readFileSync(
+        getResultFromImg(getResultPathFromImgPath(url, path, resultPath), supportedSuffix),
+      );
+      
+      return {
+        id: i + 1,
+        result: result.toString(),
+        url,
+      };
+    } catch {
+      return {
+        id: i + 1,
+        result: '{}',
+        url,
+      };
+    }
+  });
+};
+
+/**
+ * 通过图片路径 + 图片文件夹 + 结果文件夹路径，得到结果文件夹
+ * @param url 
+ * @param path 
+ * @param resultPath 
+ * @returns 
+ */
+export const getResultPathFromImgPath = (url: string, path: string, resultPath: string) => {
+  const urls = url.split(path);
+  if (urls.length === 1) {
+    // 返回自己
+    return url;
+  }
+
+  urls.shift();
+  urls.unshift(resultPath);
+
+  return urls.join('');
+};

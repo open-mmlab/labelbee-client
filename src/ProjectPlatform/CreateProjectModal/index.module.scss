@@ -1,16 +1,23 @@
 .main {
   position: relative;
-  height: 400px;
+  height: 500px;
   overflow: hidden;
   .projectTypeSelected {
     position: absolute;
 
     margin-right: 10px;
     border-right: 1px solid black;
-    width: 68px;
+    width: 100px;
+
+    .selected {
+      color: red;
+    }
   }
 
   .config {
-    margin-left: 100px;
+    margin-left: 120px;
+    overflow-y: scroll;
+    padding-right: 30px;
+    height: 460px;
   }
 }
