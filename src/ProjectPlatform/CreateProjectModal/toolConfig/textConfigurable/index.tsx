@@ -1,5 +1,5 @@
 import { ETextType, TEXT_TYPE } from '@/constant/store';
-import { Select as SenseSelect, Input as SenseInput } from 'antd';
+import { Select as SenseSelect, Input as SenseInput, Form } from 'antd';
 import { Select, Switch } from 'antd';
 import React, { useState } from 'react';
 import styles from '../index.module.scss';
@@ -46,7 +46,7 @@ const TextConfigurable: React.FC<IProps> = ({ value = {}, onChange }) => {
   return (
     <>
       <div className={styles.switchMain}>
-        <div className={styles.selectedName}>文本标注</div>
+        {/*<div className={styles.selectedName}>文本标注</div>*/}
         <Switch
           checked={value.textConfigurable}
           onChange={onSwitchChange}
@@ -54,7 +54,7 @@ const TextConfigurable: React.FC<IProps> = ({ value = {}, onChange }) => {
       </div>
       {(value.textConfigurable || textConfigurable) && (
         <SenseSelect
-          style={{ width: '100%', marginBottom: '24px' }}
+          style={{ width: '100%', marginTop: '24px' }}
           value={~~(value.textCheckType ?? ETextType.AnyString) as ETextType}
           onChange={onSelectChange}
         >
@@ -68,7 +68,7 @@ const TextConfigurable: React.FC<IProps> = ({ value = {}, onChange }) => {
       {(value.textCheckType || textCheckType) === ETextType.CustomFormat && (
         <SenseInput
           placeholder='请输入正则表达式(建议联系开发人员协助)'
-          style={{ width: '100%', marginBottom: '24px' }}
+          style={{ width: '100%', marginTop: '24px' }}
           value={value.customFormat ?? customFormat}
           onChange={onInputChange}
         />

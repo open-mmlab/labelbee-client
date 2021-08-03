@@ -64,15 +64,15 @@ const RectConfig = (props: IProps) => {
   return (
     <React.Fragment>
       <div className={styles.selectedMain}>
-        <div className={styles.selectedName}>最小尺寸</div>
         <Row>
-          <Col span={11}>
+          <Col span={6}><div className={styles.selectedName}>最小尺寸</div></Col>
+          <Col span={8}>
             <Form.Item name="minWidth" initialValue={minWidth}>
               <SenseInput type='text' suffix={<div>W</div>} disabled={isAllReadOnly} />
             </Form.Item>
           </Col>
-          <Col span={2} />
-          <Col span={11}>
+          <Col span={1} />
+          <Col span={8}>
             <Form.Item name="minHeight" initialValue={minHeight}>
               <SenseInput type='text' suffix={<div>H</div>} disabled={isAllReadOnly} />
             </Form.Item>
@@ -80,22 +80,32 @@ const RectConfig = (props: IProps) => {
         </Row>
       </div>
       {rectConfig.map((info, index) => (
-        <Form.Item valuePropName='checked' key={info.key} label={info.name} name={info.key} initialValue={info.value}>
+        <Form.Item
+          label={<span className={styles.formTitle}>{info.name}</span>}
+          valuePropName='checked'
+          key={info.key} name={info.key} initialValue={info.value}>
           <Switch />
         </Form.Item>
       ))}
-      <Form.Item name="textConfigurableContext" initialValue={{
-        textConfigurable: false,
-        textCheckType: ETextType.AnyString,
-        customFormat: ''
-      }}>
+      <Form.Item
+        label={<span className={styles.formTitle}>文本标注</span>}
+        name='textConfigurableContext'
+        initialValue={{
+          textConfigurable: false,
+          textCheckType: ETextType.AnyString,
+          customFormat: '',
+        }}>
         <TextConfigurable />
       </Form.Item>
-      <Form.Item valuePropName='checked' label="属性标注" name="attributeConfigurable" initialValue={false}>
+      <Form.Item valuePropName='checked'
+                 label={<span className={styles.formTitle}>属性标注</span>}
+                 name='attributeConfigurable'
+                 initialValue={false}
+      >
         <Switch disabled={isAllReadOnly} onChange={attributeConfigurableChange} />
       </Form.Item>
 
-      <Form.Item shouldUpdate>
+      <Form.Item label={<span></span>} shouldUpdate style={{marginTop: '-12px'}}>
         {() => {
           return props.form?.getFieldValue('attributeConfigurable') && (
             <MapStateJSONTab

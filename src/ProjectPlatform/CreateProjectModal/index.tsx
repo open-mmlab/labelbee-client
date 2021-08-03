@@ -119,8 +119,12 @@ const CreateProjectModal: React.FC<IProps> = ({ visible, onCancel }) => {
         </Menu>
         <div className={styles.config}>
           <Form
-          layout='vertical'
-          form={form}>
+            layout='horizontal'
+            labelAlign='left'
+            colon={false}
+            labelCol={{ span: 6 }}
+            wrapperCol={{ span: 18 }}
+            form={form}>
             <DefaultConfig />
             {currentToolConfig()}
           </Form>

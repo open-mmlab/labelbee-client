@@ -46,7 +46,6 @@ $headerHeight: 61px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 24px;
 
   .selectedName {
     font-weight: 500;
@@ -55,7 +54,12 @@ $headerHeight: 61px;
     color: rgba(51, 51, 51, 1);
   }
 }
-
+.mb-24 {
+  margin-bottom: 24px;
+}
+.mp-24 {
+  margin-bottom: 24px;
+}
 .select {
   display: flex;
   align-items: center;

@@ -6,13 +6,16 @@ import SelectFolder from '../SelectFolder';
 const DefaultConfig: React.FC<{}> = () => {
   return (
     <>
-      <Form.Item name='name' label={<span className={styles.formTitle}>项目名称</span>}>
+      <Form.Item name='name' label={<span className={styles.formTitle} >项目名称</span>}
+                 rules={[{ required: true, message: '必填项' }]}
+      >
         <Input placeholder='请输入项目名称，方便后续定位' />
       </Form.Item>
       <Form.Item
         style={{ marginBottom: 0 }}
         name='path'
         label={<span className={styles.formTitle}>选择图片文件夹</span>}
+        rules={[{ required: true, message: '必填项' }]}
       >
         <SelectFolder key='path' />
       </Form.Item>
@@ -20,6 +23,7 @@ const DefaultConfig: React.FC<{}> = () => {
         style={{ marginBottom: 0 }}
         name='resultPath'
         label={<span className={styles.formTitle}>选择结果文件夹</span>}
+        rules={[{ required: true, message: '必填项' }]}
       >
         <SelectFolder key='resultPath' />
       </Form.Item>
