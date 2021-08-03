@@ -60,6 +60,8 @@ const CreateProjectModal: React.FC<IProps> = ({ visible, onCancel }) => {
 
   const createProject = () => {
     form.validateFields().then((values) => {
+      console.log('-=-===', values)
+      return
       dispatch({
         type: 'ADD_PROJECT_LIST',
         payload: {

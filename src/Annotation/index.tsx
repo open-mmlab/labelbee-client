@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
-import AnnotationOperation from 'label-bee';
-import 'label-bee/dist/index.css';
+import AnnotationOperation from '@sensetime/label-bee';
+import '@sensetime/label-bee/dist/index.css';
 import { EIpcEvent } from '../constant/event';
 import { AnnotationContext } from '../store';
 

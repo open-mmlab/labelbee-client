@@ -1,5 +1,5 @@
 // import SenseInput from '@/components/customAntd/Input';
-import { Col, Row, Select, Switch, Input as SenseInput } from 'antd';
+import { Col, Row, Select, Switch, Input as SenseInput, Form } from 'antd';
 import React, { useEffect } from 'react';
 import styles from './index.module.scss';
 import { MapStateJSONTab } from './attributeConfig';
@@ -14,74 +14,49 @@ function checkNumber(v: string) {
   return false;
 }
 
+// todo 提交的时候用
+export const rectScopeChange = (value: string) => {
+  if (value) {
+    return  undefined;
+  }
+  if (!checkNumber(value)) {
+    return;
+  }
+  return ~~value
+};
+
 interface IProps {
   toolName?: EToolName;
 }
 
-const RectConfig = (props: IProps) => {
-  const { toolName = EToolName.Rect } = props;
-  const isTrack = toolName === EToolName.RectTrack; // 如果拉框跟踪工具， 则需要进行特殊选项的判断
+const textConfigurable = true;
+const drawOutsideTarget = false;
+const copyBackwardResult = false;
+const isShowOrder = false;
+const minWidth = 1, minHeight = 1, attributeConfigurable= true, textCheckType = 1 ,customFormat = '';
+const isAllReadOnly = false;
 
-  const textConfigurable = true;
-  const drawOutsideTarget = false;
-  const copyBackwardResult = false;
-  const isShowOrder = false;
-  const minWidth = 1, minHeight = 1, attributeConfigurable= true, textCheckType = 1 ,customFormat = '';
-  const {} = props;
-
-  const isAllReadOnly = false;
-
-  const updateData = (payload: object) => {};
-
-  const rectScopeChange = (e: any, pattern: 'minWidth' | 'minHeight') => {
-    let data = e.target.value;
-    if (data.length === 0) {
-      data = undefined;
-    }
-    if (!checkNumber(e.target.value)) {
-      return;
-    }
-    updateData({ [pattern]: ~~data });
-    e.preventDefault();
-  };
-
-  const rectConfig = [
-    {
-      name: '目标外标注',
-      radio: [
-        { key: '是', value: true },
-        { key: '否', value: false },
-      ],
-      key: 'drawOutsideTarget',
-      value: drawOutsideTarget,
-      onChange: (v: boolean) => updateData({ drawOutsideTarget: v }),
-    },
-    {
-      name: '复制上一张结果',
-      radio: [
-        { key: '是', value: true },
-        { key: '否', value: false },
-      ],
-      key: 'copyBackwardResult',
-      value: copyBackwardResult,
-      onChange: (v: boolean) => updateData({ copyBackwardResult: v }),
-    },
-  ];
-
-  // 仅拉框显示
-  if (!isTrack) {
-    rectConfig.push({
-      name: '显示拉框顺序',
-      radio: [
-        { key: '是', value: true },
-        { key: '否', value: false },
-      ],
-      key: 'isShowOrder',
-      value: isShowOrder,
-      onChange: (v: boolean) => updateData({ isShowOrder: v }),
-    });
+const rectConfig = [
+  {
+    name: '目标外标注',
+    key: 'drawOutsideTarget',
+    value: drawOutsideTarget,
+  },
+  {
+    name: '复制上一张结果',
+    key: 'copyBackwardResult',
+    value: copyBackwardResult,
+  },
+  {
+    name: '显示拉框顺序',
+    key: 'isShowOrder',
+    value: isShowOrder,
   }
+];
 
+const RectConfig = (props: IProps) => {
+  const {} = props;
+  const updateData = (payload: object) => {};
   const isNotDependOrigin = false;
 
   return (
@@ -89,46 +64,34 @@ const RectConfig = (props: IProps) => {
       <div className={styles.selectedMain}>
         <div className={styles.selectedName}>最小尺寸</div>
         <Row>
-          <Col span={11} className='border_bottom'>
-            <SenseInput
-              type='text'
-              suffix={<div>W</div>}
-              value={minWidth}
-              onChange={(e: any) => rectScopeChange(e, 'minWidth')}
-              disabled={isAllReadOnly}
-            />
+          <Col span={11}>
+            <Form.Item name="minWidth" initialValue={minWidth}>
+              <SenseInput type='text' suffix={<div>W</div>} disabled={isAllReadOnly} />
+            </Form.Item>
           </Col>
           <Col span={2} />
-          <Col span={11} className='border_bottom'>
-            <SenseInput
-              type='text'
-              suffix={<div>H</div>}
-              value={minHeight}
-              onChange={(e: any) => rectScopeChange(e, 'minHeight')}
-              disabled={isAllReadOnly}
-            />
+          <Col span={11}>
+            <Form.Item name="minHeight" initialValue={minHeight}>
+              <SenseInput type='text' suffix={<div>H</div>} disabled={isAllReadOnly} />
+            </Form.Item>
           </Col>
         </Row>
       </div>
       {rectConfig.map((info, index) => (
-        <div className={styles.switchMain} key={`rectTool_${index}`}>
-          <div className={styles.selectedName}>{info.name}</div>
-          <div className={styles.selected_switch}>
-            <Switch
-              checked={info.value}
-              onChange={info.onChange}
-              disabled={(info.key === 'copyBackwardResult' && isNotDependOrigin)}
-            />
-          </div>
-        </div>
+        <Form.Item valuePropName='checked' key={info.key} label={info.name} name={info.key} initialValue={info.value}>
+          <Switch style={{ textAlign: 'right' }} />
+        </Form.Item>
       ))}
-      <TextConfigurable
-        textConfigurable={textConfigurable}
-        textCheckType={textCheckType}
-        customFormat={customFormat}
-        isAllReadOnly={isAllReadOnly || isTrack}
-        updateData={updateData}
-      />
+      <Form.Item name="textConfigurableContext">
+        <TextConfigurable />
+      </Form.Item>
+      {/*<TextConfigurable*/}
+      {/*  textConfigurable={textConfigurable}*/}
+      {/*  textCheckType={textCheckType}*/}
+      {/*  customFormat={customFormat}*/}
+      {/*  isAllReadOnly={isAllReadOnly}*/}
+      {/*  updateData={updateData}*/}
+      {/*/>*/}
       <div className={styles.switchMain}>
         <div className={styles.selectedName}>属性标注</div>
         <Switch
@@ -154,7 +117,7 @@ const RectConfig = (props: IProps) => {
   );
 };
 
-export default RectConfig;
+export default React.memo(RectConfig);
 // function mapStateToProps({ editAnnotation, createStep, stepConfig }: any) {
 //   return { editAnnotation, createStep, stepConfig };
 // }
