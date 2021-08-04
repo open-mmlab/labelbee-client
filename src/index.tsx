@@ -4,6 +4,7 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import { AnnotationProvider } from './store';
+import './asstes/font/iconfont.css';
 
 ReactDOM.render(
   <React.StrictMode>

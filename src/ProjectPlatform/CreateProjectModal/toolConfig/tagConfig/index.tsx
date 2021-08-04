@@ -1,7 +1,7 @@
 // cl 2021/8/4 10:45
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
+import { Button, FormInstance, Tabs, Form, Checkbox } from 'antd';
 import TagInput from './tagInput';
-import { Button, FormInstance, Tabs, Form } from 'antd';
 import { addInputList, changeInputList, deleteInputList, judgeIsTagConfig } from '@/utils/tool/editTool';
 import MonacoEditor from 'react-monaco-editor';
 
@@ -82,48 +82,55 @@ const Index: React.FC<IProps> = ({form}) => {
     // 通过 form 来管理数据 后面有异步的话也可以通过这里管理
     form?.setFieldsValue({inputList: initInputList})
   }, [])
-
   return (
-    <Form.Item shouldUpdate>
-      {
-        () => {
-          let inputList: IInputList[] = form?.getFieldValue('inputList')
-          return (<Tabs>
-            <TabPane tab='表单' key="1">
-              <div>
-                {inputList?.map((info, i) => (
-                  <TagInput
-                    inputInfo={info}
-                    isAllReadOnly={false}
-                    changeInputInfo={changeInputInfo}
-                    addInputInfo={addInputInfo}
-                    deleteInputInfo={deleteInputInfo}
-                    inputIndex={i}
-                    key={i}
-                  />
-                ))}
+    <React.Fragment>
+      {/* 两个switch 站位用的 便于 form 拿数据 */}
+      <Form.Item valuePropName="checked" style={{display: 'none'}} name="showConfirm" initialValue={true} >
+        <Checkbox />
+      </Form.Item>
+      <Form.Item valuePropName="checked" style={{display: 'none'}} name="skipWhileNoDependencies" initialValue={true} >
+        <Checkbox />
+      </Form.Item>
+      <Form.Item labelCol={{span: 0}} wrapperCol={{span: 24}} shouldUpdate>
+        {
+          () => {
+            let inputList: IInputList[] = form?.getFieldValue('inputList')
+            return (<Tabs>
+              <TabPane tab='表单' key="1">
+                <div>
+                  {inputList?.map((info, i) => (
+                    <TagInput
+                      inputInfo={info}
+                      isAllReadOnly={false}
+                      changeInputInfo={changeInputInfo}
+                      addInputInfo={addInputInfo}
+                      deleteInputInfo={deleteInputInfo}
+                      inputIndex={i}
+                      key={i}
+                    />
+                  ))}
 
-                <Button onClick={() => addInputInfo()}>
-                  新建
-                </Button>
-              </div>
-            </TabPane>
-            <TabPane tab='JSON' key="2">
-              <MonacoEditor
-                width='800'
-                height='300'
-                language='json'
-                theme='vs-dark'
-                value={JSON.stringify(inputList, null, 2)}
-                options={options}
-                onChange={editorChange}
-              />
-            </TabPane>
-          </Tabs>)
+                  <Button onClick={() => addInputInfo()}>
+                    新建
+                  </Button>
+                </div>
+              </TabPane>
+              <TabPane tab='JSON' key="2">
+                <MonacoEditor
+                  width='800'
+                  height='300'
+                  language='json'
+                  theme='vs-dark'
+                  value={JSON.stringify(inputList, null, 2)}
+                  options={options}
+                  onChange={editorChange}
+                />
+              </TabPane>
+            </Tabs>)
+          }
         }
-      }
-
-    </Form.Item>
+      </Form.Item>
+    </React.Fragment>
   );
 };
 

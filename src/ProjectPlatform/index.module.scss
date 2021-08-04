@@ -37,9 +37,14 @@ $projectMarginTop: 10px;
   }
 
   .projectList {
+    &::-webkit-scrollbar {
+      display: none; /* Chrome Safari */
+    }
+
     margin: $projectMarginTop $navWidth;
     height: calc(100vh - #{$projectMarginTop} * 2);
     padding: 20px;
+    overflow-y: auto;
     border: 1px solid #f1f1f1;
     background: white;
     .title {

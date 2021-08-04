@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import classnames from 'classnames';
-import { Modal, Form, Menu } from 'antd';
+import React, { useEffect, useState } from 'react';
+import { Form, Menu, Modal } from 'antd';
 import { omit } from 'lodash';
 import styles from './index.module.scss';
 import RectConfig, { rectScopeChange } from './toolConfig/rectConfig';
-import TagConfig from './toolConfig/TagConfig';
+import TagConfig from './toolConfig/tagConfig';
 import { AnnotationContext } from '../../store';
 import { EToolName, TOOL_NAME } from '@/constant/store';
 import { polygonnConfigString, rectConfigString, tagConfigString } from '@/mock/taskConfig';
@@ -69,13 +68,15 @@ const CreateProjectModal: React.FC<IProps> = ({ visible, onCancel }) => {
       const textConfigurable = values.textConfigurableContext
       let result = omit(values, ['textConfigurableContext'])
       return JSON.stringify({...textConfigurable, ...result, attributeList: form.getFieldValue('attributeList')})
+    }else if(toolName === EToolName.Tag) {
+      return JSON.stringify({
+        ...values, inputList: form.getFieldValue('inputList')
+      })
     }
   }
 
   const createProject = () => {
     form.validateFields().then((values) => {
-      console.log('...', values)
-      return;
       const { name, path, resultPath} = values;
       const result = formatData(omit(values, ['name', 'path', 'resultPath']))
       dispatch({

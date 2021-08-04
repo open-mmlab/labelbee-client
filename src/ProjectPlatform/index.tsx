@@ -42,6 +42,10 @@ function isHasWrongResult(tool: EToolName, fileList: IFileInfo[], step = 1) {
     return true;
   }
 }
+const icon: any = {
+  tagTool: 'icon-biaoqian',
+  rectTool: 'icon-lakuang'
+}
 
 interface IProps {}
 
@@ -121,7 +125,8 @@ const ProjectPlatform: React.FC<IProps> = (props) => {
               onDoubleClick={() => startAnnotation(info)}
             >
               <div className={styles.icon}>
-                <SmileTwoTone />
+                <span className={`icon iconfont ${icon[info.toolName]}`} style={{fontSize: 60, color: '#6474f6'}} />
+                {/*<SmileTwoTone />*/}
               </div>
               <div className={styles.detailInfo}>
                 <div className={styles.title}>
