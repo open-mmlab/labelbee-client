@@ -60,6 +60,7 @@ const CreateProjectModal: React.FC<IProps> = ({ visible, onCancel }) => {
     }
   }, [form, visible]);
 
+  // 目前有3个工具  拉框  标签  都集中在一个 form 表单
   const formatData = (values: any) => {
     // 参考 src/mock/taskConfig.ts
     if(toolName === EToolName.Rect) {
@@ -73,6 +74,8 @@ const CreateProjectModal: React.FC<IProps> = ({ visible, onCancel }) => {
 
   const createProject = () => {
     form.validateFields().then((values) => {
+      console.log('...', values)
+      return;
       const { name, path, resultPath} = values;
       const result = formatData(omit(values, ['name', 'path', 'resultPath']))
       dispatch({
@@ -93,20 +96,19 @@ const CreateProjectModal: React.FC<IProps> = ({ visible, onCancel }) => {
       onCancel();
     });
   };
-
-  const currentToolConfig = () => {
+  const CurrentToolConfig = React.useMemo(() => {
     switch (toolName) {
       case EToolName.Rect:
         return <RectConfig form={form} />;
       case EToolName.Tag:
-        return <TagConfig />;
+        return <TagConfig form={form} />;
       case EToolName.Polygon:
         return <div>Polygon</div>;
       default: {
         return null;
       }
     }
-  };
+  }, [toolName])
 
   return (
     <Modal centered visible={visible} width={800} title='创建项目' onOk={createProject} onCancel={onCancel}>
@@ -132,7 +134,7 @@ const CreateProjectModal: React.FC<IProps> = ({ visible, onCancel }) => {
             wrapperCol={{ span: 18 }}
             form={form}>
             <DefaultConfig />
-            {currentToolConfig()}
+            {CurrentToolConfig}
           </Form>
         </div>
       </div>
