@@ -14,7 +14,6 @@ function checkNumber(v: string) {
   return false;
 }
 
-// todo 提交的时候用
 export const rectScopeChange = (value: string) => {
   if (value) {
     return  undefined;

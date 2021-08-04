@@ -36,7 +36,7 @@ const SelectFolder: React.FC<IProps> = ({ onChange, key }) => {
   };
 
   return (
-    <div key={key} style={{ marginBottom: 20 }}>
+    <div key={key}>
       <Input addonAfter={<FolderOpenOutlined onClick={openDir} />} value={path} />
     </div>
   );

@@ -3,7 +3,7 @@ import classnames from 'classnames';
 import { Modal, Form, Menu } from 'antd';
 import { omit } from 'lodash';
 import styles from './index.module.scss';
-import RectConfig from './toolConfig/RectConfig';
+import RectConfig, { rectScopeChange } from './toolConfig/RectConfig';
 import { AnnotationContext } from '../../store';
 import { EToolName, TOOL_NAME } from '@/constant/store';
 import { polygonnConfigString, rectConfigString, tagConfigString } from '@/mock/taskConfig';
@@ -62,6 +62,8 @@ const CreateProjectModal: React.FC<IProps> = ({ visible, onCancel }) => {
   const formatData = (values: any) => {
     // 参考 src/mock/taskConfig.ts
     if(toolName === EToolName.Rect) {
+      values.minWidth = rectScopeChange(values.minWidth)
+      values.minHeight = rectScopeChange(values.minHeight)
       const textConfigurable = values.textConfigurableContext
       let result = omit(values, ['textConfigurableContext'])
       return JSON.stringify({...textConfigurable, ...result, attributeList: form.getFieldValue('attributeList')})
@@ -106,7 +108,7 @@ const CreateProjectModal: React.FC<IProps> = ({ visible, onCancel }) => {
   };
 
   return (
-    <Modal visible={visible} width={800} title='创建项目' onOk={createProject} onCancel={onCancel}>
+    <Modal centered visible={visible} width={800} title='创建项目' onOk={createProject} onCancel={onCancel}>
       <div className={styles.main}>
         <Menu
           defaultSelectedKeys={[toolName]}

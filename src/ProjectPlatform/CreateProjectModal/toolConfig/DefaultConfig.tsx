@@ -12,7 +12,6 @@ const DefaultConfig: React.FC<{}> = () => {
         <Input placeholder='请输入项目名称，方便后续定位' />
       </Form.Item>
       <Form.Item
-        style={{ marginBottom: 0 }}
         name='path'
         label={<span className={styles.formTitle}>选择图片文件夹</span>}
         rules={[{ required: true, message: '必填项' }]}
@@ -20,7 +19,6 @@ const DefaultConfig: React.FC<{}> = () => {
         <SelectFolder key='path' />
       </Form.Item>
       <Form.Item
-        style={{ marginBottom: 0 }}
         name='resultPath'
         label={<span className={styles.formTitle}>选择结果文件夹</span>}
         rules={[{ required: true, message: '必填项' }]}
