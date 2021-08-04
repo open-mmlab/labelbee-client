@@ -5,7 +5,7 @@ import { CloseCircleFilled } from '@ant-design/icons';
 import { Button, Tabs, Input as SenseInput, message as SenseMessage } from 'antd';
 import React, { useEffect, useRef, useState } from 'react';
 import MonacoEditor from 'react-monaco-editor';
-import styles from '../index.module.scss';
+import styles from '../../index.module.scss';
 
 interface IJsonTabProps {
   inputList: any[];

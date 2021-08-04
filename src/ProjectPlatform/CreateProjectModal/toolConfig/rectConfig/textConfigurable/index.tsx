@@ -2,7 +2,7 @@ import { ETextType, TEXT_TYPE } from '@/constant/store';
 import { Select as SenseSelect, Input as SenseInput, Form } from 'antd';
 import { Select, Switch } from 'antd';
 import React, { useState } from 'react';
-import styles from '../index.module.scss';
+import styles from '../../index.module.scss';
 
 interface ITextConfigurableValue {
   textConfigurable?: boolean;

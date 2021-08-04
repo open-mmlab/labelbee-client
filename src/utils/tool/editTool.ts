@@ -161,3 +161,48 @@ export const deleteInputList = (inputList: any[], i: number, subIndex?: number) 
   }
   return inputList;
 };
+
+/**
+ * 判断是否含有 key value 两个属性
+ *
+ * @param {Object} object
+ * @returns
+ */
+export function isHasKeyValue(object: any) {
+  if (typeof object?.key === 'string' && typeof object?.value === 'string') {
+    return object?.key && object?.value;
+  }
+
+  return false;
+}
+
+/**
+ * 判断是否符合标签工具的配置 IInputList
+ * @param config
+ */
+export function judgeIsTagConfig(inputList: any) {
+  if (Array.isArray(inputList)) {
+    let formatNum = 0;
+    for (const info of inputList) {
+      if (isHasKeyValue(info)) {
+        if (info?.subSelected) {
+          if (Array.isArray(info?.subSelected)) {
+            let num = 0;
+            for (const d of info.subSelected) {
+              if (isHasKeyValue(d)) {
+                num++;
+              }
+            }
+
+            if (num === info.subSelected.length) {
+              formatNum++;
+            }
+          }
+        }
+      }
+    }
+
+    return formatNum === inputList.length;
+  }
+  return false;
+}

@@ -1,7 +1,7 @@
 // import SenseInput from '@/components/customAntd/Input';
 import { Col, Row, Switch, Input as SenseInput, Form, FormInstance } from 'antd';
 import React from 'react';
-import styles from './index.module.scss';
+import styles from '../index.module.scss';
 import { MapStateJSONTab } from './attributeConfig';
 import TextConfigurable from './textConfigurable';
 import { ETextType, EToolName } from '@/constant/store';
@@ -35,7 +35,7 @@ const isShowOrder = false;
 const minWidth = 1, minHeight = 1;
 const isAllReadOnly = false;
 
-const rectConfig = [
+const index = [
   {
     name: '目标外标注',
     key: 'drawOutsideTarget',
@@ -78,7 +78,7 @@ const RectConfig = (props: IProps) => {
           </Col>
         </Row>
       </div>
-      {rectConfig.map((info, index) => (
+      {index.map((info, index) => (
         <Form.Item
           label={<span className={styles.formTitle}>{info.name}</span>}
           valuePropName='checked'

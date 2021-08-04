@@ -3,7 +3,8 @@ import classnames from 'classnames';
 import { Modal, Form, Menu } from 'antd';
 import { omit } from 'lodash';
 import styles from './index.module.scss';
-import RectConfig, { rectScopeChange } from './toolConfig/RectConfig';
+import RectConfig, { rectScopeChange } from './toolConfig/rectConfig';
+import TagConfig from './toolConfig/TagConfig';
 import { AnnotationContext } from '../../store';
 import { EToolName, TOOL_NAME } from '@/constant/store';
 import { polygonnConfigString, rectConfigString, tagConfigString } from '@/mock/taskConfig';
@@ -98,7 +99,7 @@ const CreateProjectModal: React.FC<IProps> = ({ visible, onCancel }) => {
       case EToolName.Rect:
         return <RectConfig form={form} />;
       case EToolName.Tag:
-        return <div>Tag</div>;
+        return <TagConfig />;
       case EToolName.Polygon:
         return <div>Polygon</div>;
       default: {
@@ -114,6 +115,9 @@ const CreateProjectModal: React.FC<IProps> = ({ visible, onCancel }) => {
           defaultSelectedKeys={[toolName]}
           defaultOpenKeys={[toolName]}
           className={styles.projectTypeSelected}
+          onClick={(info) => {
+            setToolName(info.key as EToolName)
+          }}
         >
           {annotationTypeList.map((annotationType) => (
             <Menu.Item key={annotationType.key}>{annotationType.name}</Menu.Item>
