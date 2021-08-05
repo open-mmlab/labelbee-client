@@ -2,8 +2,8 @@
 import { cloneDeep } from 'lodash';
 import uuid from './uuid';
 
-export const DEFAULT_LINK = '@@';
-const DEFAULT_TOOL_ATTRIBUTE = ['valid', 'invalid'];
+// export const DEFAULT_LINK = '@@';
+// const DEFAULT_TOOL_ATTRIBUTE = ['valid', 'invalid'];
 
 /**
  * 添加步骤单元

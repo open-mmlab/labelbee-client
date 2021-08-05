@@ -92,7 +92,9 @@ export function AnnotationProvider(props: any) {
   console.log(value);
   return <AnnotationContext.Provider value={value}>{props.children}</AnnotationContext.Provider>;
 }
-export const useContext = () => {
+
+// 减少引入 context
+export const useAnnotation = () => {
   const context: IAnnotationContext = React.useContext(AnnotationContext);
   if (!context) {
     throw new Error("userAuth 必须在 AuthContext 中使用 ");
