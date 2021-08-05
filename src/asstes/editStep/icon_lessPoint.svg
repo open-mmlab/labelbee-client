@@ -1,0 +1,51 @@
+<svg id="icon_lessPoint" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="16" height="16" viewBox="0 0 16 16">
+  <defs>
+    <style>
+      .cls-1, .cls-6 {
+        fill: none;
+      }
+
+      .cls-2 {
+        clip-path: url(#clip-path);
+      }
+
+      .cls-3 {
+        fill: rgba(0,0,0,0);
+      }
+
+      .cls-4 {
+        clip-path: url(#clip-path-2);
+      }
+
+      .cls-5 {
+        fill: #999;
+      }
+
+      .cls-6 {
+        stroke: #999;
+      }
+
+      .cls-7 {
+        stroke: none;
+      }
+    </style>
+    <clipPath id="clip-path">
+      <path id="路径_541" data-name="路径 541" class="cls-1" d="M16,0H0V-16H16Z" transform="translate(0 16)"/>
+    </clipPath>
+    <clipPath id="clip-path-2">
+      <path id="路径_543" data-name="路径 543" class="cls-1" d="M2.531-8.73H3.8a.253.253,0,0,1,.189.086L7.406-4.7v-8.8a.125.125,0,0,1,.125-.125h.938a.125.125,0,0,1,.125.125v8.8l3.42-3.942A.248.248,0,0,1,12.2-8.73h1.266a.125.125,0,0,1,.094.206L8.377-2.547a.5.5,0,0,1-.755,0L2.438-8.523A.124.124,0,0,1,2.531-8.73Z" transform="translate(-2.407 13.625)"/>
+    </clipPath>
+  </defs>
+  <g id="组_942" data-name="组 942" class="cls-2">
+    <path id="路径_540" data-name="路径 540" class="cls-3" d="M21-21H-5V5H21Z" transform="translate(0 16)"/>
+  </g>
+  <g id="组_971" data-name="组 971" transform="translate(2.407 1.375)">
+    <g id="组_943" data-name="组 943" class="cls-4">
+      <path id="路径_542" data-name="路径 542" class="cls-5" d="M18.593-18.625H-2.593V2.625H18.593Z" transform="translate(-2.407 13.625)"/>
+    </g>
+    <g id="矩形_263" data-name="矩形 263" class="cls-6" transform="translate(0.593 11.625)">
+      <rect class="cls-7" width="10" height="1" rx="0.5"/>
+      <rect class="cls-1" x="0.5" y="0.5" width="9"/>
+    </g>
+  </g>
+</svg>

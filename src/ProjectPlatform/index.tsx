@@ -44,7 +44,8 @@ function isHasWrongResult(tool: EToolName, fileList: IFileInfo[], step = 1) {
 }
 const icon: any = {
   tagTool: 'icon-biaoqian',
-  rectTool: 'icon-lakuang'
+  rectTool: 'icon-lakuang',
+  polygonTool: 'icon-duobianxing'
 }
 
 interface IProps {}
@@ -126,7 +127,6 @@ const ProjectPlatform: React.FC<IProps> = (props) => {
             >
               <div className={styles.icon}>
                 <span className={`icon iconfont ${icon[info.toolName]}`} style={{fontSize: 60, color: '#6474f6'}} />
-                {/*<SmileTwoTone />*/}
               </div>
               <div className={styles.detailInfo}>
                 <div className={styles.title}>

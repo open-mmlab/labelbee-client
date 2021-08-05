@@ -59,3 +59,15 @@ export const TEXT_TYPE = {
   3: '仅数字',
   4: '自定义文本格式',
 };
+
+/** 线条类型 */
+export enum ELineTypes {
+  Line,
+  Curve,
+}
+
+/** 线条颜色 */
+export enum ELineColor {
+  SingleColor,
+  MultiColor,
+}

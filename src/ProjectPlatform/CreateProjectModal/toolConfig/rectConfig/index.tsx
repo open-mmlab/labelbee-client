@@ -3,7 +3,7 @@ import { Col, Row, Switch, Input as SenseInput, Form, FormInstance } from 'antd'
 import React from 'react';
 import styles from '../index.module.scss';
 import { MapStateJSONTab } from './attributeConfig';
-import TextConfigurable from './textConfigurable';
+import TextConfigurable from '../textConfigurable';
 import { ETextType, EToolName } from '@/constant/store';
 
 function checkNumber(v: string) {
@@ -15,8 +15,8 @@ function checkNumber(v: string) {
 }
 
 export const rectScopeChange = (value: string) => {
-  if (value) {
-    return  undefined;
+  if (value.length === 0) {
+    return undefined;
   }
   if (!checkNumber(value)) {
     return;
@@ -54,12 +54,6 @@ const index = [
 ];
 
 const RectConfig = (props: IProps) => {
-  const attributeConfigurableChange = (val: boolean) => {
-    props.form?.setFieldsValue({attributeList: val ? [{
-        key: '类别1',
-        value: '类别1',
-      }] : null})
-  }
   return (
     <React.Fragment>
       <div className={styles.selectedMain}>
@@ -101,21 +95,21 @@ const RectConfig = (props: IProps) => {
                  name='attributeConfigurable'
                  initialValue={false}
       >
-        <Switch disabled={isAllReadOnly} onChange={attributeConfigurableChange} />
+        <Switch disabled={isAllReadOnly} />
       </Form.Item>
 
-      <Form.Item label={<span></span>} shouldUpdate style={{marginTop: '-12px'}}>
+      <Form.Item noStyle shouldUpdate>
         {() => {
           return props.form?.getFieldValue('attributeConfigurable') && (
-            <MapStateJSONTab
-              isAttributeList={true}
-              inputList={props.form?.getFieldValue('attributeList')}
-              readonly={isAllReadOnly}
-              updateData={(values: any) => {
-                props.form?.setFieldsValue({attributeList: values.inputList})
-              }}
-            />
-          )
+            <Form.Item label=" " name='attributeList' initialValue={[{
+              key: '类别1',
+              value: '类别1',
+            }]}>
+              <MapStateJSONTab
+                isAttributeList={true}
+                readonly={isAllReadOnly}
+              />
+            </Form.Item>);
         }}
       </Form.Item>
     </React.Fragment>
