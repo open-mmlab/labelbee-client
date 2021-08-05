@@ -78,14 +78,14 @@ const Index = (props: IProps) => {
               onChange={e => !isAllReadOnly && changeInputInfo(e, 'isMulti', inputIndex)}
             />
             {!isAllReadOnly && (
-              <a className={styles.addIcon} onClick={() => addInputInfo(inputIndex)}>
+              <span className={styles.addIcon} onClick={() => addInputInfo(inputIndex)}>
                 <PlusCircleFilled />
-              </a>
+              </span>
             )}
             {inputIndex > 0 && !isAllReadOnly && (
-              <a className={styles.deleteIcon} onClick={() => deleteInputInfo(inputIndex)}>
+              <span className={styles.deleteIcon} onClick={() => deleteInputInfo(inputIndex)}>
                 <CloseCircleFilled />
-              </a>
+              </span>
             )}
           </div>
         </Col>
@@ -124,14 +124,14 @@ const Index = (props: IProps) => {
                   <StarFilled style={{ width: 16, height: 16 }} />
                 </div>
                 {!isAllReadOnly && (
-                  <a
+                  <span
                     style={{
                       color: '#CCCCCC',
                     }}
                     onClick={() => deleteInputInfo(inputIndex, j)}
                   >
                     <CloseCircleFilled />
-                  </a>
+                  </span>
                 )}
               </Col>
             </Row>

@@ -1,7 +1,7 @@
 // cl 2021/8/4 10:45
 import React, { useEffect } from 'react';
 import { Button, FormInstance, Tabs, Form, Checkbox } from 'antd';
-import TagInput from './tagInput';
+import TagInput from './TagInput';
 import { addInputList, changeInputList, deleteInputList, judgeIsTagConfig } from '@/utils/tool/editTool';
 import MonacoEditor from 'react-monaco-editor';
 
@@ -81,6 +81,7 @@ const Index: React.FC<IProps> = ({form}) => {
   useEffect(() => {
     // 通过 form 来管理数据 后面有异步的话也可以通过这里管理
     form?.setFieldsValue({inputList: initInputList})
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
   return (
     <React.Fragment>

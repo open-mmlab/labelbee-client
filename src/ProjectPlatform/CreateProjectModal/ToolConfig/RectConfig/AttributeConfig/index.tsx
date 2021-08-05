@@ -1,4 +1,3 @@
-
 import { COLORS_ARRAY } from '@/constant/style';
 import { addInputList, changeInputList, deleteInputList } from '@/utils/tool/editTool';
 import { CloseCircleFilled } from '@ant-design/icons';
@@ -112,9 +111,9 @@ const JSONTab = (props: IJsonTabProps) => {
               />
 
               {i > 0 && !readonly && (
-                <a className={styles.deleteIcon} onClick={() => deleteInputInfo(i)}>
+                <span className={styles.deleteIcon} onClick={() => deleteInputInfo(i)}>
                   <CloseCircleFilled />
-                </a>
+                </span>
               )}
             </div>
           </div>
@@ -146,9 +145,4 @@ const JSONTab = (props: IJsonTabProps) => {
   );
 };
 
-const mapStateToProps = ({ stepConfig }: any) => {
-  return { stepConfig };
-};
-
-// export const MapStateJSONTab = connect(mapStateToProps)(JSONTab);
 export const MapStateJSONTab = JSONTab;

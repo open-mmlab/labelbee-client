@@ -2,8 +2,8 @@
 import { Col, Row, Switch, Input as SenseInput, Form, FormInstance } from 'antd';
 import React from 'react';
 import styles from '../index.module.scss';
-import { MapStateJSONTab } from './attributeConfig';
-import TextConfigurable from '../textConfigurable';
+import { MapStateJSONTab } from './AttributeConfig';
+import TextConfigurable from '../TextConfigurable';
 import { ETextType, EToolName } from '@/constant/store';
 
 function checkNumber(v: string) {

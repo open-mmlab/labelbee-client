@@ -2,12 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { Form, Menu, Modal } from 'antd';
 import { omit, pick } from 'lodash';
 import styles from './index.module.scss';
-import RectConfig, { rectScopeChange } from './toolConfig/rectConfig';
-import TagConfig from './toolConfig/tagConfig';
-import PolygonToolConfig from './toolConfig/polygonToolConfig';
+import RectConfig, { rectScopeChange } from './ToolConfig/RectConfig';
+import TagConfig from './ToolConfig/TagConfig';
+import PolygonToolConfig from './ToolConfig/PolygonToolConfig';
 import { AnnotationContext } from '../../store';
 import { EToolName, TOOL_NAME } from '@/constant/store';
-import DefaultConfig from './toolConfig/DefaultConfig';
+import DefaultConfig from './ToolConfig/DefaultConfig';
 
 interface IProps {
   visible: boolean;
@@ -32,8 +32,7 @@ const annotationTypeList = [
 const CreateProjectModal: React.FC<IProps> = ({ visible, onCancel }) => {
   const [toolName, setToolName] = useState<EToolName>(EToolName.Rect);
   const {
-    dispatch,
-    state: { fileList },
+    dispatch
   } = React.useContext(AnnotationContext);
 
   const [form] = Form.useForm();
@@ -100,7 +99,7 @@ const CreateProjectModal: React.FC<IProps> = ({ visible, onCancel }) => {
         return null;
       }
     }
-  }, [toolName])
+  }, [form, toolName])
 
   return (
     <Modal destroyOnClose={true}

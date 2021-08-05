@@ -3,10 +3,9 @@ import React from 'react';
 import { Form, FormInstance, Select, Switch } from 'antd';
 import { ELineTypes, ELineColor, ETextType } from '@/constant/store';
 import GraphicsPointLimitInput from './GraphicsPointLimitInput';
-import styles from '@/ProjectPlatform/CreateProjectModal/toolConfig/index.module.scss';
-import TextConfigurable from '../../toolConfig/textConfigurable';
-import { MapStateJSONTab } from '@/ProjectPlatform/CreateProjectModal/toolConfig/rectConfig/attributeConfig';
-import { changeInputList } from '@/utils/tool/editTool';
+import TextConfigurable from '../../ToolConfig/TextConfigurable';
+import { MapStateJSONTab } from '@/ProjectPlatform/CreateProjectModal/ToolConfig/RectConfig/AttributeConfig';
+import styles from '../index.module.scss';
 const { Option } = Select;
 interface IProps {
   form?: FormInstance;
@@ -27,14 +26,6 @@ const selectList = [
         value: ELineTypes.Curve,
       },
     ],
-    // todo 曲线需要关闭边缘吸附
-    // onChange: (v: ELineTypes) => {
-    //   updateData({ lineType: v });
-    //
-    //   if (v === ELineTypes.Curve) {
-    //     updateData({ edgeAdsorption: false });
-    //   }
-    // },
   },
   {
     label: '线条颜色',
