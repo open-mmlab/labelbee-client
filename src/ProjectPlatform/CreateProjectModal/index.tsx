@@ -49,10 +49,11 @@ const CreateProjectModal: React.FC<IProps> = ({ visible, onCancel }) => {
    * */
   const formatData = (values: any) => {
     if(toolName === EToolName.Rect) {
+      const { textConfigurableContext } = values
       values.minWidth = rectScopeChange(values.minWidth)
       values.minHeight = rectScopeChange(values.minHeight)
       return JSON.stringify({
-        ...pick(['textConfigurableContext']), ...omit(values, ['textConfigurableContext'])
+        ...omit(values, ['textConfigurableContext']), ...textConfigurableContext
       })
     }else if(toolName === EToolName.Tag) {
       return JSON.stringify({
