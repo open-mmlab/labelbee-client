@@ -28,7 +28,7 @@ interface IInfoList {
   value: string;
 }
 
-const Index = (props: IProps) => {
+const TagInput = (props: IProps) => {
   const {
     inputInfo,
     isAllReadOnly,
@@ -142,4 +142,4 @@ const Index = (props: IProps) => {
   );
 };
 
-export default Index;
+export default TagInput;

@@ -97,7 +97,7 @@ export function AnnotationProvider(props: any) {
 export const useAnnotation = () => {
   const context: IAnnotationContext = React.useContext(AnnotationContext);
   if (!context) {
-    throw new Error("userAuth 必须在 AuthContext 中使用 ");
+    throw new Error("useAnnotation 必须在 AnnotationContext 中使用 ");
   }
   return context;
 };

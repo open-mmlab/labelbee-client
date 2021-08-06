@@ -40,7 +40,7 @@ const options = {
   renderSideBySide: false,
 };
 
-const Index: React.FC<IProps> = ({form}) => {
+const ToolConfig: React.FC<IProps> = ({form}) => {
   // 更改标签工具里面的对应值
   const changeInputInfo = (
     e: any,
@@ -135,4 +135,4 @@ const Index: React.FC<IProps> = ({form}) => {
   );
 };
 
-export default Index;
+export default ToolConfig;

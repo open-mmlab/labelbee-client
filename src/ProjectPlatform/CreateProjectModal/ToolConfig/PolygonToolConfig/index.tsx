@@ -67,7 +67,7 @@ const polygonConfig = [
 //   {model: 'carton', name: '卡通'},
 // ]
 
-const Index: React.FC<IProps> = ({ form }) => {
+const PolygonToolConfig: React.FC<IProps> = ({ form }) => {
   const setEdgeAdsorption = (val: ELineTypes) => {
     if(val === ELineTypes.Curve) {
       form?.setFieldsValue({edgeAdsorption: false})
@@ -163,4 +163,4 @@ const Index: React.FC<IProps> = ({ form }) => {
   );
 };
 
-export default Index;
+export default PolygonToolConfig;

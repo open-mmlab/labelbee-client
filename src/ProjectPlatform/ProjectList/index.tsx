@@ -47,7 +47,7 @@ function isHasWrongResult(tool: EToolName, fileList: IFileInfo[], step = 1) {
 }
 
 const ipcRenderer = electron && electron.ipcRenderer;
-const Index: React.FC<IProps> = () => {
+const ProjectList: React.FC<IProps> = () => {
   const [hoverIndex, setHoverIndex] = useState(-1);
   const { state: { projectList }, dispatch } = useAnnotation()
   // 进入标注
@@ -137,4 +137,4 @@ const Index: React.FC<IProps> = () => {
   );
 };
 
-export default Index;
+export default ProjectList;
