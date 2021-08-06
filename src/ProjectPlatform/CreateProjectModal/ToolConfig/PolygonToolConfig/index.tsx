@@ -54,18 +54,18 @@ const polygonConfig = [
     key: 'isShowOrder',
     defaultValue: false,
   },
-  {
-    name: '分割辅助',
-    key: 'segmentSupport',
-    defaultValue: false,
-  },
+  // {
+  //   name: '分割辅助',
+  //   key: 'segmentSupport',
+  //   defaultValue: false,
+  // },
 ];
-const modelList = [
-  {model: 'general', name: '通用'},
-  {model: 'mask', name: '口罩'},
-  {model: 'transparency', name: '透明物体'},
-  {model: 'carton', name: '卡通'},
-]
+// const modelList = [
+//   {model: 'general', name: '通用'},
+//   {model: 'mask', name: '口罩'},
+//   {model: 'transparency', name: '透明物体'},
+//   {model: 'carton', name: '卡通'},
+// ]
 
 const Index: React.FC<IProps> = ({ form }) => {
   const setEdgeAdsorption = (val: ELineTypes) => {
@@ -124,21 +124,6 @@ const Index: React.FC<IProps> = ({ form }) => {
           </Form.Item>
         ))
       }
-      <Form.Item noStyle shouldUpdate>
-        {() => {
-          return form?.getFieldValue('segmentSupport') && (
-            <Form.Item name="panopticModel" initialValue="general">
-              <Select>
-                {modelList.map((s: any) => (
-                  <Option value={s.model} key={s.model}>
-                    {s.name}
-                  </Option>
-                ))}
-              </Select>
-            </Form.Item>
-          )
-        }}
-      </Form.Item>
       <Form.Item
         label={<span className={styles.formTitle}>文本标注</span>}
         name='textConfigurableContext'

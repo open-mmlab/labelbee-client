@@ -1,0 +1,21 @@
+$input-border: 1px solid #ccc;
+$input-border_activated: 1px solid #6371ff;
+
+%clearInput {
+  border: 0;
+  border-radius: 0;
+  border-bottom: $input-border;
+}
+.sensebee-input-wrap, {
+  .ant-input,.ant-input-group-addon {
+    @extend %clearInput;
+
+    &:focus,
+    &:hover {
+      border-bottom: $input-border_activated;
+    }
+  }
+  .ant-input-group-addon {
+    background-color: transparent;
+  }
+}

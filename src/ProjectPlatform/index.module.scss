@@ -58,14 +58,14 @@ $projectMarginTop: 10px;
     }
     .project {
       &:hover {
-        box-shadow: 0 0 30px 0 rgba(0, 0, 0, 0.08) inset;
+        box-shadow: 0 0 30px 0 rgba(0, 0, 0, 0.06) inset;
       }
       border-radius: 10px;
       display: flex;
       height: 150px;
       padding: 30px;
       position: relative;
-      box-shadow: 0 0 30px 0 rgba(0, 0, 0, 0.15);
+      box-shadow: 0 0 30px 0 rgba(0, 0, 0, 0.05);
       margin-bottom: 12px;
 
       .icon {

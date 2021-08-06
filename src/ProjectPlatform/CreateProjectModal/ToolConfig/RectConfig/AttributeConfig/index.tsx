@@ -5,6 +5,7 @@ import { Button, Tabs, Input as SenseInput, message as SenseMessage } from 'antd
 import React, { useEffect, useRef, useState } from 'react';
 import MonacoEditor from 'react-monaco-editor';
 import styles from '../../index.module.scss';
+import './index.scss';
 
 interface IJsonTabProps {
   value?: any[];
@@ -90,12 +91,12 @@ const JSONTab = (props: IJsonTabProps) => {
     <Tabs onChange={changeTagType}>
       <TabPane tab='表单' key='1'>
         {value?.map((info, i) => (
-          <div key={`inputList_${i}`}>
+          <div className='sensebee-input-wrap' key={`inputList_${i}`}>
             <div className={styles.select}>
-              <span className={styles.inputSerial}>{i + 1}</span>
+              <a className={styles.inputSerial}>{i + 1}</a>
 
               <SenseInput
-                className={styles.input_single}
+                className={`sensebee-input`}
                 value={info.key}
                 placeholder='类别'
                 onChange={(e: any) => changeInputInfo(e, 'key', i)}
@@ -103,7 +104,7 @@ const JSONTab = (props: IJsonTabProps) => {
                 addonBefore={isAttributeList && <ColorTag color={COLORS_ARRAY[i % 8]} />}
               />
               <SenseInput
-                className={styles.input_single}
+                className={'sensebee-input'}
                 value={info.value}
                 placeholder='值'
                 onChange={(e: any) => changeInputInfo(e, 'value', i)}
@@ -111,9 +112,9 @@ const JSONTab = (props: IJsonTabProps) => {
               />
 
               {i > 0 && !readonly && (
-                <span className={styles.deleteIcon} onClick={() => deleteInputInfo(i)}>
+                <a className={styles.deleteIcon} onClick={() => deleteInputInfo(i)}>
                   <CloseCircleFilled />
-                </span>
+                </a>
               )}
             </div>
           </div>

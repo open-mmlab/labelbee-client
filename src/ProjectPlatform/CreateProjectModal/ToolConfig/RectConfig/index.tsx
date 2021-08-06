@@ -35,7 +35,7 @@ const isShowOrder = false;
 const minWidth = 1, minHeight = 1;
 const isAllReadOnly = false;
 
-const index = [
+const onfiguration = [
   {
     name: '目标外标注',
     key: 'drawOutsideTarget',
@@ -72,7 +72,7 @@ const RectConfig = (props: IProps) => {
           </Col>
         </Row>
       </div>
-      {index.map((info, index) => (
+      {onfiguration.map((info, index) => (
         <Form.Item
           label={<span className={styles.formTitle}>{info.name}</span>}
           valuePropName='checked'
