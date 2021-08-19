@@ -70,4 +70,4 @@ declare module '*.module.sass' {
   export default classes;
 }
 
-declare module 'label-bee'
+declare module '@sensetime/label-bee'

@@ -4,13 +4,14 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import { AnnotationProvider } from './store';
+import './asstes/font/iconfont.css';
 
 ReactDOM.render(
-  <React.StrictMode>
+  // <React.StrictMode>
     <AnnotationProvider>
       <App />
-    </AnnotationProvider>
-  </React.StrictMode>,
+    </AnnotationProvider>,
+  // </React.StrictMode>,
   document.getElementById('root'),
 );
 

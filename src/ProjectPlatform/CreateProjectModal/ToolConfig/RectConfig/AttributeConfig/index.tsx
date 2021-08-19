@@ -1,16 +1,16 @@
-
 import { COLORS_ARRAY } from '@/constant/style';
 import { addInputList, changeInputList, deleteInputList } from '@/utils/tool/editTool';
 import { CloseCircleFilled } from '@ant-design/icons';
 import { Button, Tabs, Input as SenseInput, message as SenseMessage } from 'antd';
 import React, { useEffect, useRef, useState } from 'react';
 import MonacoEditor from 'react-monaco-editor';
-import styles from '../index.module.scss';
+import styles from '../../index.module.scss';
+import './index.scss';
 
 interface IJsonTabProps {
-  inputList: any[];
+  value?: any[];
   readonly: boolean;
-  updateData: any;
+  onChange?: (value: any[]) => void;
   /** 是否为属性列表 */
   isAttributeList: boolean;
 }
@@ -35,10 +35,13 @@ export const ColorTag = ({ color, style }: any) => {
 const JSONTab = (props: IJsonTabProps) => {
   const [jsonCode, setJsonCode] = useState('');
   const attributeListDom = useRef(null);
-  const { inputList, readonly, updateData, isAttributeList } = props;
+  const { value = [{
+    key: '类别1',
+    value: '类别1',
+  }], readonly, onChange, isAttributeList } = props;
 
   useEffect(() => {
-    setJsonCode(JSON.stringify(inputList, null, 2));
+    setJsonCode(JSON.stringify(value, null, 2));
     const inputListLastDom: any = attributeListDom?.current;
     if (inputListLastDom) {
       inputListLastDom?.scrollIntoView({
@@ -46,10 +49,10 @@ const JSONTab = (props: IJsonTabProps) => {
         block: 'end',
       });
     }
-  }, [inputList]);
+  }, [value]);
 
   const addInputInfo = () => {
-    updateData({ inputList: addInputList(inputList, EDIT_SUBSELECTED) });
+    onChange?.(addInputList(value, EDIT_SUBSELECTED));
   };
 
   const changeTagType = (v: any) => {
@@ -57,22 +60,22 @@ const JSONTab = (props: IJsonTabProps) => {
 
   // 更改标签工具里面的对应值
   const changeInputInfo = (e: any, target: 'key' | 'value', index: number) => {
-    updateData({ inputList: changeInputList(e, target, inputList, index) });
+    onChange?.(changeInputList(e, target, value, index));
   };
 
   // 删除对应输入
   const deleteInputInfo = (i: number) => {
-    updateData({ inputList: deleteInputList(inputList, i) });
+    onChange?.(deleteInputList(value, i));
   };
 
   const editorChange = (v: string) => {
     try {
       const newInputList = JSON.parse(v);
-      if (inputList.constructor !== newInputList.constructor) {
+      if (value?.constructor !== newInputList.constructor) {
         SenseMessage.error('配置格式错误');
         return;
       }
-      updateData({ inputList: newInputList });
+      onChange?.(newInputList);
     } catch (e) {
       // message.error('JSON 格式错误');
     }
@@ -87,13 +90,13 @@ const JSONTab = (props: IJsonTabProps) => {
   return (
     <Tabs onChange={changeTagType}>
       <TabPane tab='表单' key='1'>
-        {inputList.map((info, i) => (
-          <div key={`inputList_${i}`}>
+        {value?.map((info, i) => (
+          <div className='sensebee-input-wrap' key={`inputList_${i}`}>
             <div className={styles.select}>
-              <span className={styles.inputSerial}>{i + 1}</span>
+              <a className={styles.inputSerial}>{i + 1}</a>
 
               <SenseInput
-                className={styles.input_single}
+                className={`sensebee-input`}
                 value={info.key}
                 placeholder='类别'
                 onChange={(e: any) => changeInputInfo(e, 'key', i)}
@@ -101,7 +104,7 @@ const JSONTab = (props: IJsonTabProps) => {
                 addonBefore={isAttributeList && <ColorTag color={COLORS_ARRAY[i % 8]} />}
               />
               <SenseInput
-                className={styles.input_single}
+                className={'sensebee-input'}
                 value={info.value}
                 placeholder='值'
                 onChange={(e: any) => changeInputInfo(e, 'value', i)}
@@ -143,9 +146,4 @@ const JSONTab = (props: IJsonTabProps) => {
   );
 };
 
-const mapStateToProps = ({ stepConfig }: any) => {
-  return { stepConfig };
-};
-
-// export const MapStateJSONTab = connect(mapStateToProps)(JSONTab);
 export const MapStateJSONTab = JSONTab;

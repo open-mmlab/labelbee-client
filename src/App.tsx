@@ -3,7 +3,6 @@ import './App.css';
 import 'antd/dist/antd.css';
 import Annotation from './Annotation';
 import ProjectPlatform from './ProjectPlatform';
-import { stepList } from './mock/taskConfig';
 import { AnnotationContext } from './store';
 import { EStore } from './constant/store';
 

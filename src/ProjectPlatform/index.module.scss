@@ -37,9 +37,14 @@ $projectMarginTop: 10px;
   }
 
   .projectList {
+    &::-webkit-scrollbar {
+      display: none; /* Chrome Safari */
+    }
+
     margin: $projectMarginTop $navWidth;
     height: calc(100vh - #{$projectMarginTop} * 2);
     padding: 20px;
+    overflow-y: auto;
     border: 1px solid #f1f1f1;
     background: white;
     .title {
@@ -53,13 +58,15 @@ $projectMarginTop: 10px;
     }
     .project {
       &:hover {
-        background: #e2e2e2;
+        box-shadow: 0 0 30px 0 rgba(0, 0, 0, 0.06) inset;
       }
       border-radius: 10px;
       display: flex;
       height: 150px;
       padding: 30px;
       position: relative;
+      box-shadow: 0 0 30px 0 rgba(0, 0, 0, 0.05);
+      margin-bottom: 12px;
 
       .icon {
         font-size: 60px;

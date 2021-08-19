@@ -2,7 +2,6 @@ import React, { useState, useRef } from 'react';
 import { Input } from 'antd';
 import { FolderOpenOutlined } from '@ant-design/icons'
 import { EIpcEvent } from '../../constant/event';
-import { AnnotationContext } from '../../store';
 const electron = window.require && window.require('electron');
 
 interface IProps {
@@ -14,7 +13,6 @@ interface IProps {
 const SelectFolder: React.FC<IProps> = ({ onChange, key }) => {
   const [path, setPath] = useState('');
   const pathRef = useRef<HTMLInputElement>(null);
-  const { dispatch } = React.useContext(AnnotationContext);
 
   const openDir = () => {
     const ipcRenderer = electron && electron.ipcRenderer;
@@ -36,7 +34,7 @@ const SelectFolder: React.FC<IProps> = ({ onChange, key }) => {
   };
 
   return (
-    <div key={key} style={{ marginBottom: 20 }}>
+    <div key={key}>
       <Input addonAfter={<FolderOpenOutlined onClick={openDir} />} value={path} />
     </div>
   );

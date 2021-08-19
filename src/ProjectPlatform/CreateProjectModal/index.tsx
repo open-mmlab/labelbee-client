@@ -1,12 +1,13 @@
-import React, { useState, useEffect } from 'react';
-import classnames from 'classnames';
-import { Modal, Form, Menu } from 'antd';
+import React, { useEffect, useState } from 'react';
+import { Form, Menu, Modal } from 'antd';
+import { omit, pick } from 'lodash';
 import styles from './index.module.scss';
-import RectConfig from './toolConfig/RectConfig';
+import RectConfig, { rectScopeChange } from './ToolConfig/RectConfig';
+import TagConfig from './ToolConfig/TagConfig';
+import PolygonToolConfig from './ToolConfig/PolygonToolConfig';
 import { AnnotationContext } from '../../store';
 import { EToolName, TOOL_NAME } from '@/constant/store';
-import { polygonnConfigString, rectConfigString, tagConfigString } from '@/mock/taskConfig';
-import DefaultConfig from './toolConfig/DefaultConfig';
+import DefaultConfig from './ToolConfig/DefaultConfig';
 
 interface IProps {
   visible: boolean;
@@ -28,26 +29,10 @@ const annotationTypeList = [
   },
 ];
 
-const getConfigString = (toolName: EToolName) => {
-  switch (toolName) {
-    case EToolName.Rect:
-      return rectConfigString;
-    case EToolName.Tag:
-      return tagConfigString;
-    case EToolName.Polygon:
-      return polygonnConfigString;
-
-    default: {
-      return '{}';
-    }
-  }
-};
-
 const CreateProjectModal: React.FC<IProps> = ({ visible, onCancel }) => {
   const [toolName, setToolName] = useState<EToolName>(EToolName.Rect);
   const {
-    dispatch,
-    state: { fileList },
+    dispatch
   } = React.useContext(AnnotationContext);
 
   const [form] = Form.useForm();
@@ -58,17 +43,44 @@ const CreateProjectModal: React.FC<IProps> = ({ visible, onCancel }) => {
     }
   }, [form, visible]);
 
+  /**
+   * 目前有3个工具  拉框  标签 多边形  都集中在一个 form 表单
+   * 参考 src/mock/taskConfig.ts
+   * */
+  const formatData = (values: any) => {
+    if(toolName === EToolName.Rect) {
+      const { textConfigurableContext } = values
+      values.minWidth = rectScopeChange(values.minWidth)
+      values.minHeight = rectScopeChange(values.minHeight)
+      return JSON.stringify({
+        ...omit(values, ['textConfigurableContext']), ...textConfigurableContext
+      })
+    }else if(toolName === EToolName.Tag) {
+      return JSON.stringify({
+        ...values, inputList: form.getFieldValue('inputList')
+      })
+    }else if(toolName === EToolName.Polygon) {
+      let { textConfigurableContext, polygonToolGraphicsPoint } = values;
+      return JSON.stringify({
+        ...textConfigurableContext,
+        ...polygonToolGraphicsPoint,
+        ...omit(values, ['textConfigurableContext', 'polygonToolGraphicsPoint'])
+      })
+    }
+  }
+
   const createProject = () => {
     form.validateFields().then((values) => {
+      const result = formatData(omit(values, ['name', 'path', 'resultPath']))
       dispatch({
         type: 'ADD_PROJECT_LIST',
         payload: {
           projectList: [
             {
-              ...values,
+              ...pick(values, ['name', 'path', 'resultPath']),
               toolName,
               createdAt: '2021-07-07',
-              stepList: [{ step: 1, tool: toolName, config: getConfigString(toolName) }],
+              stepList: [{ step: 1, tool: toolName, config: result }],
             },
           ],
         },
@@ -76,41 +88,50 @@ const CreateProjectModal: React.FC<IProps> = ({ visible, onCancel }) => {
       onCancel();
     });
   };
-
-  const currentToolConfig = () => {
+  const CurrentToolConfig = React.useMemo(() => {
     switch (toolName) {
       case EToolName.Rect:
-        return <RectConfig />;
+        return <RectConfig form={form} />;
       case EToolName.Tag:
-        return <div>Tag</div>;
+        return <TagConfig form={form} />;
       case EToolName.Polygon:
-        return <div>Polygon</div>;
+        return <PolygonToolConfig form={form} />;
       default: {
         return null;
       }
     }
-  };
+  }, [form, toolName])
 
   return (
-    <Modal visible={visible} width={800} title='创建项目' onOk={createProject} onCancel={onCancel}>
+    <Modal destroyOnClose={true}
+           centered visible={visible}
+           width={800} title='创建项目'
+           onOk={createProject}
+           onCancel={onCancel}>
       <div className={styles.main}>
         <Menu
           defaultSelectedKeys={[toolName]}
           defaultOpenKeys={[toolName]}
           className={styles.projectTypeSelected}
+          onClick={(info) => {
+            setToolName(info.key as EToolName)
+          }}
         >
           {annotationTypeList.map((annotationType) => (
             <Menu.Item key={annotationType.key}>{annotationType.name}</Menu.Item>
           ))}
         </Menu>
         <div className={styles.config}>
-          <Form 
-          
-          layout='vertical'
-          
-          form={form}>
+          <Form
+            layout='horizontal'
+            key={toolName}
+            labelAlign='left'
+            colon={false}
+            labelCol={{ span: 6 }}
+            wrapperCol={{ span: 18 }}
+            form={form}>
             <DefaultConfig />
-            {currentToolConfig()}
+            {CurrentToolConfig}
           </Form>
         </div>
       </div>

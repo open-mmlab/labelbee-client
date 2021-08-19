@@ -1,0 +1,134 @@
+.select {
+  display: flex;
+  align-items: center;
+
+  a {
+    display: none;
+    width: 5%;
+    color: #cccccc;
+    position: relative;
+  }
+
+  .inputSerial {
+    width: 10%;
+    display: inline-block;
+  }
+
+  .inputGroup {
+    width: 100%;
+    display: inline-block;
+    padding-bottom: 13px;
+    padding-top: 13px;
+
+    .input_single {
+      width: 45%;
+      margin-right: 5px;
+      padding: 4px 8px;
+      border: 0px;
+      border-bottom: 1px solid #cccccc;
+      border-radius: 0;
+    }
+  }
+
+  .addIcon {
+    margin-right: 14px;
+  }
+
+  .deleteIcon {
+    margin-right: 10px;
+  }
+
+  .checkboxUnselected {
+    display: block;
+
+    :global {
+      .ant-checkbox-checked .ant-checkbox-inner {
+        background-color: rgba(153, 153, 153, 1);
+        border-color: rgba(153, 153, 153, 1);
+      }
+      .ant-checkbox-checked::after {
+        border-color: rgba(153, 153, 153, 1);
+      }
+    }
+  }
+  .checkboxSelected {
+    display: block;
+    :global {
+      .ant-checkbox-checked .ant-checkbox-inner {
+        background-color: rgba(255, 179, 102, 1);
+        border-color: rgba(255, 179, 102, 1);
+      }
+      .ant-checkbox-checked::after {
+        border-color: rgba(255, 179, 102, 1);
+      }
+    }
+  }
+}
+
+.select:hover {
+  a {
+    display: inline-block;
+  }
+}
+
+.headerOption {
+  display: flex;
+  justify-content: flex-start;
+  .icon {
+    margin-right: 6px;
+  }
+  .star {
+    display: block;
+    margin: 0 7px 0 6px;
+  }
+  .starSelected {
+    color: rgba(255, 179, 102, 1);
+  }
+  .starUnselected {
+    color: rgba(153, 153, 153, 1);
+  }
+}
+
+.subMain {
+  margin-left: 10%;
+  width: 90%;
+
+  .subSelect {
+    padding-bottom: 10px;
+    display: inline-block;
+    position: relative;
+    display: flex;
+    align-items: center;
+
+    a {
+      display: none;
+    }
+    .sub_input {
+      width: 45%;
+      margin-right: 5px;
+      padding: 4px 8px;
+      border: 0px;
+      border-bottom: 1px solid #cccccc;
+      border-radius: 0;
+    }
+    .firstItem {
+      display: flex;
+      align-items: center;
+    }
+  }
+
+  .subSelect:hover {
+    a {
+      display: inline-block;
+    }
+  }
+}
+
+.firstItem::before {
+  content: '';
+  margin-right: 10px;
+  border-left: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
+  width: 6px;
+  height: 25px;
+}

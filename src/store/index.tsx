@@ -76,11 +76,11 @@ const reducer = (state: IAnnotation = initialState, action: Action) => {
       throw new Error();
   }
 };
-
-export const AnnotationContext = React.createContext<{
+interface IAnnotationContext {
   state: typeof initialState;
   dispatch: (action: Action) => void;
-}>({
+}
+export const AnnotationContext = React.createContext<IAnnotationContext>({
   state: initialState,
   dispatch: () => {},
 });
@@ -92,3 +92,12 @@ export function AnnotationProvider(props: any) {
   console.log(value);
   return <AnnotationContext.Provider value={value}>{props.children}</AnnotationContext.Provider>;
 }
+
+// 减少引入 context
+export const useAnnotation = () => {
+  const context: IAnnotationContext = React.useContext(AnnotationContext);
+  if (!context) {
+    throw new Error("useAnnotation 必须在 AnnotationContext 中使用 ");
+  }
+  return context;
+};
