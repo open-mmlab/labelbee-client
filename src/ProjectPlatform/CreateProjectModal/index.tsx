@@ -5,9 +5,12 @@ import styles from './index.module.scss';
 import RectConfig, { rectScopeChange } from './ToolConfig/RectConfig';
 import TagConfig from './ToolConfig/TagConfig';
 import PolygonToolConfig from './ToolConfig/PolygonToolConfig';
+import PointConfig from './ToolConfig/PointConfig';
+import TextToolConfig from './ToolConfig/TextToolConfig';
 import { AnnotationContext } from '../../store';
 import { EToolName, TOOL_NAME } from '@/constant/store';
 import DefaultConfig from './ToolConfig/DefaultConfig';
+import { formatDate } from '@/utils/tool/common';
 
 interface IProps {
   visible: boolean;
@@ -27,10 +30,26 @@ const annotationTypeList = [
     name: TOOL_NAME[EToolName.Polygon],
     key: EToolName.Polygon,
   },
+  {
+    name: TOOL_NAME[EToolName.Line],
+    key: EToolName.Line,
+  },
+  {
+    name: TOOL_NAME[EToolName.Point],
+    key: EToolName.Point,
+  },
+  {
+    name: TOOL_NAME[EToolName.Text],
+    key: EToolName.Text,
+  },
 ];
 
+const objToString = (values: any) => {
+  return JSON.stringify(values)
+}
+
 const CreateProjectModal: React.FC<IProps> = ({ visible, onCancel }) => {
-  const [toolName, setToolName] = useState<EToolName>(EToolName.Rect);
+  const [toolName, setToolName] = useState<EToolName>(EToolName.Text);
   const {
     dispatch
   } = React.useContext(AnnotationContext);
@@ -44,29 +63,30 @@ const CreateProjectModal: React.FC<IProps> = ({ visible, onCancel }) => {
   }, [form, visible]);
 
   /**
-   * 目前有3个工具  拉框  标签 多边形  都集中在一个 form 表单
+   * 所有  都集中在一个 form 表单
    * 参考 src/mock/taskConfig.ts
    * */
   const formatData = (values: any) => {
+    const { textConfigurableContext } = values
     if(toolName === EToolName.Rect) {
-      const { textConfigurableContext } = values
       values.minWidth = rectScopeChange(values.minWidth)
       values.minHeight = rectScopeChange(values.minHeight)
-      return JSON.stringify({
-        ...omit(values, ['textConfigurableContext']), ...textConfigurableContext
-      })
+      return objToString({...omit(values, ['textConfigurableContext']), ...textConfigurableContext})
     }else if(toolName === EToolName.Tag) {
-      return JSON.stringify({
-        ...values, inputList: form.getFieldValue('inputList')
-      })
-    }else if(toolName === EToolName.Polygon) {
-      let { textConfigurableContext, polygonToolGraphicsPoint } = values;
-      return JSON.stringify({
+      return objToString({...values, inputList: form.getFieldValue('inputList')})
+    }else if([EToolName.Polygon, EToolName.Line].includes(toolName)) {
+      let { toolGraphicsPoint } = values;
+      return objToString({
         ...textConfigurableContext,
-        ...polygonToolGraphicsPoint,
-        ...omit(values, ['textConfigurableContext', 'polygonToolGraphicsPoint'])
+        ...toolGraphicsPoint,
+        ...omit(values, ['textConfigurableContext', 'toolGraphicsPoint'])
       })
+    }else if(toolName === EToolName.Point) {
+      return objToString({...omit(values, ['textConfigurableContext']), ...textConfigurableContext})
+    }else if(toolName === EToolName.Text) {
+      return objToString(values)
     }
+    return '';
   }
 
   const createProject = () => {
@@ -79,7 +99,7 @@ const CreateProjectModal: React.FC<IProps> = ({ visible, onCancel }) => {
             {
               ...pick(values, ['name', 'path', 'resultPath']),
               toolName,
-              createdAt: '2021-07-07',
+              createdAt: formatDate(new Date(), 'yyyy-MM-dd hh:mm:ss'),
               stepList: [{ step: 1, tool: toolName, config: result }],
             },
           ],
@@ -88,6 +108,7 @@ const CreateProjectModal: React.FC<IProps> = ({ visible, onCancel }) => {
       onCancel();
     });
   };
+  // 线条  文本  标点
   const CurrentToolConfig = React.useMemo(() => {
     switch (toolName) {
       case EToolName.Rect:
@@ -95,7 +116,12 @@ const CreateProjectModal: React.FC<IProps> = ({ visible, onCancel }) => {
       case EToolName.Tag:
         return <TagConfig form={form} />;
       case EToolName.Polygon:
-        return <PolygonToolConfig form={form} />;
+      case EToolName.Line:
+        return <PolygonToolConfig toolName={toolName} form={form} />;
+      case EToolName.Point:
+        return <PointConfig form={form} />;
+      case EToolName.Text:
+        return <TextToolConfig form={form} />;
       default: {
         return null;
       }
@@ -114,6 +140,7 @@ const CreateProjectModal: React.FC<IProps> = ({ visible, onCancel }) => {
           defaultOpenKeys={[toolName]}
           className={styles.projectTypeSelected}
           onClick={(info) => {
+            form.resetFields(Object.keys(omit(form.getFieldsValue(), ['name'])))
             setToolName(info.key as EToolName)
           }}
         >
@@ -127,6 +154,7 @@ const CreateProjectModal: React.FC<IProps> = ({ visible, onCancel }) => {
             key={toolName}
             labelAlign='left'
             colon={false}
+            preserve={false}
             labelCol={{ span: 6 }}
             wrapperCol={{ span: 18 }}
             form={form}>

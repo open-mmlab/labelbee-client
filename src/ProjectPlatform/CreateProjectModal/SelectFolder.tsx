@@ -32,7 +32,7 @@ const SelectFolder: React.FC<IProps> = ({ onChange, key }) => {
     }
     // 具体的图片
   };
-
+  console.log(path)
   return (
     <div key={key}>
       <Input addonAfter={<FolderOpenOutlined onClick={openDir} />} value={path} />

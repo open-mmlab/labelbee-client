@@ -41,6 +41,9 @@ export const TOOL_NAME: {[a: string]: string} = {
   [EToolName.Rect]: '目标检测',
   [EToolName.Tag]: '图像分类',
   [EToolName.Polygon]: '图像分割',
+  [EToolName.Point]: '图像标点',
+  [EToolName.Line]: '划线',
+  [EToolName.Text]: '文本',
 }
 
 // 文本标注类型

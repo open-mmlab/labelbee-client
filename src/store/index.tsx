@@ -59,7 +59,7 @@ const reducer = (state: IAnnotation = initialState, action: Action) => {
     case 'ADD_PROJECT_LIST': {
       const projectList = action.payload.projectList;
       const newProjectList = [...state.projectList, ...projectList];
-
+      console.log(newProjectList)
       localStorage.setItem(EStore.LOCAL_PROJECT_LIST, JSON.stringify(newProjectList));
       return { ...state, projectList: newProjectList };
     }

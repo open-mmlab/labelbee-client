@@ -1,57 +1,29 @@
 // import SenseInput from '@/components/customAntd/Input';
-import { Col, Row, Switch, Input as SenseInput, Form, FormInstance } from 'antd';
+import { Switch, InputNumber, Form, FormInstance } from 'antd';
 import React from 'react';
 import styles from '../index.module.scss';
-import { MapStateJSONTab } from './AttributeConfig';
+import { MapStateJSONTab } from '@/ProjectPlatform/CreateProjectModal/ToolConfig/RectConfig/AttributeConfig';
 import TextConfigurable from '../TextConfigurable';
 import { ETextType, EToolName } from '@/constant/store';
 import { onfiguration } from '../publicConfig';
-
-function checkNumber(v: string) {
-  const reg = /^[1-9]\d*$/g;
-  if (reg.test(v)) {
-    return true;
-  }
-  return false;
-}
-
-export const rectScopeChange = (value: string) => {
-  if (value.length === 0) {
-    return undefined;
-  }
-  if (!checkNumber(value)) {
-    return;
-  }
-  return ~~value
-};
 
 interface IProps {
   toolName?: EToolName;
   form?: FormInstance;
 }
 
-const minWidth = 1, minHeight = 1;
 const isAllReadOnly = false;
 
-const RectConfig = (props: IProps) => {
+const PointConfig = (props: IProps) => {
   return (
     <React.Fragment>
-      <div className={styles.selectedMain}>
-        <Row>
-          <Col span={6}><div className={styles.selectedName}>最小尺寸</div></Col>
-          <Col span={8}>
-            <Form.Item name="minWidth" initialValue={minWidth}>
-              <SenseInput type='text' suffix={<div>W</div>} disabled={isAllReadOnly} />
-            </Form.Item>
-          </Col>
-          <Col span={1} />
-          <Col span={8}>
-            <Form.Item name="minHeight" initialValue={minHeight}>
-              <SenseInput type='text' suffix={<div>H</div>} disabled={isAllReadOnly} />
-            </Form.Item>
-          </Col>
-        </Row>
-      </div>
+      <Form.Item
+        name="upperLimit"
+        initialValue={null}
+        label={<span className={styles.formTitle}>上限点数</span>}
+      >
+        <InputNumber min={1} />
+      </Form.Item>
       {onfiguration.map((info, index) => (
         <Form.Item
           label={<span className={styles.formTitle}>{info.name}</span>}
@@ -96,9 +68,4 @@ const RectConfig = (props: IProps) => {
   );
 };
 
-export default RectConfig;
-// function mapStateToProps({ editAnnotation, createStep, stepConfig }: any) {
-//   return { editAnnotation, createStep, stepConfig };
-// }
-
-// export default connect(mapStateToProps)(RectConfig);
+export default PointConfig;

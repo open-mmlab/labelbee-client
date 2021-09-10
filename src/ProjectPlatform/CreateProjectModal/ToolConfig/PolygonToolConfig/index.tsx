@@ -1,15 +1,22 @@
 // cl 2021/8/5 09:49
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Form, FormInstance, Select, Switch } from 'antd';
-import { ELineTypes, ELineColor, ETextType } from '@/constant/store';
+import { ELineTypes, ELineColor, ETextType, EToolName } from '@/constant/store';
 import GraphicsPointLimitInput from './GraphicsPointLimitInput';
 import TextConfigurable from '../../ToolConfig/TextConfigurable';
 import { MapStateJSONTab } from '@/ProjectPlatform/CreateProjectModal/ToolConfig/RectConfig/AttributeConfig';
+import { onfiguration } from '../publicConfig';
 import styles from '../index.module.scss';
 const { Option } = Select;
 interface IProps {
+  toolName: EToolName;
   form?: FormInstance;
 }
+
+const initLowerLimitPoint: any = {
+  [EToolName.Polygon]: { num: 3, text: '闭合点数' },
+  [EToolName.Line]: { num: 2, text: '顶点数限制' },
+};
 
 const selectList = [
   {
@@ -37,29 +44,13 @@ const selectList = [
     ],
   },
 ];
-const polygonConfig = [
-  {
-    name: '目标外标注',
-    key: 'drawOutsideTarget',
-    defaultValue: false,
-  },
-  {
-    name: '复制上一张结果',
-    key: 'copyBackwardResult',
-    defaultValue: false,
-    disabled: true,
-  },
-  {
-    name: '显示标注顺序',
-    key: 'isShowOrder',
-    defaultValue: false,
-  },
-  // {
-  //   name: '分割辅助',
-  //   key: 'segmentSupport',
-  //   defaultValue: false,
-  // },
-];
+
+const polygonConfig = onfiguration.map((item) => {
+  if(item.key === 'copyBackwardResult') {
+    item.disabled = true
+  }
+  return item;
+})
 // const modelList = [
 //   {model: 'general', name: '通用'},
 //   {model: 'mask', name: '口罩'},
@@ -67,12 +58,15 @@ const polygonConfig = [
 //   {model: 'carton', name: '卡通'},
 // ]
 
-const PolygonToolConfig: React.FC<IProps> = ({ form }) => {
+const PolygonToolConfig: React.FC<IProps> = ({toolName, form }) => {
   const setEdgeAdsorption = (val: ELineTypes) => {
     if(val === ELineTypes.Curve) {
       form?.setFieldsValue({edgeAdsorption: false})
     }
   }
+  useEffect(() => {
+    form?.setFieldsValue({toolGraphicsPoint: {lowerLimitPointNum: initLowerLimitPoint[toolName].num}})
+  }, [toolName])
   return (
     <React.Fragment>
       {
@@ -84,7 +78,7 @@ const PolygonToolConfig: React.FC<IProps> = ({ form }) => {
             key={item.label}>
             <Select onChange={setEdgeAdsorption}>
               {
-                item.select.map((itm) => (
+                item.select.map((itm: any) => (
                   <Option value={itm.value} key={itm.value}>{itm.key}</Option>
                 ))
               }
@@ -92,11 +86,9 @@ const PolygonToolConfig: React.FC<IProps> = ({ form }) => {
           </Form.Item>
         ))
       }
-      <Form.Item name='polygonToolGraphicsPoint'
-                 label={<span className={styles.formTitle}>闭合点数</span>}
-                 initialValue={{
-                   lowerLimitPointNum: 3,
-                 }}>
+      <Form.Item name='toolGraphicsPoint'
+                 label={<span className={styles.formTitle}>{initLowerLimitPoint[toolName].text}</span>}
+      >
         <GraphicsPointLimitInput />
       </Form.Item>
       <Form.Item
@@ -118,7 +110,7 @@ const PolygonToolConfig: React.FC<IProps> = ({ form }) => {
           <Form.Item key={item.key}
                      name={item.key}
                      label={<span className={styles.formTitle}>{item.name}</span>}
-                     initialValue={item.defaultValue}
+                     initialValue={item.value}
                      valuePropName='checked'>
             <Switch disabled={item.disabled} />
           </Form.Item>
