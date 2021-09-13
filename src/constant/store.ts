@@ -44,6 +44,7 @@ export const TOOL_NAME: {[a: string]: string} = {
   [EToolName.Point]: '图像标点',
   [EToolName.Line]: '划线',
   [EToolName.Text]: '文本',
+  'step': '多步骤标注',
 }
 
 // 文本标注类型

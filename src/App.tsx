@@ -16,8 +16,6 @@ const App = () => {
     try {
       const projectListString = localStorage.getItem(EStore.LOCAL_PROJECT_LIST) || '[]';
       const projectList = JSON.parse(projectListString);
-      console.log(projectList)
-      
       if (projectList.length > 0) {
         dispatch({
           type: 'UPDATE_PROJECT_LIST',

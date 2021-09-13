@@ -1,0 +1,13 @@
+.task-step-list {
+  .ant-list-item-action {
+    display: none;
+  }
+  .ant-list-item {
+    &:hover {
+      .ant-list-item-action {
+        display: block;
+        cursor: pointer;
+      }
+    }
+  }
+}

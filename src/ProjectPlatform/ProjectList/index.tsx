@@ -6,6 +6,7 @@ import { EToolName, TOOL_NAME } from '@/constant/store';
 import { DeleteOutlined, QuestionCircleOutlined } from '@ant-design/icons';
 import styles from '../index.module.scss';
 import { EIpcEvent } from '@/constant/event';
+import { formatDate } from '@/utils/tool/common';
 const electron = window.require && window.require('electron');
 
 interface IProps {
@@ -13,7 +14,11 @@ interface IProps {
 const icon: any = {
   tagTool: 'icon-biaoqian',
   rectTool: 'icon-lakuang',
-  polygonTool: 'icon-duobianxing'
+  polygonTool: 'icon-duobianxing',
+  pointTool: 'icon-biaodian',
+  textTool: 'icon-wenben',
+  lineTool: 'icon-huaxian',
+  step: 'icon-buzhou',
 }
 
 /**
@@ -56,7 +61,6 @@ const ProjectList: React.FC<IProps> = () => {
     if (ipcRenderer) {
       ipcRenderer.send(EIpcEvent.SendDirectoryImages, projectInfo.path, projectInfo.resultPath);
       ipcRenderer.once(EIpcEvent.GetDirectoryImages, function (event: any, fileList: any[]) {
-        console.log('fileList', fileList)
         if (isHasWrongResult(projectInfo.toolName, fileList)) {
           message.error('工具类型不相同，结果无法解析，请选择与项目相同类型的标注结果');
           return;
@@ -92,7 +96,7 @@ const ProjectList: React.FC<IProps> = () => {
   return (
     <div>
       <div className={styles.list}>
-        {projectList.map((info, i) => (
+        {projectList.sort((a, b) => b.createdAt - a.createdAt).map((info, i) => (
           <div
             className={styles.project}
             key={i}
@@ -115,7 +119,7 @@ const ProjectList: React.FC<IProps> = () => {
                 <div>结果路径：{info.resultPath}</div>
               </div>
             </div>
-            <div className={styles.createdAt}>{info.createdAt}</div>
+            <div className={styles.createdAt}>{formatDate(new Date(info.createdAt), 'yyyy-MM-dd hh:mm:ss')}</div>
             {hoverIndex === i && (
               <>
                 <Popconfirm

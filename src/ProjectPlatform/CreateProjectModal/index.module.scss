@@ -21,3 +21,17 @@
     height: 460px;
   }
 }
+.modalContent {
+  position: relative;
+  height: 500px;
+  overflow: hidden;
+
+  display: flex;
+
+  .config {
+    overflow-y: scroll;
+    padding:0 30px;
+    height: 460px;
+    flex: 1;
+  }
+}
