@@ -5,14 +5,15 @@ import { EIpcEvent } from '../../constant/event';
 const electron = window.require && window.require('electron');
 
 interface IProps {
-  // path: string;
+  value?: string;
   key: string;
   onChange?: (value: any) => void;
 }
 
-const SelectFolder: React.FC<IProps> = ({ onChange, key }) => {
+const SelectFolder: React.FC<IProps> = ({value, onChange, key }) => {
   const [path, setPath] = useState('');
   const pathRef = useRef<HTMLInputElement>(null);
+  console.log('value', value)
 
   const openDir = () => {
     const ipcRenderer = electron && electron.ipcRenderer;
@@ -34,7 +35,7 @@ const SelectFolder: React.FC<IProps> = ({ onChange, key }) => {
   };
   return (
     <div key={key}>
-      <Input addonAfter={<FolderOpenOutlined onClick={openDir} />} value={path} />
+      <Input addonAfter={<FolderOpenOutlined onClick={openDir} />} value={value || path} />
     </div>
   );
 };

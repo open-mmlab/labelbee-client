@@ -2,7 +2,7 @@
 import React, { ReactNode } from 'react';
 import { IStepInfo } from '@/store';
 import { List, Modal } from 'antd';
-import { CloseCircleOutlined } from '@ant-design/icons';
+import { CloseCircleOutlined, EditOutlined } from '@ant-design/icons';
 import { TOOL_NAME } from '@/constant/store';
 import { deleteStep } from '@/utils/tool/task';
 import './index.scss';
@@ -10,10 +10,12 @@ import './index.scss';
 interface IProps {
   footer: ReactNode;
   stepList: IStepInfo[];
+  setStepId: (id: string) => void;
+  changeTaskVisible: () => void;
   setStepLIst: (stepInfos: IStepInfo[]) => void;
 }
 
-const TaskStep: React.FC<IProps> = ({stepList, footer, setStepLIst }) => {
+const TaskStep: React.FC<IProps> = ({stepList, footer, setStepId, changeTaskVisible, setStepLIst }) => {
 
   // 删除步骤， step为步骤
   const delStep = (step: number) => {
@@ -35,6 +37,10 @@ const TaskStep: React.FC<IProps> = ({stepList, footer, setStepLIst }) => {
       autoFocusButton: null,
     });
   };
+  const edit = (id: string) => {
+    setStepId(id);
+    changeTaskVisible();
+  }
 
   return (
     <List
@@ -46,7 +52,8 @@ const TaskStep: React.FC<IProps> = ({stepList, footer, setStepLIst }) => {
       dataSource={stepList}
       renderItem={item => (
         <List.Item
-          actions={[<CloseCircleOutlined onClick={() => delStep(item.step)} />]}
+          actions={[<EditOutlined onClick={() => {edit(item.id)}} />,
+            <CloseCircleOutlined onClick={() => delStep(item.step)} />]}
         >
           <span>{item.step} - {TOOL_NAME[item.tool]}</span>
         </List.Item>

@@ -4,6 +4,7 @@ import CreateProjectModal from './CreateProjectModal';
 import { Menu, Dropdown, Button, Space } from 'antd';
 import ProjectList from './ProjectList';
 import styles from './index.module.scss';
+import { useAnnotation } from '@/store';
 
 interface IProps {}
 
@@ -12,28 +13,29 @@ const ProjectPlatform: React.FC<IProps> = (props) => {
   // type 项目类型分为 普通 和 多步骤创建
   const [type, setType] = useState<IProjectType>('base')
   const [createModalVisible, setCreateModalVisible] = useState(false);
-  const [modalAnimation, setModalAnimation] = useState(false)
+  const { dispatch } = useAnnotation();
 
-  const createProject = () => {
+  const createProject = (key: IProjectType) => {
     setCreateModalVisible(true);
+    setType(key as IProjectType)
   };
-  // 为了销毁组件的时候  保持动画
-  useEffect(() => {
-    createModalVisible && setModalAnimation(true)
-    if(!createModalVisible) {
-      setTimeout(() => {
-        setModalAnimation(createModalVisible)
-      }, 300)
-    }
-  }, [createModalVisible])
+
+  const onCancel = () => {
+    setCreateModalVisible(false)
+    dispatch({
+      type: 'UPDATE_CURRENT_PROJECTINFO',
+      payload: {
+        projectInfo: undefined,
+      },
+    });
+  }
 
   const menu = (
     <Menu
       defaultSelectedKeys={[type]}
       defaultOpenKeys={[type]}
       onClick={(info) => {
-        setType(info.key as IProjectType)
-        createProject();
+        createProject(info.key as IProjectType);
       }}
     >
       <Menu.Item key="base">
@@ -59,13 +61,13 @@ const ProjectPlatform: React.FC<IProps> = (props) => {
 
       <div className={styles.projectList}>
         <div className={styles.title}>全部项目列表</div>
-        <ProjectList />
+        <ProjectList createProject={createProject} />
       </div>
       {
-        modalAnimation && <CreateProjectModal
+       <CreateProjectModal
           type={type}
           visible={createModalVisible}
-          onCancel={() => setCreateModalVisible(false)}
+          onCancel={onCancel}
         />
       }
     </div>

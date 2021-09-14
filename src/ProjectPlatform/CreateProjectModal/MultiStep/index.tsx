@@ -1,5 +1,5 @@
 // cl 2021/9/13 09:53
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Col, Row, Select, Button, Form, message } from 'antd';
 import { isNumber, omit, pick } from 'lodash';
 import { IStepInfo } from '@/store';
@@ -8,20 +8,22 @@ import SelectTool, { annotationTypeList, Itool } from '../SelectTool';
 import Tools from '../Tools';
 import { formatData } from '@/ProjectPlatform/CreateProjectModal';
 import styles from './index.module.scss'
+import uuid from '@/utils/tool/uuid';
 
 const { Option } = Select;
 
 interface IProps {
+  stepId?: string;
   stepList: IStepInfo[];
   changeTaskVisible: () => void;
   setStepLIst: (stepInfos: IStepInfo[]) => void;
 }
 
-const Index: React.FC<IProps> = ({stepList, setStepLIst, changeTaskVisible}) => {
+const MultiStep: React.FC<IProps> = ({stepId, stepList, setStepLIst, changeTaskVisible}) => {
   const [dataSourceStep, setDataSourceStep] = useState<number>();
   const [toolName, setToolName] = useState<EToolName>();
 
-  const [form] = Form.useForm();
+  const [multiStepForm] = Form.useForm();
 
   const tools = useMemo(() => {
     let relyTool = stepList.find((item) => item.step === dataSourceStep)?.tool;
@@ -34,6 +36,14 @@ const Index: React.FC<IProps> = ({stepList, setStepLIst, changeTaskVisible}) => 
     }
   }, [dataSourceStep, stepList]) as Itool[]
 
+  // 编辑的时候才有
+  const stepInfo = useMemo(() => {
+    const info = stepList.find(item => item.id === stepId)
+    setToolName(info?.tool);
+    setDataSourceStep(info?.dataSourceStep)
+    return info;
+  }, [stepId, stepList])
+
   const save = () => {
     if(!isNumber(dataSourceStep)) {
       message.error('请选择数据源')
@@ -44,10 +54,16 @@ const Index: React.FC<IProps> = ({stepList, setStepLIst, changeTaskVisible}) => 
       return
     }
 
-    form.validateFields().then((values) => {
-      const result = formatData(omit(values, ['name', 'path', 'resultPath']), toolName, form)
-      let step = {step: stepList.length + 1, dataSourceStep, tool: toolName, config: result}
-      setStepLIst([...stepList, step])
+    multiStepForm.validateFields().then((values) => {
+      const result = formatData(omit(values, ['name', 'path', 'resultPath']), toolName, multiStepForm)
+      const index = stepList.findIndex((item) => item.id === stepInfo?.id)
+      const newStepList = [...stepList];
+      if(index === -1) {
+        newStepList.push({step: stepList.length + 1, dataSourceStep, tool: toolName, id: uuid(), config: result})
+      }else {
+        newStepList[index].config = result;
+      }
+      setStepLIst(newStepList)
       changeTaskVisible()
     });
   }
@@ -60,14 +76,15 @@ const Index: React.FC<IProps> = ({stepList, setStepLIst, changeTaskVisible}) => 
             <div className={styles.selectedName}>数据源</div>
           </Col>
           <Col span={18} className={styles.mb_24}>
-            <Select style={{width: '100%'}} onChange={(v) => {
+            <Select disabled={!!stepInfo} value={dataSourceStep} style={{width: '100%'}} onChange={(v) => {
               setDataSourceStep(v as number)
+              setToolName(undefined)
             }}>
               <Option value={0}>原图</Option>
               {
                 stepList?.map((info, index) => (
                   <Option key={info.step} value={info.step}>
-                    {TOOL_NAME[info.tool]} = {info.step}
+                    {TOOL_NAME[info.tool]}
                   </Option>))
               }
             </Select>
@@ -79,7 +96,7 @@ const Index: React.FC<IProps> = ({stepList, setStepLIst, changeTaskVisible}) => 
               </Col>
               <Col span={18} className={styles.mb_24}>
                 {
-                  <SelectTool type='select' tools={tools} onChange={(key) => {
+                  <SelectTool disabled={!!stepInfo} toolName={toolName} type='select' tools={tools} onChange={(key) => {
                     setToolName(key);
                   }
                   } />
@@ -90,12 +107,12 @@ const Index: React.FC<IProps> = ({stepList, setStepLIst, changeTaskVisible}) => 
           <Col span={24} className={styles.mb_24}>
             {
               toolName &&
-              <Form form={form}
+              <Form form={multiStepForm}
                     preserve={false}
                     labelAlign='left'
                     labelCol={{ span: 6 }}
                     wrapperCol={{ span: 18 }}>
-                <Tools form={form} toolName={toolName}></Tools>
+                <Tools stepInfo={stepInfo} form={multiStepForm} toolName={toolName}></Tools>
               </Form>
             }
           </Col>
@@ -108,4 +125,4 @@ const Index: React.FC<IProps> = ({stepList, setStepLIst, changeTaskVisible}) => 
   );
 };
 
-export default Index;
+export default MultiStep;

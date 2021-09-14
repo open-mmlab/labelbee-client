@@ -3,13 +3,15 @@ import React, { useState } from 'react';
 import { IFileInfo, IProjectInfo, useAnnotation } from '@/store';
 import { message, Popconfirm, Tag } from 'antd';
 import { EToolName, TOOL_NAME } from '@/constant/store';
-import { DeleteOutlined, QuestionCircleOutlined } from '@ant-design/icons';
+import { DeleteOutlined, QuestionCircleOutlined, EditOutlined } from '@ant-design/icons';
 import styles from '../index.module.scss';
 import { EIpcEvent } from '@/constant/event';
 import { formatDate } from '@/utils/tool/common';
+import { IProjectType } from '@/ProjectPlatform';
 const electron = window.require && window.require('electron');
 
 interface IProps {
+  createProject: (tool: IProjectType) => void;
 }
 const icon: any = {
   tagTool: 'icon-biaoqian',
@@ -52,7 +54,7 @@ function isHasWrongResult(tool: EToolName, fileList: IFileInfo[], step = 1) {
 }
 
 const ipcRenderer = electron && electron.ipcRenderer;
-const ProjectList: React.FC<IProps> = () => {
+const ProjectList: React.FC<IProps> = ({ createProject }) => {
   const [hoverIndex, setHoverIndex] = useState(-1);
   const { state: { projectList }, dispatch } = useAnnotation()
   // 进入标注
@@ -81,6 +83,17 @@ const ProjectList: React.FC<IProps> = () => {
     }
   };
 
+  const editProject = (projectInfo: IProjectInfo) => {
+    const tool = projectInfo.toolName ? 'base' : 'step'
+    createProject(tool);
+    dispatch({
+      type: 'UPDATE_CURRENT_PROJECTINFO',
+      payload: {
+        projectInfo,
+      },
+    });
+  }
+
   const deleteProject = (i: number) => {
     const newProjectList = [...projectList];
     newProjectList.splice(i, 1);
@@ -105,13 +118,13 @@ const ProjectList: React.FC<IProps> = () => {
             onDoubleClick={() => startAnnotation(info)}
           >
             <div className={styles.icon}>
-              <span className={`icon iconfont ${icon[info.toolName]}`} style={{fontSize: 60, color: '#6474f6'}} />
+              <span className={`icon iconfont ${icon[info.toolName || 'step']}`} style={{fontSize: 60, color: '#6474f6'}} />
             </div>
             <div className={styles.detailInfo}>
               <div className={styles.title}>
                 {info.name}{' '}
                 <Tag className={styles.tag} color='blue'>
-                  {TOOL_NAME[info.toolName]}
+                  {TOOL_NAME[info.toolName] || '多步骤标注'}
                 </Tag>
               </div>
               <div className={styles.detail}>
@@ -121,18 +134,19 @@ const ProjectList: React.FC<IProps> = () => {
             </div>
             <div className={styles.createdAt}>{formatDate(new Date(info.createdAt), 'yyyy-MM-dd hh:mm:ss')}</div>
             {hoverIndex === i && (
-              <>
+              <div className={styles.deleteButton}>
+                <EditOutlined
+                  onClick={() => editProject(info)}
+                  style={{marginRight: 12}} />
                 <Popconfirm
-                  placement='bottomRight'
+                  placement='top'
                   title='确认删除？'
                   icon={<QuestionCircleOutlined style={{ color: 'red' }} />}
                   onConfirm={() => deleteProject(i)}
                 >
-                  <div className={styles.deleteButton}>
                     <DeleteOutlined />
-                  </div>
                 </Popconfirm>
-              </>
+              </div>
             )}
           </div>
         ))}

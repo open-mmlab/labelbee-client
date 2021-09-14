@@ -2,6 +2,7 @@ import { EStore, EToolName } from '@/constant/store';
 import * as React from 'react';
 
 export interface IProjectInfo {
+  id: string;
   name: string;
   path: string;
   resultPath: string;
@@ -11,6 +12,7 @@ export interface IProjectInfo {
 }
 
 export interface IStepInfo {
+  id: string;
   step: number,
   dataSourceStep?: number;
   tool: EToolName,

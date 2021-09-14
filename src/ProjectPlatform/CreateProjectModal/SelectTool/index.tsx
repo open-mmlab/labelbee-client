@@ -2,8 +2,8 @@
 import React, { Fragment } from 'react';
 import { Menu, Select } from 'antd';
 import styles from '@/ProjectPlatform/CreateProjectModal/index.module.scss';
-import { omit } from 'lodash';
 import { EToolName, TOOL_NAME } from '@/constant/store';
+
 const { Option } = Select
 
 export const annotationTypeList = [
@@ -34,20 +34,21 @@ export const annotationTypeList = [
 ];
 export type Itool = typeof annotationTypeList[0]
 interface IProps {
+  disabled?: boolean;
   type?: 'menu' | 'select'
   tools?: Itool[]
   toolName?: EToolName;
   onChange: (text: EToolName) => void;
 }
 
-const SelectTool: React.FC<IProps> = ({ type = 'menu', toolName= EToolName.Rect, tools, onChange }) => {
+const SelectTool: React.FC<IProps> = ({disabled, type = 'menu', toolName, tools, onChange }) => {
   return (
     <Fragment>
       {
         type === 'menu'
           ? <Menu
-          defaultSelectedKeys={[toolName]}
-          defaultOpenKeys={[toolName]}
+          defaultSelectedKeys={[toolName || EToolName.Rect]}
+          defaultOpenKeys={[toolName || EToolName.Rect]}
           className={styles.projectTypeSelected}
           onClick={(info) => {
             onChange(info.key as EToolName);
@@ -59,6 +60,8 @@ const SelectTool: React.FC<IProps> = ({ type = 'menu', toolName= EToolName.Rect,
           </Menu>
           : <Select
             style={{width: '100%'}}
+            disabled={disabled}
+            value={toolName}
             onChange={(key) => {
               onChange(key as EToolName);
             }}>

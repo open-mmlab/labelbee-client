@@ -3,7 +3,7 @@ import { Form, Input } from 'antd';
 import styles from './index.module.scss';
 import SelectFolder from '../SelectFolder';
 
-const isRequired = false;
+const isRequired = true;
 const DefaultConfig: React.FC<{}> = () => {
   return (
     <>
