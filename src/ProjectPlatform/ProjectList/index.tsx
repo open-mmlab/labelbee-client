@@ -13,13 +13,13 @@ const electron = window.require && window.require('electron');
 interface IProps {
   createProject: (tool: IProjectType) => void;
 }
-const icon: any = {
-  tagTool: 'icon-biaoqian',
-  rectTool: 'icon-lakuang',
-  polygonTool: 'icon-duobianxing',
-  pointTool: 'icon-biaodian',
-  textTool: 'icon-wenben',
-  lineTool: 'icon-huaxian',
+export const icon: any = {
+  [EToolName.Tag]: 'icon-biaoqian',
+  [EToolName.Rect]: 'icon-lakuang',
+  [EToolName.Polygon]: 'icon-duobianxing',
+  [EToolName.Point]: 'icon-biaodian',
+  [EToolName.Text]: 'icon-wenben',
+  [EToolName.Line]: 'icon-huaxian',
   step: 'icon-buzhou',
 }
 

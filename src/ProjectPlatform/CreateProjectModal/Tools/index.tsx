@@ -11,7 +11,7 @@ import { IStepInfo, useAnnotation } from '@/store';
 import { pick } from 'lodash';
 
 interface IProps {
-  stepInfo?: IStepInfo;
+  stepInfo?: IStepInfo | null;
   toolName: EToolName;
   form: FormInstance;
 }
@@ -37,8 +37,10 @@ const Tools: React.FC<IProps> = ({stepInfo, toolName, form,  }) => {
     }
   }, [form, toolName])
 
+  // 普通编辑和多步骤编辑设置值
   useEffect(() => {
-    if(currentProjectInfo || stepInfo) {
+    if(currentProjectInfo) {
+      if(stepInfo === null) return;
       const info = stepInfo?.config || currentProjectInfo?.stepList[0].config
       const config = JSON.parse(info || '')
       const textConfigurableContext = pick(config, ['textConfigurable', 'textCheckType', 'customFormat']);
@@ -72,7 +74,7 @@ const Tools: React.FC<IProps> = ({stepInfo, toolName, form,  }) => {
           return
       }
     }
-  }, [currentProjectInfo, toolName])
+  }, [currentProjectInfo, toolName, stepInfo])
 
   return CurrentToolConfig
 };

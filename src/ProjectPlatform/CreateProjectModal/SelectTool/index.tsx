@@ -55,7 +55,7 @@ const SelectTool: React.FC<IProps> = ({disabled, type = 'menu', toolName, tools,
           }}
           >
             {annotationTypeList.map((annotationType) => (
-              <Menu.Item key={annotationType.key}>{annotationType.name}</Menu.Item>
+              <Menu.Item disabled={disabled} key={annotationType.key}>{annotationType.name}</Menu.Item>
             ))}
           </Menu>
           : <Select

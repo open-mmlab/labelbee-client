@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Button, Form, FormInstance, message, Modal } from 'antd';
 import { omit, pick } from 'lodash';
 import styles from './index.module.scss';
@@ -109,6 +109,10 @@ const CreateProjectModal: React.FC<IProps> = ({ type, visible, onCancel }) => {
     });
   };
 
+  const getName = () => {
+    return currentProjectInfo ? currentProjectInfo.name : (isBase ? '创建项目' : '创建多步骤项目')
+  }
+
   useEffect(() => {
     !taskVisible && setStepId(undefined)
   }, [taskVisible])
@@ -141,12 +145,12 @@ const CreateProjectModal: React.FC<IProps> = ({ type, visible, onCancel }) => {
     <div>
       <Modal destroyOnClose={true}
              centered visible={visible}
-             width={800} title={isBase ? '创建项目' : '创建多步骤项目'}
+             width={800} title={getName()}
              onOk={createProject}
              onCancel={onCancel}>
         <div className={styles.modalContent}>
 
-          {getCreateProjectCmt(isBase, <SelectTool toolName={toolName} onChange={(text) => {
+          {getCreateProjectCmt(isBase, <SelectTool disabled={!!currentProjectInfo} toolName={toolName} onChange={(text) => {
             form.resetFields(Object.keys(omit(form.getFieldsValue(), ['name'])));
             setToolName(text);
           }} />, null)}
@@ -161,7 +165,7 @@ const CreateProjectModal: React.FC<IProps> = ({ type, visible, onCancel }) => {
               labelCol={{ span: 6 }}
               wrapperCol={{ span: 18 }}
               form={form}>
-              <DefaultConfig />
+              <DefaultConfig disabled={!!currentProjectInfo} />
               {
                 getCreateProjectCmt(isBase, <Tools toolName={toolName} form={form}></Tools>, null)
               }

@@ -10,4 +10,12 @@
       }
     }
   }
+  .ant-list-item-icon {
+    display: flex;
+    align-items: center;
+
+    .icon {
+      margin: 2px 4px 0;
+    }
+  }
 }

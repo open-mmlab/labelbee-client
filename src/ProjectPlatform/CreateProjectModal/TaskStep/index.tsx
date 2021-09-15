@@ -5,6 +5,7 @@ import { List, Modal } from 'antd';
 import { CloseCircleOutlined, EditOutlined } from '@ant-design/icons';
 import { TOOL_NAME } from '@/constant/store';
 import { deleteStep } from '@/utils/tool/task';
+import { icon } from '@/ProjectPlatform/ProjectList';
 import './index.scss';
 
 interface IProps {
@@ -55,7 +56,11 @@ const TaskStep: React.FC<IProps> = ({stepList, footer, setStepId, changeTaskVisi
           actions={[<EditOutlined onClick={() => {edit(item.id)}} />,
             <CloseCircleOutlined onClick={() => delStep(item.step)} />]}
         >
-          <span>{item.step} - {TOOL_NAME[item.tool]}</span>
+          <div className='ant-list-item-icon'>
+            <span>{item.step} - </span>
+            <span className={`icon iconfont ${icon[item.tool || 'step']}`} style={{ color: '#6474f6'}} />
+            <span>{TOOL_NAME[item.tool]}</span>
+          </div>
         </List.Item>
       )}
     />
