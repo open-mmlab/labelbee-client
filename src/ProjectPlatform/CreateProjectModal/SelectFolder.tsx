@@ -5,12 +5,13 @@ import { EIpcEvent } from '../../constant/event';
 const electron = window.require && window.require('electron');
 
 interface IProps {
-  // path: string;
+  value?: string;
   key: string;
+  disabled?: boolean;
   onChange?: (value: any) => void;
 }
 
-const SelectFolder: React.FC<IProps> = ({ onChange, key }) => {
+const SelectFolder: React.FC<IProps> = ({value, disabled, onChange, key }) => {
   const [path, setPath] = useState('');
   const pathRef = useRef<HTMLInputElement>(null);
 
@@ -32,10 +33,9 @@ const SelectFolder: React.FC<IProps> = ({ onChange, key }) => {
     }
     // 具体的图片
   };
-
   return (
     <div key={key}>
-      <Input addonAfter={<FolderOpenOutlined onClick={openDir} />} value={path} />
+      <Input disabled={disabled} addonAfter={<FolderOpenOutlined onClick={openDir} />} value={value || path} />
     </div>
   );
 };

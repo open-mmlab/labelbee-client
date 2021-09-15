@@ -1,86 +1,106 @@
-import React, { useEffect, useState } from 'react';
-import { Form, Menu, Modal } from 'antd';
+import React, { useEffect, useMemo, useState } from 'react';
+import { Button, Form, FormInstance, message, Modal } from 'antd';
 import { omit, pick } from 'lodash';
 import styles from './index.module.scss';
-import RectConfig, { rectScopeChange } from './ToolConfig/RectConfig';
-import TagConfig from './ToolConfig/TagConfig';
-import PolygonToolConfig from './ToolConfig/PolygonToolConfig';
-import { AnnotationContext } from '../../store';
-import { EToolName, TOOL_NAME } from '@/constant/store';
+import { rectScopeChange } from './ToolConfig/RectConfig';
+import Tools from './Tools';
+import MultiStep from './MultiStep';
+import SelectTool from './SelectTool';
+import TaskStep from '@/ProjectPlatform/CreateProjectModal/TaskStep';
+import { IStepInfo, useAnnotation } from '../../store';
+import { EToolName } from '@/constant/store';
 import DefaultConfig from './ToolConfig/DefaultConfig';
+import { getCreateProjectCmt } from '@/utils/tool/common';
+import uuid from '@/utils/tool/uuid';
+import { IProjectType } from '@/ProjectPlatform';
 
 interface IProps {
+  type: IProjectType;
   visible: boolean;
   onCancel: () => void;
 }
 
-const annotationTypeList = [
-  {
-    name: TOOL_NAME[EToolName.Rect],
-    key: EToolName.Rect,
-  },
-  {
-    name: TOOL_NAME[EToolName.Tag],
-    key: EToolName.Tag,
-  },
-  {
-    name: TOOL_NAME[EToolName.Polygon],
-    key: EToolName.Polygon,
-  },
-];
+const objToString = (values: any) => {
+  return JSON.stringify(values)
+}
 
-const CreateProjectModal: React.FC<IProps> = ({ visible, onCancel }) => {
-  const [toolName, setToolName] = useState<EToolName>(EToolName.Rect);
-  const {
-    dispatch
-  } = React.useContext(AnnotationContext);
-
-  const [form] = Form.useForm();
-
-  useEffect(() => {
-    if (visible === false) {
-      form.resetFields();
-    }
-  }, [form, visible]);
-
-  /**
-   * 目前有3个工具  拉框  标签 多边形  都集中在一个 form 表单
-   * 参考 src/mock/taskConfig.ts
-   * */
-  const formatData = (values: any) => {
-    if(toolName === EToolName.Rect) {
-      const { textConfigurableContext } = values
+/**
+ * 所有  都集中在一个 form 表单
+ * 参考 src/mock/taskConfig.ts
+ * */
+export const formatData = (values: any, toolName: EToolName, form: FormInstance) => {
+  const { textConfigurableContext } = values
+  switch (toolName) {
+    case EToolName.Rect:
       values.minWidth = rectScopeChange(values.minWidth)
       values.minHeight = rectScopeChange(values.minHeight)
-      return JSON.stringify({
-        ...omit(values, ['textConfigurableContext']), ...textConfigurableContext
-      })
-    }else if(toolName === EToolName.Tag) {
-      return JSON.stringify({
-        ...values, inputList: form.getFieldValue('inputList')
-      })
-    }else if(toolName === EToolName.Polygon) {
-      let { textConfigurableContext, polygonToolGraphicsPoint } = values;
-      return JSON.stringify({
+      return objToString({...omit(values, ['textConfigurableContext']), ...textConfigurableContext})
+    case EToolName.Tag:
+      return objToString({...values, inputList: form.getFieldValue('inputList')})
+    case EToolName.Polygon:
+    case EToolName.Line:
+      let { toolGraphicsPoint } = values;
+      return objToString({
         ...textConfigurableContext,
-        ...polygonToolGraphicsPoint,
-        ...omit(values, ['textConfigurableContext', 'polygonToolGraphicsPoint'])
+        ...toolGraphicsPoint,
+        ...omit(values, ['textConfigurableContext', 'toolGraphicsPoint'])
       })
-    }
+    case EToolName.Text:
+      return objToString(values)
+    default:
+      return ''
   }
+}
+
+const CreateProjectModal: React.FC<IProps> = ({ type, visible, onCancel }) => {
+  const [toolName, setToolName] = useState<EToolName>(EToolName.Rect);
+  // stepList 多步骤  stepId 编辑
+  const [stepId, setStepId] = useState<string>();
+  const [stepList, setStepList] = useState<IStepInfo[]>([]);
+
+  const [taskVisible, setTaskVisible] = useState(false);
+  const [form] = Form.useForm();
+  const { state: { currentProjectInfo, projectList }, dispatch } = useAnnotation();
+  const isBase = type === 'base';
+
+  const changeTaskVisible = () => {
+    setTaskVisible(state => !state)
+  }
+
+  const deleteProject = () => {
+    if (!currentProjectInfo) return;
+    dispatch({
+      type: 'UPDATE_PROJECT_LIST',
+      payload: {
+        projectList: projectList.filter((info) => info.id !== currentProjectInfo?.id),
+      },
+    });
+  };
 
   const createProject = () => {
     form.validateFields().then((values) => {
-      const result = formatData(omit(values, ['name', 'path', 'resultPath']))
+      let list;
+      if(isBase) {
+        const result = formatData(omit(values, ['name', 'path', 'resultPath']), toolName, form);
+        list = [{ step: 1, tool: toolName, id: uuid(), config: result }]
+      } else {
+        list = stepList;
+      }
+      if (!isBase && stepList.length < 1) {
+        message.error('请添加任务步骤');
+        return;
+      }
+      deleteProject();
       dispatch({
         type: 'ADD_PROJECT_LIST',
         payload: {
           projectList: [
             {
               ...pick(values, ['name', 'path', 'resultPath']),
-              toolName,
-              createdAt: '2021-07-07',
-              stepList: [{ step: 1, tool: toolName, config: result }],
+              id: uuid(),
+              toolName: isBase ? toolName : undefined,
+              createdAt: Date.now(),
+              stepList: list,
             },
           ],
         },
@@ -88,54 +108,94 @@ const CreateProjectModal: React.FC<IProps> = ({ visible, onCancel }) => {
       onCancel();
     });
   };
-  const CurrentToolConfig = React.useMemo(() => {
-    switch (toolName) {
-      case EToolName.Rect:
-        return <RectConfig form={form} />;
-      case EToolName.Tag:
-        return <TagConfig form={form} />;
-      case EToolName.Polygon:
-        return <PolygonToolConfig form={form} />;
-      default: {
-        return null;
-      }
+
+  const getName = () => {
+    return currentProjectInfo ? currentProjectInfo.name : (isBase ? '创建项目' : '创建多步骤项目')
+  }
+
+  useEffect(() => {
+    !taskVisible && setStepId(undefined)
+  }, [taskVisible])
+
+  useEffect(() => {
+    if(currentProjectInfo) {
+      form.setFieldsValue({
+        ...pick(currentProjectInfo, ['name', 'path', 'resultPath'])
+      })
+
+      setToolName(currentProjectInfo.toolName)
+      setStepList([...currentProjectInfo.stepList])
     }
-  }, [form, toolName])
+  }, [currentProjectInfo])
+
+  // 格式化数据
+  const initState = () => {
+    form.resetFields();
+    setToolName(EToolName.Rect);
+    setStepId(undefined);
+    setStepList([]);
+  }
+  useEffect(() => {
+    if (visible === false) {
+      initState();
+    }
+  }, [form, visible]);
 
   return (
-    <Modal destroyOnClose={true}
-           centered visible={visible}
-           width={800} title='创建项目'
-           onOk={createProject}
-           onCancel={onCancel}>
-      <div className={styles.main}>
-        <Menu
-          defaultSelectedKeys={[toolName]}
-          defaultOpenKeys={[toolName]}
-          className={styles.projectTypeSelected}
-          onClick={(info) => {
-            setToolName(info.key as EToolName)
-          }}
-        >
-          {annotationTypeList.map((annotationType) => (
-            <Menu.Item key={annotationType.key}>{annotationType.name}</Menu.Item>
-          ))}
-        </Menu>
-        <div className={styles.config}>
-          <Form
-            layout='horizontal'
-            key={toolName}
-            labelAlign='left'
-            colon={false}
-            labelCol={{ span: 6 }}
-            wrapperCol={{ span: 18 }}
-            form={form}>
-            <DefaultConfig />
-            {CurrentToolConfig}
-          </Form>
+    <div>
+      <Modal destroyOnClose={true}
+             centered visible={visible}
+             width={800} title={getName()}
+             onOk={createProject}
+             onCancel={onCancel}>
+        <div className={styles.modalContent}>
+
+          {getCreateProjectCmt(isBase, <SelectTool disabled={!!currentProjectInfo} toolName={toolName} onChange={(text) => {
+            form.resetFields(Object.keys(omit(form.getFieldsValue(), ['name'])));
+            setToolName(text);
+          }} />, null)}
+
+          <div className={styles.config}>
+            <Form
+              layout='horizontal'
+              key={toolName}
+              labelAlign='left'
+              colon={false}
+              preserve={false}
+              labelCol={{ span: 6 }}
+              wrapperCol={{ span: 18 }}
+              form={form}>
+              <DefaultConfig disabled={!!currentProjectInfo} />
+              {
+                getCreateProjectCmt(isBase, <Tools toolName={toolName} form={form}></Tools>, null)
+              }
+            </Form>
+            {
+              getCreateProjectCmt(isBase, null, <>
+                <TaskStep
+                  stepList={stepList}
+                  setStepLIst={setStepList}
+                  setStepId={setStepId}
+                  changeTaskVisible={changeTaskVisible}
+                  footer={<Button onClick={changeTaskVisible}>新建</Button>} />
+                <Modal
+                  destroyOnClose={true}
+                  width={800} title="任务步骤"
+                  visible={taskVisible}
+                  onCancel={changeTaskVisible}
+                  footer={null} >
+                  <MultiStep
+                    stepId={stepId}
+                    stepList={stepList}
+                    changeTaskVisible={changeTaskVisible}
+                    setStepLIst={setStepList} />
+                </Modal>
+              </>)
+            }
+          </div>
         </div>
-      </div>
-    </Modal>
+      </Modal>
+    </div>
   );
 };
 

@@ -2,16 +2,19 @@ import { EStore, EToolName } from '@/constant/store';
 import * as React from 'react';
 
 export interface IProjectInfo {
+  id: string;
   name: string;
   path: string;
   resultPath: string;
   toolName: EToolName
-  createdAt: string;
+  createdAt: number;
   stepList: IStepInfo[]
 }
 
 export interface IStepInfo {
-  step: 1,
+  id: string;
+  step: number,
+  dataSourceStep?: number;
   tool: EToolName,
   config: string
 }
@@ -59,7 +62,6 @@ const reducer = (state: IAnnotation = initialState, action: Action) => {
     case 'ADD_PROJECT_LIST': {
       const projectList = action.payload.projectList;
       const newProjectList = [...state.projectList, ...projectList];
-
       localStorage.setItem(EStore.LOCAL_PROJECT_LIST, JSON.stringify(newProjectList));
       return { ...state, projectList: newProjectList };
     }
@@ -89,7 +91,6 @@ export const MenuConsumer = AnnotationContext.Consumer;
 export function AnnotationProvider(props: any) {
   const [state, dispatch] = React.useReducer(reducer, initialState);
   const value = { state, dispatch };
-  console.log(value);
   return <AnnotationContext.Provider value={value}>{props.children}</AnnotationContext.Provider>;
 }
 
