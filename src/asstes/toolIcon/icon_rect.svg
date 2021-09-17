@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="20" height="20" viewBox="0 0 20 20">
+  <defs>
+    <style>
+      .cls-1, .cls-2 {
+        fill: none;
+      }
+
+      .cls-1 {
+        clip-rule: evenodd;
+      }
+
+      .cls-3 {
+        clip-path: url(#clip-path);
+      }
+
+      .cls-4 {
+        clip-path: url(#clip-path-2);
+      }
+
+      .cls-5 {
+        fill: #666fff;
+      }
+    </style>
+    <clipPath id="clip-path">
+      <path id="路径_27" data-name="路径 27" class="cls-1" d="M4-16v1h8v-1h4v4H15v8h1V0H12V-1H4V0H0V-4H1v-8H0v-4Zm0,3v1H3v8H4v1h8V-4h1v-8H12v-1Z"/>
+    </clipPath>
+    <clipPath id="clip-path-2">
+      <path id="路径_26" data-name="路径 26" class="cls-2" d="M-1747,971H173V-109H-1747Z"/>
+    </clipPath>
+  </defs>
+  <g id="icon_frameA" transform="translate(2 18)">
+    <rect id="矩形备份_10" data-name="矩形备份 10" class="cls-2" width="20" height="20" transform="translate(-2 -18)"/>
+    <g id="组_25" data-name="组 25" class="cls-3">
+      <g id="组_24" data-name="组 24" class="cls-4">
+        <path id="路径_25" data-name="路径 25" class="cls-5" d="M-5-21H21V5H-5Z"/>
+      </g>
+    </g>
+  </g>
+</svg>

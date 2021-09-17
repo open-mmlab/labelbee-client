@@ -1,26 +1,34 @@
 // cl 2021/8/5 19:12
 import React, { useState } from 'react';
 import { IFileInfo, IProjectInfo, useAnnotation } from '@/store';
-import { message, Popconfirm, Tag } from 'antd';
+import { message, Popconfirm, Tag, Image } from 'antd';
 import { EToolName, TOOL_NAME } from '@/constant/store';
 import { DeleteOutlined, QuestionCircleOutlined, EditOutlined } from '@ant-design/icons';
 import styles from '../index.module.scss';
 import { EIpcEvent } from '@/constant/event';
 import { formatDate } from '@/utils/tool/common';
 import { IProjectType } from '@/ProjectPlatform';
+import IconRect from '@/asstes/toolIcon/icon_rect.svg';
+import IconLine from '@/asstes/toolIcon/icon_line.svg';
+import IconPoint from '@/asstes/toolIcon/icon_point.svg';
+import IconTag from '@/asstes/toolIcon/icon_tag.svg';
+import IconPolygon from '@/asstes/toolIcon/icon_polygon.svg';
+import IconText from '@/asstes/toolIcon/icon_text.svg';
+import IconStep from '@/asstes/toolIcon/icon_step.svg';
+
 const electron = window.require && window.require('electron');
 
 interface IProps {
   createProject: (tool: IProjectType) => void;
 }
 export const icon: any = {
-  [EToolName.Tag]: 'icon-biaoqian',
-  [EToolName.Rect]: 'icon-lakuang',
-  [EToolName.Polygon]: 'icon-duobianxing',
-  [EToolName.Point]: 'icon-biaodian',
-  [EToolName.Text]: 'icon-wenben',
-  [EToolName.Line]: 'icon-huaxian',
-  step: 'icon-buzhou',
+  [EToolName.Tag]: IconTag,
+  [EToolName.Rect]: IconRect,
+  [EToolName.Polygon]: IconPolygon,
+  [EToolName.Point]: IconPoint,
+  [EToolName.Text]: IconText,
+  [EToolName.Line]: IconLine,
+  step: IconStep,
 }
 
 /**
@@ -32,6 +40,12 @@ export const icon: any = {
  */
 function isHasWrongResult(tool: EToolName, fileList: IFileInfo[], step = 1) {
   try {
+
+    // todo 多步骤编辑没有 tool 这个参数 然后编辑数据 步骤多了个 0 步骤  后面数据正常 放到后面进行判断
+    if(!tool) {
+      return false;
+    }
+
     const isEmpty = fileList.find((file) => {
       const result = JSON.parse(file.result);
       if (!result) {
@@ -118,7 +132,7 @@ const ProjectList: React.FC<IProps> = ({ createProject }) => {
             onDoubleClick={() => startAnnotation(info)}
           >
             <div className={styles.icon}>
-              <span className={`icon iconfont ${icon[info.toolName || 'step']}`} style={{fontSize: 60, color: '#6474f6'}} />
+              <img style={{width: 60}} src={icon[info.toolName || 'step']} alt='' />
             </div>
             <div className={styles.detailInfo}>
               <div className={styles.title}>
