@@ -1,0 +1,15 @@
+<svg id="icon_line_a" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: none;
+      }
+
+      .cls-2 {
+        fill: #666fff;
+      }
+    </style>
+  </defs>
+  <rect id="矩形备份_10" data-name="矩形备份 10" class="cls-1" width="20" height="20"/>
+  <path id="形状结合" class="cls-2" d="M3.889,15.556V13.042l9.153-9.153h2.514V0H11.667V2.514L2.514,11.667H0v3.889Z" transform="translate(2.222 2.222)"/>
+</svg>

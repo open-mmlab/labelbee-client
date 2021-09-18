@@ -1,7 +1,7 @@
 const drawOutsideTarget = false;
 const copyBackwardResult = false;
 const isShowOrder = false;
-export const onfiguration = [
+export const toolCommonField = [
   {
     name: '目标外标注',
     key: 'drawOutsideTarget',

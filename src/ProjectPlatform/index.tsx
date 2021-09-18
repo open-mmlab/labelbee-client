@@ -32,8 +32,6 @@ const ProjectPlatform: React.FC<IProps> = (props) => {
 
   const menu = (
     <Menu
-      defaultSelectedKeys={[type]}
-      defaultOpenKeys={[type]}
       onClick={(info) => {
         createProject(info.key as IProjectType);
       }}

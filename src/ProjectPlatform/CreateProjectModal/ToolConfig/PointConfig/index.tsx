@@ -5,7 +5,7 @@ import styles from '../index.module.scss';
 import { MapStateJSONTab } from '@/ProjectPlatform/CreateProjectModal/ToolConfig/RectConfig/AttributeConfig';
 import TextConfigurable from '../TextConfigurable';
 import { ETextType, EToolName } from '@/constant/store';
-import { onfiguration } from '../publicConfig';
+import { toolCommonField } from '../publicConfig';
 
 interface IProps {
   toolName?: EToolName;
@@ -24,7 +24,7 @@ const PointConfig = (props: IProps) => {
       >
         <InputNumber min={1} />
       </Form.Item>
-      {onfiguration.map((info, index) => (
+      {toolCommonField.map((info, index) => (
         <Form.Item
           label={<span className={styles.formTitle}>{info.name}</span>}
           valuePropName='checked'

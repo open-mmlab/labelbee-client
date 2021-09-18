@@ -1,6 +1,6 @@
 // cl 2021/9/13 14:51
 import React, { ReactNode } from 'react';
-import { IStepInfo } from '@/store';
+import { IStepInfo, useAnnotation } from '@/store';
 import { List, Modal } from 'antd';
 import { CloseCircleOutlined, EditOutlined } from '@ant-design/icons';
 import { TOOL_NAME } from '@/constant/store';
@@ -17,7 +17,7 @@ interface IProps {
 }
 
 const TaskStep: React.FC<IProps> = ({stepList, footer, setStepId, changeTaskVisible, setStepLIst }) => {
-
+  const { state: { currentProjectInfo } } = useAnnotation();
   // 删除步骤， step为步骤
   const delStep = (step: number) => {
     const list = stepList.slice();
@@ -54,11 +54,12 @@ const TaskStep: React.FC<IProps> = ({stepList, footer, setStepId, changeTaskVisi
       renderItem={item => (
         <List.Item
           actions={[<EditOutlined onClick={() => {edit(item.id)}} />,
-            <CloseCircleOutlined onClick={() => delStep(item.step)} />]}
+            (!currentProjectInfo) && <CloseCircleOutlined onClick={() => delStep(item.step)} />
+          ].filter(Boolean)}
         >
           <div className='ant-list-item-icon'>
             <span>{item.step} - </span>
-            <span className={`icon iconfont ${icon[item.tool || 'step']}`} style={{ color: '#6474f6'}} />
+            <img className='icon' src={icon[item.tool || 'step']} alt='' />
             <span>{TOOL_NAME[item.tool]}</span>
           </div>
         </List.Item>

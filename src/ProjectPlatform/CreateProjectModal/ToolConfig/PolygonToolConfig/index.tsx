@@ -5,7 +5,7 @@ import { ELineTypes, ELineColor, ETextType, EToolName } from '@/constant/store';
 import GraphicsPointLimitInput from './GraphicsPointLimitInput';
 import TextConfigurable from '../../ToolConfig/TextConfigurable';
 import { MapStateJSONTab } from '@/ProjectPlatform/CreateProjectModal/ToolConfig/RectConfig/AttributeConfig';
-import { onfiguration } from '../publicConfig';
+import { toolCommonField } from '../publicConfig';
 import styles from '../index.module.scss';
 const { Option } = Select;
 interface IProps {
@@ -45,7 +45,7 @@ const selectList = [
   },
 ];
 
-const polygonConfig = onfiguration.map((item) => {
+const polygonConfig = toolCommonField.map((item) => {
   if(item.key === 'copyBackwardResult') {
     item.disabled = true
   }

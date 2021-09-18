@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="20" height="20" viewBox="0 0 20 20">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #666fff;
+      }
+
+      .cls-2 {
+        fill: none;
+      }
+
+      .cls-3 {
+        clip-path: url(#clip-path);
+      }
+
+      .cls-4 {
+        clip-path: url(#clip-path-2);
+      }
+    </style>
+    <clipPath id="clip-path">
+      <path id="路径_3" data-name="路径 3" class="cls-1" d="M11.4-14v2.456L2.456-2.6H0V1.2H3.8V-1.26l8.548-8.548V-2.6H11.4V1.2h3.8V-2.6h-.95v-7.6h.95V-14ZM13.3-1.653H1.9v1.9H13.3Z" transform="translate(0 14)"/>
+    </clipPath>
+    <clipPath id="clip-path-2">
+      <path id="路径_2" data-name="路径 2" class="cls-1" d="M-1775,966.315H309.115V-206H-1775Z" transform="translate(1775 206)"/>
+    </clipPath>
+  </defs>
+  <g id="icon_polygon_a" transform="translate(0.231 0.231)">
+    <rect id="矩形备份_10" data-name="矩形备份 10" class="cls-2" width="20" height="20" transform="translate(-0.231 -0.231)"/>
+    <g id="组_3" data-name="组 3" transform="translate(2.171 2.171)">
+      <g id="组_2" data-name="组 2" class="cls-3">
+        <g id="组_1" data-name="组 1" class="cls-4" transform="translate(-1926.72 -208.411)">
+          <path id="路径_1" data-name="路径 1" class="cls-1" d="M-5-19H21.051V7.051H-5Z" transform="translate(1926.293 221.984)"/>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

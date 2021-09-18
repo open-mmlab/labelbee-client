@@ -5,7 +5,7 @@ import styles from '../index.module.scss';
 import { MapStateJSONTab } from './AttributeConfig';
 import TextConfigurable from '../TextConfigurable';
 import { ETextType, EToolName } from '@/constant/store';
-import { onfiguration } from '../publicConfig';
+import { toolCommonField } from '../publicConfig';
 
 function checkNumber(v: string) {
   const reg = /^[1-9]\d*$/g;
@@ -52,7 +52,7 @@ const RectConfig = (props: IProps) => {
           </Col>
         </Row>
       </div>
-      {onfiguration.map((info, index) => (
+      {toolCommonField.map((info, index) => (
         <Form.Item
           label={<span className={styles.formTitle}>{info.name}</span>}
           valuePropName='checked'
