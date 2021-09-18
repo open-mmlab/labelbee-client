@@ -45,6 +45,8 @@ export const formatData = (values: any, toolName: EToolName, form: FormInstance)
         ...toolGraphicsPoint,
         ...omit(values, ['textConfigurableContext', 'toolGraphicsPoint'])
       })
+    case EToolName.Point:
+      return objToString({...omit(values, ['textConfigurableContext']), ...textConfigurableContext})
     case EToolName.Text:
       return objToString(values)
     default:
