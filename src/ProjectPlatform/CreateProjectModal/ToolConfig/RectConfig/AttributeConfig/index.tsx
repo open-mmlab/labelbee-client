@@ -19,7 +19,7 @@ const { TabPane } = Tabs;
 
 export const ColorTag = ({ color, style }: any) => {
   return (
-    <div
+    <span
       style={{
         display: 'inline-block',
         height: 14,
@@ -93,8 +93,7 @@ const JSONTab = (props: IJsonTabProps) => {
         {value?.map((info, i) => (
           <div className='sensebee-input-wrap' key={`inputList_${i}`}>
             <div className={styles.select}>
-              <a className={styles.inputSerial}>{i + 1}</a>
-
+              <span className={styles.inputSerial}>{i + 1}</span>
               <SenseInput
                 className={`sensebee-input`}
                 value={info.key}
