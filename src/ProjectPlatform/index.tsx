@@ -1,10 +1,13 @@
-import React, { useEffect, useState } from 'react';
-import { FileAddTwoTone } from '@ant-design/icons';
+import React, { useState } from 'react';
 import CreateProjectModal from './CreateProjectModal';
-import { Menu, Dropdown, Button, Space } from 'antd';
+import { Menu, Dropdown, Button, Space, Layout } from 'antd';
 import ProjectList from './ProjectList';
 import styles from './index.module.scss';
 import { useAnnotation } from '@/store';
+import { DownOutlined, UpOutlined } from '@ant-design/icons';
+import logo from '@/asstes/logo.svg';
+
+const { Header, Content } = Layout;
 
 interface IProps {}
 
@@ -12,8 +15,9 @@ export type IProjectType = 'base' | 'step';
 const ProjectPlatform: React.FC<IProps> = (props) => {
   // type 项目类型分为 普通 和 多步骤创建
   const [type, setType] = useState<IProjectType>('base')
+  const [visibleDown, setVisibleDown] = useState(false);
   const [createModalVisible, setCreateModalVisible] = useState(false);
-  const { dispatch } = useAnnotation();
+  const { state: { projectList }, dispatch } = useAnnotation();
 
   const createProject = (key: IProjectType) => {
     setCreateModalVisible(true);
@@ -46,29 +50,40 @@ const ProjectPlatform: React.FC<IProps> = (props) => {
   );
 
   return (
-    <div className={styles.main}>
-      <div className={styles.nav}>
-        <div className={styles.title}>Label-Bee</div>
-        <Dropdown overlay={menu} placement="bottomLeft">
-          <div className={styles.create}>
-            <FileAddTwoTone className={styles.icon} />
-            新建
-          </div>
-        </Dropdown>
-      </div>
+    <Layout className={`${styles.main} ${styles.layout}`}>
+      <Header className={styles.header}>
+        <img style={{width: 120}} src={logo} alt='' />
+      </Header>
+      <Content className={styles.content}>
+        <div className={styles.contentTitle}>
+          <span>项目描述
+            {
+              !!projectList.length && <span style={{color: '#8e8e8e'}}> ({projectList.length})</span>
+            }
+          </span>
+            <Dropdown overlay={menu} arrow placement="bottomLeft" onVisibleChange={(v) => {
+              setVisibleDown(v)
+            }}>
+              <Button type='primary' className={styles.createBtn}>
+                新建项目
+                {
+                  visibleDown ? <UpOutlined style={{fontSize: 12}} /> : <DownOutlined style={{fontSize: 12}} />
+                }
+              </Button>
+            </Dropdown>
+        </div>
 
-      <div className={styles.projectList}>
-        <div className={styles.title}>全部项目列表</div>
-        <ProjectList createProject={createProject} />
-      </div>
-      {
-       <CreateProjectModal
+        <div className={styles.projectList}>
+          <ProjectList createProject={createProject} />
+        </div>
+
+        <CreateProjectModal
           type={type}
           visible={createModalVisible}
           onCancel={onCancel}
         />
-      }
-    </div>
+      </Content>
+    </Layout>
   );
 };
 

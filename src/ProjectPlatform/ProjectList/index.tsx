@@ -122,7 +122,7 @@ const ProjectList: React.FC<IProps> = ({ createProject }) => {
 
   return (
     <div>
-      <div className={styles.list}>
+      <div className={styles.projectList}>
         {projectList.sort((a, b) => b.createdAt - a.createdAt).map((info, i) => (
           <div
             className={styles.project}
@@ -132,17 +132,17 @@ const ProjectList: React.FC<IProps> = ({ createProject }) => {
             onDoubleClick={() => startAnnotation(info)}
           >
             <div className={styles.icon}>
-              <img style={{width: 60}} src={icon[info.toolName || 'step']} alt='' />
+              <img style={{width: 72}} src={icon[info.toolName || 'step']} alt='' />
             </div>
             <div className={styles.detailInfo}>
-              <div className={styles.title}>
+              <div className={styles.name}>
                 {info.name}{' '}
-                <Tag className={styles.tag} color='blue'>
+                <Tag className={styles.tag} color='#EEEFFF'>
                   {TOOL_NAME[info.toolName] || '多步骤标注'}
                 </Tag>
               </div>
               <div className={styles.detail}>
-                <div>图片路径：{info.path}</div>
+                <div className={styles.path}>图片路径：{info.path}</div>
                 <div>结果路径：{info.resultPath}</div>
               </div>
             </div>
@@ -151,6 +151,7 @@ const ProjectList: React.FC<IProps> = ({ createProject }) => {
               <div className={styles.deleteButton}>
                 <EditOutlined
                   onClick={() => editProject(info)}
+                  className='primary-color'
                   style={{marginRight: 12}} />
                 <Popconfirm
                   placement='top'
@@ -158,7 +159,7 @@ const ProjectList: React.FC<IProps> = ({ createProject }) => {
                   icon={<QuestionCircleOutlined style={{ color: 'red' }} />}
                   onConfirm={() => deleteProject(i)}
                 >
-                    <DeleteOutlined />
+                    <DeleteOutlined className='primary-color' />
                 </Popconfirm>
               </div>
             )}

@@ -1,6 +1,10 @@
 .App {
-  /* display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh; */
+  color: #333;
+}
+.ant-btn-primary {
+    background: #666FFF !important;
+    border-color: #666FFF !important;
+}
+.primary-color {
+    color: #666FFF !important;
 }

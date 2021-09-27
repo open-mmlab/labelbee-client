@@ -39,8 +39,7 @@ const Tools: React.FC<IProps> = ({stepInfo, toolName, form,  }) => {
 
   // 普通编辑和多步骤编辑设置值
   useEffect(() => {
-    if(currentProjectInfo) {
-      if(stepInfo === null) return;
+    if(currentProjectInfo || stepInfo) {
       const info = stepInfo?.config || currentProjectInfo?.stepList[0].config
       const config = JSON.parse(info || '')
       const textConfigurableContext = pick(config, ['textConfigurable', 'textCheckType', 'customFormat']);

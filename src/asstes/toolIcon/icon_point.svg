@@ -1,20 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg width="20px" height="20px" viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <!-- Generator: Sketch 57 (83077) - https://sketch.com -->
-    <title>icon_point_a</title>
-    <desc>Created with Sketch.</desc>
-    <g id="页面1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="0_Slices" transform="translate(-352.000000, -441.000000)">
-            <g id="icon_point" transform="translate(352.000000, 441.000000)">
-                <rect id="icon_point_active" fill="#000000" fill-rule="nonzero" opacity="0" x="0" y="0" width="20" height="20"></rect>
-                <g id="编组-14" transform="translate(1.000000, 1.000000)" fill="#6674FF">
-                    <rect id="矩形" x="7.875" y="0" width="2.25" height="4.5"></rect>
-                    <rect id="矩形备份" x="7.875" y="13.5" width="2.25" height="4.5"></rect>
-                    <polygon id="矩形备份-12" transform="translate(15.750000, 9.091364) rotate(-90.000000) translate(-15.750000, -9.091364) " points="14.625 6.84136359 16.875 6.84136359 16.875 11.3413636 14.625 11.3413636"></polygon>
-                    <polygon id="矩形备份-13" transform="translate(2.250000, 9.091364) rotate(-90.000000) translate(-2.250000, -9.091364) " points="1.125 6.84136359 3.375 6.84136359 3.375 11.3413636 1.125 11.3413636"></polygon>
-                </g>
-                <circle id="椭圆形" fill="#6674FF" cx="10" cy="10" r="3"></circle>
-            </g>
-        </g>
-    </g>
+<svg width="72" height="72" viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M39 8H33V62H39V8Z" fill="#666FFF" fill-opacity="0.25"/>
+<path d="M64 33H8V39H64V33Z" fill="#666FFF" fill-opacity="0.25"/>
+<rect x="28" y="28" width="16" height="16" rx="8" fill="#666FFF" stroke="white" stroke-width="2"/>
 </svg>

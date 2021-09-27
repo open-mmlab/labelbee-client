@@ -1,1 +1,8 @@
-<?xml version="1.0" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg t="1631869444122" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="8751" xmlns:xlink="http://www.w3.org/1999/xlink" width="64" height="64"><defs><style type="text/css"></style></defs><path d="M56.888889 512h170.666667v341.333333h113.777777V512h170.666667V398.222222H56.888889v113.777778z m341.333333-341.333333v113.777777h227.555556v568.888889h113.777778V284.444444h227.555555V170.666667H398.222222z" p-id="8752" fill="#666fff"></path></svg>
+<svg width="72" height="72" viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M27 47L27 21L19 21L19 47L27 47Z" fill="#666FFF" fill-opacity="0.5"/>
+<path d="M38 11H8V19H38V11Z" fill="#666FFF"/>
+<path d="M64 53H8V61H64V53Z" fill="#666FFF" fill-opacity="0.25"/>
+<path d="M64 39H40V47H64V39Z" fill="#666FFF" fill-opacity="0.25"/>
+<path d="M64 25H50V33H64V25Z" fill="#666FFF" fill-opacity="0.25"/>
+<path d="M64 11H56V19H64V11Z" fill="#666FFF" fill-opacity="0.25"/>
+</svg>
