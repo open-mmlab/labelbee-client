@@ -1,15 +1,5 @@
-<svg id="icon_line_a" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
-  <defs>
-    <style>
-      .cls-1 {
-        fill: none;
-      }
-
-      .cls-2 {
-        fill: #666fff;
-      }
-    </style>
-  </defs>
-  <rect id="矩形备份_10" data-name="矩形备份 10" class="cls-1" width="20" height="20"/>
-  <path id="形状结合" class="cls-2" d="M3.889,15.556V13.042l9.153-9.153h2.514V0H11.667V2.514L2.514,11.667H0v3.889Z" transform="translate(2.222 2.222)"/>
+<svg width="72" height="72" viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M64 8H52V20H64V8Z" fill="#666FFF"/>
+<path d="M20 52H8V64H20V52Z" fill="#666FFF"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M50.0005 17.7692L17.7697 50H20.0005H22.0005L22.0005 52V54.2545L54.255 22H52.0005H50.0005V20V17.7692ZM56.255 20L56.6707 19.5843L52.428 15.3417L52.0005 15.7692V20L56.255 20ZM20.0005 56.2545L20.0005 52H15.7697L15.4648 52.3048L19.7075 56.5475L20.0005 56.2545Z" fill="#666FFF" fill-opacity="0.25"/>
 </svg>

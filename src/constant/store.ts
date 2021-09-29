@@ -37,11 +37,11 @@ export enum EToolName {
   OCRRelation = "OCRRelationTool"
 }
  
-export const TOOL_NAME: {[a: string]: string} = {
+export const TOOL_NAME: {[key: string]: string} = {
   [EToolName.Rect]: '目标检测',
-  [EToolName.Tag]: '图像分类',
-  [EToolName.Polygon]: '图像分割',
-  [EToolName.Point]: '图像标点',
+  [EToolName.Tag]: '目标分类',
+  [EToolName.Polygon]: '语义分割',
+  [EToolName.Point]: '标点',
   [EToolName.Line]: '划线',
   [EToolName.Text]: '文本',
 }
