@@ -53,7 +53,7 @@ export const getFilesFromDirectory = (
 export const getResultFromImg = (path: string, supportedSuffix: string[]) => {
   const fileName = path.split('.');
 
-  const suffix = fileName.slice(-1)[0];
+  const suffix = fileName.slice(-1)[0]?.toLowerCase() ?? ''; 
 
   if (supportedSuffix.includes(suffix)) {
     fileName.push('json');
@@ -80,7 +80,6 @@ export const getResultFromFiles = (
       const result = fs.readFileSync(
         getResultFromImg(getResultPathFromImgPath(url, path, resultPath), supportedSuffix),
       );
-      
       return {
         id: i + 1,
         result: result.toString(),
@@ -98,10 +97,10 @@ export const getResultFromFiles = (
 
 /**
  * 通过图片路径 + 图片文件夹 + 结果文件夹路径，得到结果文件夹
- * @param url 
- * @param path 
- * @param resultPath 
- * @returns 
+ * @param url
+ * @param path
+ * @param resultPath
+ * @returns
  */
 export const getResultPathFromImgPath = (url: string, path: string, resultPath: string) => {
   const urls = url.split(path);
