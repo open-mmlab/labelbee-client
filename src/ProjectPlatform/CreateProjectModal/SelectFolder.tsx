@@ -2,6 +2,7 @@ import React, { useState, useRef } from 'react';
 import { Input } from 'antd';
 import { FolderOpenOutlined } from '@ant-design/icons'
 import { EIpcEvent } from '../../constant/event';
+import styles from './index.module.scss';
 const electron = window.require && window.require('electron');
 
 interface IProps {
@@ -35,7 +36,7 @@ const SelectFolder: React.FC<IProps> = ({value, disabled, onChange, key }) => {
   };
   return (
     <div key={key}>
-      <Input disabled={disabled} addonAfter={<FolderOpenOutlined onClick={openDir} />} value={value || path} />
+      <Input className={`${disabled && 'select-folder-disabled'}`} disabled={disabled} addonAfter={<FolderOpenOutlined onClick={openDir} />} value={value || path} />
     </div>
   );
 };
