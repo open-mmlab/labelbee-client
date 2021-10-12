@@ -219,12 +219,14 @@
       "credentials"
     ],
     "mac": {
+      "icon": "./public/icon.png",
       "target": [
         "dmg",
         "zip"
       ]
     },
     "win": {
+      "icon": "./public/icon.ico",
       "target": [
         "nsis",
         "zip"
