@@ -17,7 +17,7 @@ const SelectFolder: React.FC<IProps> = ({value, disabled, onChange, key }) => {
 
   const openDir = () => {
     const ipcRenderer = electron && electron.ipcRenderer;
-    if (ipcRenderer) {
+    if (ipcRenderer && !disabled) {
       ipcRenderer.send(EIpcEvent.SelectDirectory);
       ipcRenderer.once(EIpcEvent.SelectedDirectory, function (event: any, paths: any) {
         setPath(paths[0]);
