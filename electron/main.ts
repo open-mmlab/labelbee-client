@@ -26,59 +26,11 @@ const setupMenu = () => {
 
   const template: any = [
     {
-      label: 'Application',
+      label: 'Version',
       submenu: [
         {
-          label: 'About Application',
-          selector: 'orderFrontStandardAboutPanel:',
-        },
-        {
-          type: 'separator',
-        },
-        {
-          label: 'Quit',
-          accelerator: 'Command+Q',
-          click: () => {
-            app.quit();
-          },
-        },
-      ],
-    },
-    {
-      label: 'Edit',
-      submenu: [
-        {
-          label: 'Undo',
-          accelerator: 'CmdOrCtrl+Z',
-          selector: 'undo:',
-        },
-        {
-          label: 'Redo',
-          accelerator: 'Shift+CmdOrCtrl+Z',
-          selector: 'redo:',
-        },
-        {
-          type: 'separator',
-        },
-        {
-          label: 'Cut',
-          accelerator: 'CmdOrCtrl+X',
-          selector: 'cut:',
-        },
-        {
-          label: 'Copy',
-          accelerator: 'CmdOrCtrl+C',
-          selector: 'copy:',
-        },
-        {
-          label: 'Paste',
-          accelerator: 'CmdOrCtrl+V',
-          selector: 'paste:',
-        },
-        {
-          label: 'Select All',
-          accelerator: 'CmdOrCtrl+A',
-          selector: 'selectAll:',
+          label: `版本创建时间：${new Date()}`,
+          type: 'normal'
         },
       ],
     },
@@ -113,7 +65,7 @@ function createWindow() {
     });
 
   // 无需添加 menu 栏。
-  // setupMenu();
+  setupMenu();
 
   // 加载网页之后，会创建`渲染进程`
   mainWindow.loadURL(startUrl);
