@@ -95,23 +95,26 @@ const TagInput = (props: IProps) => {
         <div className={styles.subMain}>
           {inputInfo.subSelected.map((subInfo, j) => (
             <Row className={styles.subSelect} key={j}>
-              <Col span={17} className={styles.firstItem}>
-                <SensebeeInput
-                  className={styles.sub_input}
-                  value={subInfo.key}
-                  placeholder='类别'
-                  onChange={e => changeInputInfo(e, 'key', inputIndex, j)}
-                  disabled={isAllReadOnly}
-                  onKeyDown={stopPropagation}
-                />
-                <SensebeeInput
-                  className={styles.sub_input}
-                  value={subInfo.value}
-                  placeholder='值'
-                  onChange={e => changeInputInfo(e, 'value', inputIndex, j)}
-                  disabled={isAllReadOnly}
-                  onKeyDown={stopPropagation}
-                />
+              <Col span={1} className={styles.inputSerial}></Col>
+              <Col span={16} className={styles.firstItem}>
+                <div className={styles.sub_input_box}>
+                  <SensebeeInput
+                    className={styles.sub_input}
+                    value={subInfo.key}
+                    placeholder='类别'
+                    onChange={e => changeInputInfo(e, 'key', inputIndex, j)}
+                    disabled={isAllReadOnly}
+                    onKeyDown={stopPropagation}
+                  />
+                  <SensebeeInput
+                    className={styles.sub_input}
+                    value={subInfo.value}
+                    placeholder='值'
+                    onChange={e => changeInputInfo(e, 'value', inputIndex, j)}
+                    disabled={isAllReadOnly}
+                    onKeyDown={stopPropagation}
+                  />
+                </div>
               </Col>
               <Col span={7} className={styles.headerOption}>
                 <div

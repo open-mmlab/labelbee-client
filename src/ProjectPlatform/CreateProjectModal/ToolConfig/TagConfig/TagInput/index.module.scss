@@ -74,12 +74,13 @@
 .headerOption {
   display: flex;
   justify-content: flex-start;
+  height: 20px;
   .icon {
     margin-right: 6px;
   }
   .star {
     display: block;
-    margin: 0 7px 0 6px;
+    margin-right: 6px;
   }
   .starSelected {
     color: rgba(255, 179, 102, 1);
@@ -90,8 +91,8 @@
 }
 
 .subMain {
-  margin-left: 10%;
-  width: 90%;
+  //margin-left: 26px;
+  //width: 90%;
 
   .subSelect {
     padding-bottom: 10px;
@@ -102,6 +103,9 @@
 
     a {
       display: none;
+    }
+    .sub_input_box {
+      width: 100%;
     }
     .sub_input {
       width: 45%;
@@ -126,7 +130,7 @@
 
 .firstItem::before {
   content: '';
-  margin-right: 10px;
+  margin-left: 10px;
   border-left: 1px solid #ccc;
   border-bottom: 1px solid #ccc;
   width: 6px;

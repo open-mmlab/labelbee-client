@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import CreateProjectModal from './CreateProjectModal';
 import { Menu, Dropdown, Button, Space, Layout } from 'antd';
 import ProjectList from './ProjectList';
@@ -18,6 +18,11 @@ const ProjectPlatform: React.FC<IProps> = (props) => {
   const [visibleDown, setVisibleDown] = useState(false);
   const [createModalVisible, setCreateModalVisible] = useState(false);
   const { state: { projectList }, dispatch } = useAnnotation();
+
+  // Modal 显示不会触发 Dropdown 的 onVisibleChange
+  useEffect(() => {
+    createModalVisible && setVisibleDown(!createModalVisible)
+  }, [createModalVisible])
 
   const createProject = (key: IProjectType) => {
     setCreateModalVisible(true);
