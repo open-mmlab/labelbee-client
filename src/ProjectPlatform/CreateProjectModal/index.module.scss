@@ -35,3 +35,20 @@
     flex: 1;
   }
 }
+.iconDisable {
+  cursor: not-allowed !important;
+}
+
+:global{
+  .select-folder-disabled {
+    .ant-input-group-addon {
+      background: #f5f5f5;
+      cursor: not-allowed;
+
+      .anticon-folder-open {
+        cursor: not-allowed;
+      }
+    }
+  }
+}
+
