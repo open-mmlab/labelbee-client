@@ -5,7 +5,8 @@ import styles from '../index.module.scss';
 import { MapStateJSONTab } from './AttributeConfig';
 import TextConfigurable from '../TextConfigurable';
 import { ETextType, EToolName } from '@/constant/store';
-import { toolCommonField } from '../publicConfig';
+import ToolCommonFiled from '../ToolCommonFiled';
+import { ToolConfigIProps } from '../../Tools';
 
 function checkNumber(v: string) {
   const reg = /^[1-9]\d*$/g;
@@ -25,15 +26,10 @@ export const rectScopeChange = (value: string) => {
   return ~~value
 };
 
-interface IProps {
-  toolName?: EToolName;
-  form?: FormInstance;
-}
-
 const minWidth = 1, minHeight = 1;
 const isAllReadOnly = false;
 
-const RectConfig = (props: IProps) => {
+const RectConfig = (props: ToolConfigIProps) => {
   return (
     <React.Fragment>
       <div className={styles.selectedMain}>
@@ -52,14 +48,7 @@ const RectConfig = (props: IProps) => {
           </Col>
         </Row>
       </div>
-      {toolCommonField.map((info, index) => (
-        <Form.Item
-          label={<span className={styles.formTitle}>{info.name}</span>}
-          valuePropName='checked'
-          key={info.key} name={info.key} initialValue={info.value}>
-          <Switch />
-        </Form.Item>
-      ))}
+      <ToolCommonFiled copyBackwardResultDisabled={!!props.dataSourceStep} />
       <Form.Item
         label={<span className={styles.formTitle}>文本标注</span>}
         name='textConfigurableContext'
@@ -97,8 +86,3 @@ const RectConfig = (props: IProps) => {
 };
 
 export default RectConfig;
-// function mapStateToProps({ editAnnotation, createStep, stepConfig }: any) {
-//   return { editAnnotation, createStep, stepConfig };
-// }
-
-// export default connect(mapStateToProps)(RectConfig);

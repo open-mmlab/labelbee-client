@@ -4,14 +4,13 @@ import { Form, FormInstance, Select, Switch } from 'antd';
 import { ELineTypes, ELineColor, ETextType, EToolName } from '@/constant/store';
 import GraphicsPointLimitInput from './GraphicsPointLimitInput';
 import TextConfigurable from '../../ToolConfig/TextConfigurable';
+import ToolCommonFiled from '../ToolCommonFiled';
 import { MapStateJSONTab } from '@/ProjectPlatform/CreateProjectModal/ToolConfig/RectConfig/AttributeConfig';
 import { toolCommonField } from '../publicConfig';
+import { ToolConfigIProps } from '../../Tools';
+
 import styles from '../index.module.scss';
 const { Option } = Select;
-interface IProps {
-  toolName: EToolName;
-  form?: FormInstance;
-}
 
 const initLowerLimitPoint: any = {
   [EToolName.Polygon]: { num: 3, text: '闭合点数' },
@@ -45,20 +44,7 @@ const selectList = [
   },
 ];
 
-const polygonConfig = toolCommonField.map((item) => {
-  if(item.key === 'copyBackwardResult') {
-    item.disabled = true
-  }
-  return item;
-})
-// const modelList = [
-//   {model: 'general', name: '通用'},
-//   {model: 'mask', name: '口罩'},
-//   {model: 'transparency', name: '透明物体'},
-//   {model: 'carton', name: '卡通'},
-// ]
-
-const PolygonToolConfig: React.FC<IProps> = ({toolName, form }) => {
+const PolygonToolConfig: React.FC<ToolConfigIProps> = ({dataSourceStep, toolName, form }) => {
   const setEdgeAdsorption = (val: ELineTypes) => {
     if(val === ELineTypes.Curve) {
       form?.setFieldsValue({edgeAdsorption: false})
@@ -105,17 +91,7 @@ const PolygonToolConfig: React.FC<IProps> = ({toolName, form }) => {
           );
         }}
       </Form.Item>
-      {
-        polygonConfig.map(item => (
-          <Form.Item key={item.key}
-                     name={item.key}
-                     label={<span className={styles.formTitle}>{item.name}</span>}
-                     initialValue={item.value}
-                     valuePropName='checked'>
-            <Switch disabled={item.disabled} />
-          </Form.Item>
-        ))
-      }
+      <ToolCommonFiled copyBackwardResultDisabled={!!dataSourceStep} />
       <Form.Item
         label={<span className={styles.formTitle}>文本标注</span>}
         name='textConfigurableContext'
