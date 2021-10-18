@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { Input } from 'antd';
-import { FolderOpenOutlined } from '@ant-design/icons'
+import { FolderOpenOutlined } from '@ant-design/icons';
 import { EIpcEvent } from '../../constant/event';
 import styles from './index.module.scss';
 const electron = window.require && window.require('electron');
@@ -12,7 +12,7 @@ interface IProps {
   onChange?: (value: any) => void;
 }
 
-const SelectFolder: React.FC<IProps> = ({value, disabled, onChange, key }) => {
+const SelectFolder: React.FC<IProps> = ({ value, disabled, onChange, key }) => {
   const [path, setPath] = useState('');
   const pathRef = useRef<HTMLInputElement>(null);
 
@@ -36,7 +36,12 @@ const SelectFolder: React.FC<IProps> = ({value, disabled, onChange, key }) => {
   };
   return (
     <div key={key}>
-      <Input className={`${disabled && 'select-folder-disabled'}`} disabled={disabled} addonAfter={<FolderOpenOutlined onClick={openDir} />} value={value || path} />
+      <Input
+        className={`${disabled ? 'select-folder-disabled' : styles.inputNonePointer}`}
+        disabled={disabled}
+        addonAfter={<FolderOpenOutlined style={{ pointerEvents: 'all' }} onClick={openDir} />}
+        value={value || path}
+      />
     </div>
   );
 };
