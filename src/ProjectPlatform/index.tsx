@@ -66,7 +66,7 @@ const ProjectPlatform: React.FC<IProps> = (props) => {
               !!projectList.length && <span style={{color: '#8e8e8e'}}> ({projectList.length})</span>
             }
           </span>
-            <Dropdown overlay={menu} arrow placement="bottomLeft" onVisibleChange={(v) => {
+            <Dropdown trigger={['click']} overlay={menu} arrow placement="bottomLeft" onVisibleChange={(v) => {
               setVisibleDown(v)
             }}>
               <Button type='primary' className={styles.createBtn}>
