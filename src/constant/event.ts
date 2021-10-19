@@ -8,5 +8,5 @@ export const EIpcEvent = {
   // 触发文件夹图片获取
   SendDirectoryImages: 'send-directory-image',
   GetDirectoryImages: 'get-directory-image',
-  
+  OpenDirectory: 'open-directory',
 };

@@ -4,6 +4,7 @@ import { IMAGE_SUFFIX } from '../src/constant/file';
 const fs = require('fs');
 const { ipcMain: ipc, dialog } = require('electron');
 const fse = require('fs-extra');
+const { shell } = require('electron');
 
 export const ipcListen = (mainWindow) => {
   ipc.on(EIpcEvent.SelectImage, (event) => {
@@ -24,13 +25,13 @@ export const ipcListen = (mainWindow) => {
       const imgUrl = file.url.substr(8);
       const resultUrl = getResultPathFromImgPath(imgUrl, path, resultPath) + '.json';
 
-      fse.outputFile(resultUrl, file.result, err => {
-        if(err) {
+      fse.outputFile(resultUrl, file.result, (err) => {
+        if (err) {
           console.log(err);
         } else {
           console.log(resultUrl, ' The file was saved!');
         }
-      })
+      });
     });
   });
 
@@ -52,5 +53,9 @@ export const ipcListen = (mainWindow) => {
     const files = getFilesFromDirectory(path, IMAGE_SUFFIX);
     const newFiles = getResultFromFiles(files, IMAGE_SUFFIX, path, resultPath);
     event.reply(EIpcEvent.GetDirectoryImages, newFiles);
+  });
+
+  ipc.on(EIpcEvent.OpenDirectory, (event, path) => {
+    shell.showItemInFolder(path);
   });
 };
