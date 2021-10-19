@@ -30,7 +30,7 @@
 
   .config {
     overflow-y: scroll;
-    padding:0 30px;
+    padding: 0 30px;
     height: 460px;
     flex: 1;
   }
@@ -39,7 +39,11 @@
   cursor: not-allowed !important;
 }
 
-:global{
+.inputNonePointer {
+  pointer-events: none;
+}
+
+:global {
   .select-folder-disabled {
     .ant-input-group-addon {
       background: #f5f5f5;
@@ -51,4 +55,3 @@
     }
   }
 }
-

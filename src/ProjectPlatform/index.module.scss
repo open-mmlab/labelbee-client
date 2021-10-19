@@ -7,13 +7,12 @@ $projectMarginTop: 10px;
   overflow: hidden;
 
   .projectList {
-
     .project {
       border-radius: 8px;
       display: flex;
       align-items: center;
       height: 160px;
-      padding: 36px 74px;
+      padding: 36px 48px;
       position: relative;
       background: #ffffff;
       box-shadow: 0px 8px 16px rgba(102, 111, 255, 0.08);
@@ -44,19 +43,19 @@ $projectMarginTop: 10px;
       }
       .createdAt {
         position: absolute;
-        right: 64px;
+        right: 48px;
         top: 38px;
         font-size: 14px;
         color: #999999;
       }
-      .tag{
-        color: #666FFF;
+      .tag {
+        color: #666fff;
         height: 32px;
         line-height: 32px;
-        background: #EEEFFF;
+        background: #eeefff;
         font-size: 14px;
         margin-left: 16px;
-        vertical-align: center!important;
+        vertical-align: center !important;
       }
       .setting {
         position: absolute;
@@ -80,11 +79,11 @@ $projectMarginTop: 10px;
 
   .header {
     height: 72px;
+    line-height: 72px;
     padding: 0 80px;
     background: #fff;
     flex-shrink: 0;
     z-index: 10;
-    box-shadow: 0px 4px 8px rgba(102, 111, 255, 0.08);
   }
 
   .content {
