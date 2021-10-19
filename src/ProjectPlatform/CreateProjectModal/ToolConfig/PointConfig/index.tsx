@@ -20,7 +20,7 @@ const PointConfig = (props: ToolConfigIProps) => {
       >
         <InputNumber min={1} />
       </Form.Item>
-      <ToolCommonFiled copyBackwardResultDisabled={!!props.dataSourceStep}></ToolCommonFiled>
+      <ToolCommonFiled copyBackwardResultDisabled={!!props.dataSourceStep} />
       <Form.Item
         label={<span className={styles.formTitle}>文本标注</span>}
         name='textConfigurableContext'

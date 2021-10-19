@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from 'react';
 import './App.css';
-import 'antd/dist/antd.css';
+import 'antd/dist/antd.less';
 import Annotation from './Annotation';
 import ProjectPlatform from './ProjectPlatform';
 import { AnnotationContext } from './store';

@@ -36,7 +36,7 @@ const Tools: React.FC<IProps> = ({dataSourceStep, toolName, stepInfo, form,  }) 
     // @ts-ignore
     return ToolConfig ? React.cloneElement(<ToolConfig />, {toolName, dataSourceStep, form}) : null
 
-  }, [form, toolName])
+  }, [dataSourceStep, form, toolName])
 
   // 普通编辑和多步骤编辑设置值
   useEffect(() => {
