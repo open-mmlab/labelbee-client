@@ -112,7 +112,7 @@ const MultiStep: React.FC<IProps> = ({stepId, stepList, setStepLIst, changeTaskV
                     labelAlign='left'
                     labelCol={{ span: 6 }}
                     wrapperCol={{ span: 18 }}>
-                <Tools stepInfo={stepInfo || null } form={multiStepForm} toolName={toolName}></Tools>
+                <Tools dataSourceStep={dataSourceStep} stepInfo={stepInfo || null } form={multiStepForm} toolName={toolName}></Tools>
               </Form>
             }
           </Col>

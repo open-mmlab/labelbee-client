@@ -1,5 +1,5 @@
 // cl 2021/9/10 17:40
-import React, { useEffect } from 'react';
+import React, { ReactNode, useEffect } from 'react';
 import { FormInstance } from 'antd';
 import { EToolName } from '@/constant/store';
 import RectConfig from '../ToolConfig/RectConfig';
@@ -11,31 +11,32 @@ import { IStepInfo, useAnnotation } from '@/store';
 import { pick } from 'lodash';
 
 interface IProps {
+  dataSourceStep?: number;
   stepInfo?: IStepInfo | null;
   toolName: EToolName;
   form: FormInstance;
 }
+export type ToolConfigIProps = Omit<IProps, 'stepInfo'>
 
-const Tools: React.FC<IProps> = ({stepInfo, toolName, form,  }) => {
+const Component: {[key: string]: ReactNode} = {
+  [EToolName.Rect]: RectConfig,
+  [EToolName.Tag]: TagConfig,
+  [EToolName.Polygon]: PolygonToolConfig,
+  [EToolName.Line]: PolygonToolConfig,
+  [EToolName.Point]: PointConfig,
+  [EToolName.Text]: TextToolConfig,
+}
+
+const Tools: React.FC<IProps> = ({dataSourceStep, toolName, stepInfo, form,  }) => {
   const { state: { currentProjectInfo } } = useAnnotation();
   const CurrentToolConfig = React.useMemo(() => {
-    switch (toolName) {
-      case EToolName.Rect:
-        return <RectConfig form={form} />;
-      case EToolName.Tag:
-        return <TagConfig form={form} />;
-      case EToolName.Polygon:
-      case EToolName.Line:
-        return <PolygonToolConfig toolName={toolName} form={form} />;
-      case EToolName.Point:
-        return <PointConfig form={form} />;
-      case EToolName.Text:
-        return <TextToolConfig form={form} />;
-      default: {
-        return null;
-      }
-    }
-  }, [form, toolName])
+
+    let ToolConfig = Component[toolName]
+
+    // @ts-ignore
+    return ToolConfig ? React.cloneElement(<ToolConfig />, {toolName, dataSourceStep, form}) : null
+
+  }, [dataSourceStep, form, toolName])
 
   // 普通编辑和多步骤编辑设置值
   useEffect(() => {

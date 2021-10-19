@@ -9,7 +9,7 @@
   "dependencies": {
     "@ant-design/icons": "^4.6.2",
     "@babel/core": "7.9.0",
-    "@sensetime/label-bee": "^1.1.1-alpha.6",
+    "@sensetime/label-bee": "^1.1.2",
     "@svgr/webpack": "4.3.3",
     "@types/lodash": "^4.14.171",
     "antd": "~4.15.0",
@@ -68,6 +68,7 @@
     "electron": "^12.0.2",
     "electron-builder": "^22.10.5",
     "koa": "^2.13.1",
+    "less-loader": "^6.0.0",
     "mini-css-extract-plugin": "0.9.0",
     "node-sass": "4.14.1",
     "optimize-css-assets-webpack-plugin": "5.0.3",

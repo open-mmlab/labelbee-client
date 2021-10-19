@@ -4,17 +4,13 @@ import React from 'react';
 import styles from '../index.module.scss';
 import { MapStateJSONTab } from '@/ProjectPlatform/CreateProjectModal/ToolConfig/RectConfig/AttributeConfig';
 import TextConfigurable from '../TextConfigurable';
+import ToolCommonFiled from '../ToolCommonFiled';
 import { ETextType, EToolName } from '@/constant/store';
-import { toolCommonField } from '../publicConfig';
-
-interface IProps {
-  toolName?: EToolName;
-  form?: FormInstance;
-}
+import { ToolConfigIProps } from '../../Tools';
 
 const isAllReadOnly = false;
 
-const PointConfig = (props: IProps) => {
+const PointConfig = (props: ToolConfigIProps) => {
   return (
     <React.Fragment>
       <Form.Item
@@ -24,14 +20,7 @@ const PointConfig = (props: IProps) => {
       >
         <InputNumber min={1} />
       </Form.Item>
-      {toolCommonField.map((info, index) => (
-        <Form.Item
-          label={<span className={styles.formTitle}>{info.name}</span>}
-          valuePropName='checked'
-          key={info.key} name={info.key} initialValue={info.value}>
-          <Switch />
-        </Form.Item>
-      ))}
+      <ToolCommonFiled copyBackwardResultDisabled={!!props.dataSourceStep} />
       <Form.Item
         label={<span className={styles.formTitle}>文本标注</span>}
         name='textConfigurableContext'
