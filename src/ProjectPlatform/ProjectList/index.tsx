@@ -106,7 +106,6 @@ const ProjectList: React.FC<IProps> = ({ createProject }) => {
 
   const openDirectory = (path: string) => {
     if (ipcRenderer) {
-      alert(path + '/');
       ipcRenderer.send(EIpcEvent.OpenDirectory, path);
     }
   };
