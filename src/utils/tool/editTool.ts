@@ -209,7 +209,8 @@ export function judgeIsTagConfig(inputList: any) {
   return false;
 }
 
-export function repeatInputList(inputList: IInputList[]) {
+export function repeatInputList(inputList?: IInputList[]) {
+  if(!inputList) return false;
   let keyMap: {[key: string]: string[]} = {}
   let valMap: {[key: string]: string[]} = {}
   let isRepeat = false;
