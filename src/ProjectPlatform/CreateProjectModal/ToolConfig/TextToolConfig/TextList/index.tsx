@@ -127,13 +127,13 @@ const TextList: React.FC<IProps> = ({ value, onChange }) => {
                 }, index)} />
             </Tooltip>
 
-            <Tooltip title='是否必填'>
+            {/* <Tooltip title='是否必填'>
               <ExclamationCircleOutlined
                 className={classnames({ [styles.activeColor]: i.required })}
                 onClick={() => {
                   updateConfigItem({ required: !i.required }, index);
                 }} />
-            </Tooltip>
+            </Tooltip> */}
 
             <CloseCircleFilled
               className={styles.close}
