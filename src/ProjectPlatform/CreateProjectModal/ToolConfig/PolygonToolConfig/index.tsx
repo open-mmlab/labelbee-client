@@ -33,15 +33,15 @@ const selectList = [
       },
     ],
   },
-  {
-    label: '线条颜色',
-    name: 'lineColor',
-    value: ELineColor.SingleColor,
-    select: [
-      { key: '单色', value: ELineColor.SingleColor },
-      { key: '多色', value: ELineColor.MultiColor },
-    ],
-  },
+  // {
+  //   label: '线条颜色',
+  //   name: 'lineColor',
+  //   value: ELineColor.SingleColor,
+  //   select: [
+  //     { key: '单色', value: ELineColor.SingleColor },
+  //     { key: '多色', value: ELineColor.MultiColor },
+  //   ],
+  // },
 ];
 
 const PolygonToolConfig: React.FC<ToolConfigIProps> = ({dataSourceStep, toolName, form }) => {

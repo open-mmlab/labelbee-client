@@ -28,7 +28,7 @@ const MultiStep: React.FC<IProps> = ({stepId, stepList, setStepLIst, changeTaskV
 
   const tools = useMemo(() => {
     let relyTool = stepList.find((item) => item.step === dataSourceStep)?.tool;
-    if(!relyTool || [EToolName.Rect, EToolName.Polygon, EToolName.Tag].includes(relyTool)) {
+    if(!relyTool || [EToolName.Rect, EToolName.Polygon].includes(relyTool)) {
       return [...annotationTypeList]
     } else if(relyTool === EToolName.Line) {
       return [annotationTypeList.find(info => info.key === EToolName.Tag)]
