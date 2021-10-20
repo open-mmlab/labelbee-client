@@ -3,7 +3,12 @@ import React, { useState } from 'react';
 import { IFileInfo, IProjectInfo, useAnnotation } from '@/store';
 import { message, Popconfirm, Tag, Image } from 'antd';
 import { EToolName, TOOL_NAME } from '@/constant/store';
-import { DeleteOutlined, QuestionCircleOutlined, EditOutlined } from '@ant-design/icons';
+import {
+  DeleteOutlined,
+  QuestionCircleOutlined,
+  EditOutlined,
+  FolderOpenOutlined,
+} from '@ant-design/icons';
 import styles from '../index.module.scss';
 import { EIpcEvent } from '@/constant/event';
 import { formatDate } from '@/utils/tool/common';
@@ -29,7 +34,7 @@ export const icon: any = {
   [EToolName.Text]: IconText,
   [EToolName.Line]: IconLine,
   step: IconStep,
-}
+};
 
 /**
  * 获取是否含错误结果
@@ -40,9 +45,8 @@ export const icon: any = {
  */
 function isHasWrongResult(tool: EToolName, fileList: IFileInfo[], step = 1) {
   try {
-
     // todo 多步骤编辑没有 tool 这个参数 然后编辑数据 步骤多了个 0 步骤  后面数据正常 放到后面进行判断
-    if(!tool) {
+    if (!tool) {
       return false;
     }
 
@@ -70,7 +74,10 @@ function isHasWrongResult(tool: EToolName, fileList: IFileInfo[], step = 1) {
 const ipcRenderer = electron && electron.ipcRenderer;
 const ProjectList: React.FC<IProps> = ({ createProject }) => {
   const [hoverIndex, setHoverIndex] = useState(-1);
-  const { state: { projectList }, dispatch } = useAnnotation()
+  const {
+    state: { projectList },
+    dispatch,
+  } = useAnnotation();
   // 进入标注
   const startAnnotation = (projectInfo: IProjectInfo) => {
     // 加载当前路径下的所有图片
@@ -97,8 +104,14 @@ const ProjectList: React.FC<IProps> = ({ createProject }) => {
     }
   };
 
+  const openDirectory = (path: string) => {
+    if (ipcRenderer) {
+      ipcRenderer.send(EIpcEvent.OpenDirectory, path);
+    }
+  };
+
   const editProject = (projectInfo: IProjectInfo) => {
-    const tool = projectInfo.toolName ? 'base' : 'step'
+    const tool = projectInfo.toolName ? 'base' : 'step';
     createProject(tool);
     dispatch({
       type: 'UPDATE_CURRENT_PROJECTINFO',
@@ -106,7 +119,7 @@ const ProjectList: React.FC<IProps> = ({ createProject }) => {
         projectInfo,
       },
     });
-  }
+  };
 
   const deleteProject = (i: number) => {
     const newProjectList = [...projectList];
@@ -123,48 +136,65 @@ const ProjectList: React.FC<IProps> = ({ createProject }) => {
   return (
     <div>
       <div className={styles.projectList}>
-        {projectList.sort((a, b) => b.createdAt - a.createdAt).map((info, i) => (
-          <div
-            className={styles.project}
-            key={i}
-            onMouseEnter={() => setHoverIndex(i)}
-            onMouseLeave={() => setHoverIndex(-1)}
-            onDoubleClick={() => startAnnotation(info)}
-          >
-            <div className={styles.icon}>
-              <img style={{width: 72}} src={icon[info.toolName || 'step']} alt='' />
-            </div>
-            <div className={styles.detailInfo}>
-              <div className={styles.name}>
-                {info.name}{' '}
-                <Tag className={styles.tag} color='#EEEFFF'>
-                  {TOOL_NAME[info.toolName] || '多步骤标注'}
-                </Tag>
+        {projectList
+          .sort((a, b) => b.createdAt - a.createdAt)
+          .map((info, i) => (
+            <div
+              className={styles.project}
+              key={i}
+              onMouseEnter={() => setHoverIndex(i)}
+              onMouseLeave={() => setHoverIndex(-1)}
+              onDoubleClick={() => startAnnotation(info)}
+            >
+              <div className={styles.icon}>
+                <img style={{ width: 72 }} src={icon[info.toolName || 'step']} alt='' />
               </div>
-              <div className={styles.detail}>
-                <div className={styles.path}>图片路径：{info.path}</div>
-                <div>结果路径：{info.resultPath}</div>
+              <div className={styles.detailInfo}>
+                <div className={styles.name}>
+                  {info.name}{' '}
+                  <Tag className={styles.tag} color='#EEEFFF'>
+                    {TOOL_NAME[info.toolName] || '多步骤标注'}
+                  </Tag>
+                </div>
+                <div className={styles.detail}>
+                  <div className={styles.path}>
+                    图片路径：{info.path}
+                    <FolderOpenOutlined
+                      className={styles.folderOpen}
+                      onClick={() => openDirectory(info.path)}
+                    />
+                  </div>
+                  <div>
+                    结果路径：{info.resultPath}
+                    <FolderOpenOutlined
+                      className={styles.folderOpen}
+                      onClick={() => openDirectory(info.resultPath)}
+                    />
+                  </div>
+                </div>
               </div>
-            </div>
-            <div className={styles.createdAt}>{formatDate(new Date(info.createdAt), 'yyyy-MM-dd hh:mm:ss')}</div>
-            {hoverIndex === i && (
-              <div className={styles.deleteButton}>
-                <EditOutlined
-                  onClick={() => editProject(info)}
-                  className='primary-color'
-                  style={{marginRight: 12}} />
-                <Popconfirm
-                  placement='top'
-                  title='确认删除？'
-                  icon={<QuestionCircleOutlined style={{ color: 'red' }} />}
-                  onConfirm={() => deleteProject(i)}
-                >
+              <div className={styles.createdAt}>
+                {formatDate(new Date(info.createdAt), 'yyyy-MM-dd hh:mm:ss')}
+              </div>
+              {hoverIndex === i && (
+                <div className={styles.deleteButton}>
+                  <EditOutlined
+                    onClick={() => editProject(info)}
+                    className='primary-color'
+                    style={{ marginRight: 12 }}
+                  />
+                  <Popconfirm
+                    placement='top'
+                    title='确认删除？'
+                    icon={<QuestionCircleOutlined style={{ color: 'red' }} />}
+                    onConfirm={() => deleteProject(i)}
+                  >
                     <DeleteOutlined className='primary-color' />
-                </Popconfirm>
-              </div>
-            )}
-          </div>
-        ))}
+                  </Popconfirm>
+                </div>
+              )}
+            </div>
+          ))}
       </div>
     </div>
   );
