@@ -15,7 +15,7 @@ export const toolCommonField = [
     disabled: false,
   },
   {
-    name: '显示拉框顺序',
+    name: '显示标注顺序',
     key: 'isShowOrder',
     value: isShowOrder,
     disabled: false,

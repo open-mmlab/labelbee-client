@@ -48,7 +48,7 @@ const TaskStep: React.FC<IProps> = ({stepList, footer, setStepId, changeTaskVisi
       size="small"
       header="任务步骤"
       className='task-step-list'
-      footer={<div style={{textAlign: 'right'}}>{footer}</div>}
+      footer={!currentProjectInfo && <div style={{textAlign: 'right'}}>{footer}</div>}
       bordered
       dataSource={stepList}
       renderItem={item => (

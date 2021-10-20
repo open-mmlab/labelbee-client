@@ -11,6 +11,7 @@ import { IStepInfo, useAnnotation } from '../../store';
 import { EToolName } from '@/constant/store';
 import DefaultConfig from './ToolConfig/DefaultConfig';
 import { getCreateProjectCmt } from '@/utils/tool/common';
+import { repeatInputList } from '@/utils/tool/editTool';
 import uuid from '@/utils/tool/uuid';
 import { IProjectType } from '@/ProjectPlatform';
 
@@ -90,6 +91,10 @@ const CreateProjectModal: React.FC<IProps> = ({ type, visible, onCancel }) => {
       }
       if (!isBase && stepList.length < 1) {
         message.error('请添加任务步骤');
+        return;
+      }
+      if(toolName === EToolName.Tag && repeatInputList(form.getFieldValue('inputList'))) {
+        message.error('表单字段有重复项， 请重新填写！');
         return;
       }
       deleteProject();

@@ -1,6 +1,7 @@
 
 import { cloneDeep } from 'lodash';
 import uuid from './uuid';
+import { IInputList } from '@/ProjectPlatform/CreateProjectModal/ToolConfig/TagConfig'
 
 // export const DEFAULT_LINK = '@@';
 // const DEFAULT_TOOL_ATTRIBUTE = ['valid', 'invalid'];
@@ -205,4 +206,28 @@ export function judgeIsTagConfig(inputList: any) {
     return formatNum === inputList.length;
   }
   return false;
+}
+
+export function repeatInputList(inputList: IInputList[]) {
+  let keyMap: {[key: string]: string[]} = {}
+  let valMap: {[key: string]: string[]} = {}
+  let isRepeat = false;
+  function dep(list: IInputList[], key: string) {
+    list.forEach((item, index: number) => {
+      if(keyMap[key] || valMap[key]) {
+        if(keyMap[key].includes(item.key) || valMap[item.value]) {
+          isRepeat = true;
+          return
+        }
+        keyMap[key].push(item.key)
+        valMap[key].push(item.value)
+      }else {
+        keyMap[key] = [item.key]
+        valMap[key] = [item.value]
+      }
+      item.subSelected && dep(item.subSelected, `sub${index}`)
+    })
+  }
+  dep(inputList, 'root')
+  return isRepeat
 }
