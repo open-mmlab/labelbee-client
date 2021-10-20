@@ -1,6 +1,7 @@
 
 import { cloneDeep } from 'lodash';
 import uuid from './uuid';
+import { message } from 'antd';
 import { IInputList } from '@/ProjectPlatform/CreateProjectModal/ToolConfig/TagConfig'
 
 // export const DEFAULT_LINK = '@@';
@@ -214,10 +215,18 @@ export function repeatInputList(inputList: IInputList[]) {
   let isRepeat = false;
   function dep(list: IInputList[], key: string) {
     list.forEach((item, index: number) => {
+      if (item.key === '' || item.value === '') {
+        message.info('请填写完整标注的表单信息');
+        isRepeat = true;
+      }
+      if(item.value.includes(';')) {
+        message.info('value 并不能带有分号');
+        isRepeat = true;
+      }
       if(keyMap[key] || valMap[key]) {
-        if(keyMap[key].includes(item.key) || valMap[item.value]) {
+        if(keyMap[key].includes(item.key) || valMap[key].includes(item.value)) {
+          message.info('表单项不能设置相同的值！');
           isRepeat = true;
-          return
         }
         keyMap[key].push(item.key)
         valMap[key].push(item.value)

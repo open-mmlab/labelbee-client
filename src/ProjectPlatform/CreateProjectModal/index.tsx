@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Form, FormInstance, message, Modal } from 'antd';
 import { omit, pick } from 'lodash';
 import styles from './index.module.scss';
@@ -93,8 +93,10 @@ const CreateProjectModal: React.FC<IProps> = ({ type, visible, onCancel }) => {
         message.error('请添加任务步骤');
         return;
       }
-      if(toolName === EToolName.Tag && repeatInputList(form.getFieldValue('inputList'))) {
-        message.error('表单字段有重复项， 请重新填写！');
+      const arr = form.getFieldValue('attributeList')
+        || form.getFieldValue('inputList')
+        || form.getFieldValue('configList')?.map((item: any) => ({value: item.label, ...item}))
+      if(repeatInputList(arr)) {
         return;
       }
       deleteProject();

@@ -9,6 +9,7 @@ import Tools from '../Tools';
 import { formatData } from '@/ProjectPlatform/CreateProjectModal';
 import styles from './index.module.scss'
 import uuid from '@/utils/tool/uuid';
+import { repeatInputList } from '@/utils/tool/editTool';
 
 const { Option } = Select;
 
@@ -62,6 +63,12 @@ const MultiStep: React.FC<IProps> = ({stepId, stepList, setStepLIst, changeTaskV
         newStepList.push({step: stepList.length + 1, dataSourceStep, tool: toolName, id: uuid(), config: result})
       }else {
         newStepList[index].config = result;
+      }
+      const arr = multiStepForm.getFieldValue('attributeList')
+        || multiStepForm.getFieldValue('inputList')
+        || multiStepForm.getFieldValue('configList')?.map((item: any) => ({value: item.label, ...item}))
+      if(repeatInputList(arr)) {
+        return;
       }
       setStepLIst(newStepList)
       changeTaskVisible()
