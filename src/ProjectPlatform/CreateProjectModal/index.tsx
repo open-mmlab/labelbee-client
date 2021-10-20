@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Form, FormInstance, message, Modal } from 'antd';
 import { omit, pick } from 'lodash';
 import styles from './index.module.scss';
@@ -11,6 +11,7 @@ import { IStepInfo, useAnnotation } from '../../store';
 import { EToolName } from '@/constant/store';
 import DefaultConfig from './ToolConfig/DefaultConfig';
 import { getCreateProjectCmt } from '@/utils/tool/common';
+import { repeatInputList } from '@/utils/tool/editTool';
 import uuid from '@/utils/tool/uuid';
 import { IProjectType } from '@/ProjectPlatform';
 
@@ -90,6 +91,12 @@ const CreateProjectModal: React.FC<IProps> = ({ type, visible, onCancel }) => {
       }
       if (!isBase && stepList.length < 1) {
         message.error('请添加任务步骤');
+        return;
+      }
+      const arr = form.getFieldValue('attributeList')
+        || form.getFieldValue('inputList')
+        || form.getFieldValue('configList')?.map((item: any) => ({value: item.label, ...item}))
+      if(repeatInputList(arr)) {
         return;
       }
       deleteProject();

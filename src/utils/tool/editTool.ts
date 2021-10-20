@@ -1,6 +1,8 @@
 
 import { cloneDeep } from 'lodash';
 import uuid from './uuid';
+import { message } from 'antd';
+import { IInputList } from '@/ProjectPlatform/CreateProjectModal/ToolConfig/TagConfig'
 
 // export const DEFAULT_LINK = '@@';
 // const DEFAULT_TOOL_ATTRIBUTE = ['valid', 'invalid'];
@@ -205,4 +207,37 @@ export function judgeIsTagConfig(inputList: any) {
     return formatNum === inputList.length;
   }
   return false;
+}
+
+export function repeatInputList(inputList?: IInputList[]) {
+  if(!inputList) return false;
+  let keyMap: {[key: string]: string[]} = {}
+  let valMap: {[key: string]: string[]} = {}
+  let isRepeat = false;
+  function dep(list: IInputList[], key: string) {
+    list.forEach((item, index: number) => {
+      if (item.key === '' || item.value === '') {
+        message.info('请填写完整标注的表单信息');
+        isRepeat = true;
+      }
+      if(item.value.includes(';')) {
+        message.info('value 并不能带有分号');
+        isRepeat = true;
+      }
+      if(keyMap[key] || valMap[key]) {
+        if(keyMap[key].includes(item.key) || valMap[key].includes(item.value)) {
+          message.info('表单项不能设置相同的值！');
+          isRepeat = true;
+        }
+        keyMap[key].push(item.key)
+        valMap[key].push(item.value)
+      }else {
+        keyMap[key] = [item.key]
+        valMap[key] = [item.value]
+      }
+      item.subSelected && dep(item.subSelected, `sub${index}`)
+    })
+  }
+  dep(inputList, 'root')
+  return isRepeat
 }
