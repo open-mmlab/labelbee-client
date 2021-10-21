@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import CreateProjectModal from './CreateProjectModal';
-import { Menu, Dropdown, Button, Space, Layout } from 'antd';
+import { Menu, Dropdown, Button, Empty, Layout } from 'antd';
 import ProjectList from './ProjectList';
 import styles from './index.module.scss';
 import { useAnnotation } from '@/store';
 import { DownOutlined, UpOutlined } from '@ant-design/icons';
 import logo from '@/asstes/logo.svg';
+import noDataImg from '@/asstes/inside_nodata.svg';
 
 const { Header, Content } = Layout;
 
@@ -77,7 +78,9 @@ const ProjectPlatform: React.FC<IProps> = (props) => {
               </Button>
             </Dropdown>
         </div>
-
+        {
+          !projectList?.length && <Empty image={noDataImg} style={{color: '#666', marginTop: '22vh'}} description="暂无数据" />
+        }
         <div className={styles.projectList}>
           <ProjectList createProject={createProject} />
         </div>

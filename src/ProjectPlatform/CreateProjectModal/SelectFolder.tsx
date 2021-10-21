@@ -19,6 +19,8 @@ const SelectFolder: React.FC<IProps> = ({ value, disabled, onChange, key }) => {
   const openDir = () => {
     const ipcRenderer = electron && electron.ipcRenderer;
     if (ipcRenderer && !disabled) {
+      // 防止监听多个
+      ipcRenderer.removeAllListeners([EIpcEvent.SelectedDirectory], () => {})
       ipcRenderer.send(EIpcEvent.SelectDirectory);
       ipcRenderer.once(EIpcEvent.SelectedDirectory, function (event: any, paths: any) {
         setPath(paths[0]);
@@ -26,10 +28,7 @@ const SelectFolder: React.FC<IProps> = ({ value, disabled, onChange, key }) => {
         if (pathRef.current !== null) {
           pathRef.current.value = paths[0];
         }
-
-        if (onChange) {
-          onChange(paths[0]);
-        }
+        onChange?.(paths[0]);
       });
     }
     // 具体的图片
