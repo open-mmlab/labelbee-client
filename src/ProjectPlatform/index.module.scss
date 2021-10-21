@@ -18,6 +18,7 @@ $primary-color: #666fff;
       background: #ffffff;
       box-shadow: 0px 0px 0px rgba(102, 111, 255, 0.08);
       margin-bottom: 24px;
+      cursor: url('../asstes/icon_doubleClick.png') 4 12, auto;
 
       &:hover {
         box-shadow: 0px 8px 16px rgba(102, 111, 255, 0.08);

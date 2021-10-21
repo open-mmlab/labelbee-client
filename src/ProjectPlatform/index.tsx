@@ -79,7 +79,7 @@ const ProjectPlatform: React.FC<IProps> = (props) => {
             </Dropdown>
         </div>
         {
-          !projectList?.length && <Empty image={noDataImg} style={{color: '#666', marginTop: '22vh'}} description="暂无数据" />
+          !projectList?.length && <Empty image={noDataImg} imageStyle={{ height: 200 }} style={{color: '#666', marginTop: '22vh', fontSize: '15px'}} description="暂无数据" />
         }
         <div className={styles.projectList}>
           <ProjectList createProject={createProject} />
