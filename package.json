@@ -4,6 +4,7 @@
   "private": true,
   "homepage": "./",
   "author": "laoluo",
+  "email": "luozefeng@sensetime.com",
   "description": "This is LabelBee-Client",
   "main": "./electron/dist/electron/main.js",
   "dependencies": {
@@ -104,6 +105,7 @@
     "electron-dev": "yarn build-electron && ELECTRON_START_URL=http://localhost:3000/ electron electron/dist/electron/main.js",
     "packager:mac": "npm run build && rm -rf dist && electron-builder -m",
     "packager:win": "npm run build && rm -rf dist && electron-builder -w",
+    "packager:linux": "npm run build && rm -rf dist && electron-builder -l",
     "packager:debug": "electron-builder --mac --dir",
     "package": "electron-forge package –-platform=win",
     "make": "electron-forge make",
