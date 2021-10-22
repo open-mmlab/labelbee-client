@@ -13,9 +13,19 @@ const Annotation = (props: any) => {
   } = useContext(AnnotationContext);
   const { fileList, step, stepList } = props;
 
-  const onSubmit = (data: any, submitType: any, i: number) => {
+  const onSubmit = (data: any[], submitType: any, i: number) => {
     // 翻页时触发当前页面数据的输出
     console.log('submitData1', data, submitType, i);
+
+    if (electron) {
+      // 翻页时触发数据保存
+      electron.ipcRenderer.send(
+        EIpcEvent.SaveResult,
+        data,
+        currentProjectInfo?.path,
+        currentProjectInfo?.resultPath,
+      );
+    }
   };
 
   const goBack = (imgList: any[]) => {
