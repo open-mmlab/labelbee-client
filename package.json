@@ -1,10 +1,10 @@
 {
-  "name": "SenseBee-Client",
+  "name": "LabelBee-Client",
   "version": "1.0.0",
   "private": true,
   "homepage": "./",
   "author": "laoluo",
-  "description": "This is SenseBee-Client",
+  "description": "This is LabelBee-Client",
   "main": "./electron/dist/electron/main.js",
   "dependencies": {
     "@ant-design/icons": "^4.6.2",
