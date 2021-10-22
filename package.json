@@ -3,8 +3,9 @@
   "version": "1.0.0",
   "private": true,
   "homepage": "./",
-  "author": "laoluo",
+  "author": "laoluo <luozefeng@sensetime.com>",
   "email": "luozefeng@sensetime.com",
+  "url" : "https://gitlab.bj.sensetime.com/label-bee/labelbee-client/issues",
   "description": "This is LabelBee-Client",
   "main": "./electron/dist/electron/main.js",
   "dependencies": {
@@ -233,6 +234,13 @@
       "target": [
         "nsis",
         "zip"
+      ]
+    },
+    "linux": {
+      "icon": "./public/icon256.png",
+      "target": [
+        "deb",
+        "tar.gz"
       ]
     },
     "publish": null
