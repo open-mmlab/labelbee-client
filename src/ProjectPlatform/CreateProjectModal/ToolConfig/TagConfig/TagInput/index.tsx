@@ -4,6 +4,7 @@ import styles from './index.module.scss';
 
 import { CloseCircleFilled, PlusCircleFilled, StarFilled } from '@ant-design/icons';
 import { Checkbox, Col, Input, Row } from 'antd';
+import { useTranslation } from 'react-i18next';
 const InputGroup = Input.Group;
 
 interface IProps {
@@ -38,6 +39,8 @@ const TagInput = (props: IProps) => {
     inputIndex,
   } = props;
 
+  const { t } = useTranslation();
+
   const stopPropagation = (e: React.KeyboardEvent<HTMLInputElement>) => {
     e.stopPropagation();
   };
@@ -53,16 +56,16 @@ const TagInput = (props: IProps) => {
             <SensebeeInput
               className={styles.input_single}
               value={inputInfo.key}
-              placeholder='类别'
-              onChange={e => changeInputInfo(e, 'key', inputIndex)}
+              placeholder={t('Type')}
+              onChange={(e) => changeInputInfo(e, 'key', inputIndex)}
               onKeyDown={stopPropagation}
               disabled={isAllReadOnly}
             />
             <SensebeeInput
               className={styles.input_single}
               value={inputInfo.value}
-              placeholder='值'
-              onChange={e => changeInputInfo(e, 'value', inputIndex)}
+              placeholder={t('Value')}
+              onChange={(e) => changeInputInfo(e, 'value', inputIndex)}
               onKeyDown={stopPropagation}
               disabled={isAllReadOnly}
             />
@@ -75,7 +78,7 @@ const TagInput = (props: IProps) => {
                 inputInfo.isMulti === true ? styles.checkboxSelected : styles.checkboxUnselected
               } ${styles.icon}`}
               checked={true}
-              onChange={e => !isAllReadOnly && changeInputInfo(e, 'isMulti', inputIndex)}
+              onChange={(e) => !isAllReadOnly && changeInputInfo(e, 'isMulti', inputIndex)}
             />
             {!isAllReadOnly && (
               <a className={styles.addIcon} onClick={() => addInputInfo(inputIndex)}>
@@ -101,16 +104,16 @@ const TagInput = (props: IProps) => {
                   <SensebeeInput
                     className={styles.sub_input}
                     value={subInfo.key}
-                    placeholder='类别'
-                    onChange={e => changeInputInfo(e, 'key', inputIndex, j)}
+                    placeholder={t('Type')}
+                    onChange={(e) => changeInputInfo(e, 'key', inputIndex, j)}
                     disabled={isAllReadOnly}
                     onKeyDown={stopPropagation}
                   />
                   <SensebeeInput
                     className={styles.sub_input}
                     value={subInfo.value}
-                    placeholder='值'
-                    onChange={e => changeInputInfo(e, 'value', inputIndex, j)}
+                    placeholder={t('Value')}
+                    onChange={(e) => changeInputInfo(e, 'value', inputIndex, j)}
                     disabled={isAllReadOnly}
                     onKeyDown={stopPropagation}
                   />
@@ -122,7 +125,7 @@ const TagInput = (props: IProps) => {
                         ${styles.star}
                         ${subInfo.isDefault ? styles.starSelected : styles.starUnselected} 
                       `}
-                  onClick={e => !isAllReadOnly && changeInputInfo(e, 'isDefault', inputIndex, j)}
+                  onClick={(e) => !isAllReadOnly && changeInputInfo(e, 'isDefault', inputIndex, j)}
                 >
                   <StarFilled style={{ width: 16, height: 16 }} />
                 </div>

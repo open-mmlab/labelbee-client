@@ -9,7 +9,7 @@ import { EStore } from './constant/store';
 const App = () => {
   const {
     state: { fileList, currentProjectInfo },
-    dispatch
+    dispatch,
   } = useContext(AnnotationContext);
 
   useEffect(() => {
@@ -20,14 +20,12 @@ const App = () => {
         dispatch({
           type: 'UPDATE_PROJECT_LIST',
           payload: {
-            projectList
-          }
-        })
+            projectList,
+          },
+        });
       }
-    } catch {
-      
-    }
-  }, [dispatch])
+    } catch {}
+  }, [dispatch]);
 
   if (currentProjectInfo && fileList.length > 0) {
     return <Annotation fileList={fileList} stepList={currentProjectInfo.stepList} step={1} />;

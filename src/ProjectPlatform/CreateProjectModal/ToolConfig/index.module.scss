@@ -8,7 +8,6 @@ $headerHeight: 61px;
   font-size: 14px;
   font-weight: 500;
   color: #333;
-  font-family: SourceHanSansCN-Medium;
 }
 
 .main {
@@ -26,7 +25,6 @@ $headerHeight: 61px;
     margin-bottom: 13px;
     font-weight: 500;
     font-size: 14px;
-    font-family: SourceHanSansCN-Medium;
     color: rgba(51, 51, 51, 1);
   }
 
@@ -49,16 +47,18 @@ $headerHeight: 61px;
   .selectedName {
     font-weight: 500;
     font-size: 14px;
-    font-family: SourceHanSansCN-Medium;
     color: rgba(51, 51, 51, 1);
   }
 }
+
 .mb-24 {
   margin-bottom: 24px;
 }
+
 .mp-24 {
   margin-bottom: 24px;
 }
+
 .select {
   display: flex;
   align-items: center;
@@ -219,7 +219,7 @@ $headerHeight: 61px;
   padding-left: 15px;
   display: flex;
 
-  > i {
+  >i {
     align-self: center;
   }
 

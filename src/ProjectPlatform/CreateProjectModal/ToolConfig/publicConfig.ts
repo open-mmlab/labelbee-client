@@ -3,21 +3,21 @@ const copyBackwardResult = false;
 const isShowOrder = false;
 export const toolCommonField = [
   {
-    name: '目标外标注',
+    name: 'OutOfTargetAnnotation',
     key: 'drawOutsideTarget',
     value: drawOutsideTarget,
     disabled: false,
   },
   {
-    name: '复制上一张结果',
+    name: 'CopyThePreview',
     key: 'copyBackwardResult',
     value: copyBackwardResult,
     disabled: false,
   },
   {
-    name: '显示标注顺序',
+    name: 'ShowOrder',
     key: 'isShowOrder',
     value: isShowOrder,
     disabled: false,
-  }
+  },
 ];

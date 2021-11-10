@@ -1,6 +1,7 @@
 import { IStepInfo } from '@/store';
 import { jsonParser } from '@/utils/tool/common';
 import { TOOL_NAME } from '@/constant/store';
+import i18n from '@/i18n';
 
 export function findAllDependStep(step: number, stepList: any[]) {
   const dependStep = [];
@@ -10,7 +11,7 @@ export function findAllDependStep(step: number, stepList: any[]) {
     }
   }
   if (dependStep.length > 0) {
-    dependStep.slice().forEach(v => {
+    dependStep.slice().forEach((v) => {
       dependStep.push(...findAllDependStep(v, stepList));
     });
     return dependStep;
@@ -45,7 +46,7 @@ export function reSortStepList(deleteList: number[], stepList: any[]) {
  * @param {IStepConfig[]} stepList
  */
 export function reloadStepListReferenceStep(step: number, stepList: IStepInfo[]) {
-  return stepList.map(v => {
+  return stepList.map((v) => {
     const config = jsonParser(v?.config);
 
     if (typeof config?.referenceStep === 'number') {
@@ -73,8 +74,11 @@ export function deleteStep(step: number, stepList: IStepInfo[]) {
   const deleteList = findAllDependStep(step, stepList);
   deleteList.unshift(step);
   const deleteStepList: any = stepList
-    .filter(item => deleteList.some(i => i === item.step))
-    .map((item: any) => `第${item.step}步：${TOOL_NAME[item.tool]}`);
+    .filter((item) => deleteList.some((i) => i === item.step))
+    .map(
+      (item: any) => `${i18n.t('NStep')}
+    ：${i18n.t(TOOL_NAME[item.tool])}`,
+    );
 
   const newStepList = reSortStepList(
     deleteList.sort((a, b) => b - a),

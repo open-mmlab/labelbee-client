@@ -6,6 +6,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import MonacoEditor from 'react-monaco-editor';
 import styles from '../../index.module.scss';
 import './index.scss';
+import { useTranslation } from 'react-i18next';
 
 interface IJsonTabProps {
   value?: any[];
@@ -35,10 +36,18 @@ export const ColorTag = ({ color, style }: any) => {
 const JSONTab = (props: IJsonTabProps) => {
   const [jsonCode, setJsonCode] = useState('');
   const attributeListDom = useRef(null);
-  const { value = [{
-    key: '类别1',
-    value: '类别1',
-  }], readonly, onChange, isAttributeList } = props;
+  const { t } = useTranslation();
+  const {
+    value = [
+      {
+        key: '类别1',
+        value: '类别1',
+      },
+    ],
+    readonly,
+    onChange,
+    isAttributeList,
+  } = props;
 
   useEffect(() => {
     setJsonCode(JSON.stringify(value, null, 2));
@@ -55,8 +64,7 @@ const JSONTab = (props: IJsonTabProps) => {
     onChange?.(addInputList(value, EDIT_SUBSELECTED));
   };
 
-  const changeTagType = (v: any) => {
-  };
+  const changeTagType = (v: any) => {};
 
   // 更改标签工具里面的对应值
   const changeInputInfo = (e: any, target: 'key' | 'value', index: number) => {
@@ -72,7 +80,7 @@ const JSONTab = (props: IJsonTabProps) => {
     try {
       const newInputList = JSON.parse(v);
       if (value?.constructor !== newInputList.constructor) {
-        SenseMessage.error('配置格式错误');
+        SenseMessage.error(t('ConfigurationFormatErrorNotify'));
         return;
       }
       onChange?.(newInputList);
@@ -89,7 +97,7 @@ const JSONTab = (props: IJsonTabProps) => {
 
   return (
     <Tabs onChange={changeTagType}>
-      <TabPane tab='表单' key='1'>
+      <TabPane tab={t('Form')} key='1'>
         {value?.map((info, i) => (
           <div className='sensebee-input-wrap' key={`inputList_${i}`}>
             <div className={styles.select}>
@@ -97,7 +105,7 @@ const JSONTab = (props: IJsonTabProps) => {
               <SenseInput
                 className={`sensebee-input`}
                 value={info.key}
-                placeholder='类别'
+                placeholder={t('Type')}
                 onChange={(e: any) => changeInputInfo(e, 'key', i)}
                 disabled={readonly}
                 addonBefore={isAttributeList && <ColorTag color={COLORS_ARRAY[i % 8]} />}
@@ -105,7 +113,7 @@ const JSONTab = (props: IJsonTabProps) => {
               <SenseInput
                 className={'sensebee-input'}
                 value={info.value}
-                placeholder='值'
+                placeholder={t('Value')}
                 onChange={(e: any) => changeInputInfo(e, 'value', i)}
                 disabled={readonly}
               />
@@ -125,7 +133,7 @@ const JSONTab = (props: IJsonTabProps) => {
             onClick={() => addInputInfo()}
             ref={attributeListDom}
           >
-            新建
+            {t('New')}
           </Button>
         )}
       </TabPane>

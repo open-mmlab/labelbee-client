@@ -1,50 +1,50 @@
 export const EStore = {
-  LOCAL_PROJECT_LIST: 'honey-client-projectList'
-}
+  LOCAL_PROJECT_LIST: 'honey-client-projectList',
+};
 
 export enum EToolName {
   /** 拉框工具 */
-  Rect = "rectTool",
+  Rect = 'rectTool',
   /** 标签工具 */
-  Tag = "tagTool",
+  Tag = 'tagTool',
   /** 标点工具 */
-  Point = "pointTool",
+  Point = 'pointTool',
   /** 列表标点工具 */
-  PointMarker = "pointMarkerTool",
+  PointMarker = 'pointMarkerTool',
   /** 前景分割工具 */
-  Segmentation = "segmentationTool",
+  Segmentation = 'segmentationTool',
   /** 筛选工具 */
-  Filter = "filterTool",
+  Filter = 'filterTool',
   /** 文本工具 */
-  Text = "textTool",
+  Text = 'textTool',
   /** 多边形工具 */
-  Polygon = "polygonTool",
+  Polygon = 'polygonTool',
   /** 线条 */
-  Line = "lineTool",
+  Line = 'lineTool',
   /** 列表线条工具 */
-  LineMarker = "lineMarkerTool",
+  LineMarker = 'lineMarkerTool',
   /** 空工具，表示当前没有选择的工具，没有实际的业务逻辑 */
-  Empty = "emptyTool",
+  Empty = 'emptyTool',
   /** 文件夹标签工具 */
-  FolderTag = "folderTagTool",
+  FolderTag = 'folderTagTool',
   /** 拉框跟踪工具 */
-  RectTrack = "rectTrackTool",
+  RectTrack = 'rectTrackTool',
   /** 人脸106工具 */
-  Face = "faceTool",
+  Face = 'faceTool',
   /** 客户端属性工具 */
-  ClientAttribute = "clientAttributeTool",
+  ClientAttribute = 'clientAttributeTool',
   /** OCR关联关系工具 */
-  OCRRelation = "OCRRelationTool"
+  OCRRelation = 'OCRRelationTool',
 }
- 
-export const TOOL_NAME: {[key: string]: string} = {
-  [EToolName.Rect]: '目标检测',
-  [EToolName.Tag]: '目标分类',
-  [EToolName.Polygon]: '语义分割',
-  [EToolName.Point]: '标点',
-  [EToolName.Line]: '划线',
-  [EToolName.Text]: '文本',
-}
+
+export const TOOL_NAME: { [key: string]: string } = {
+  [EToolName.Rect]: 'Detection',
+  [EToolName.Tag]: 'Classification',
+  [EToolName.Polygon]: 'SemanticSegmentation',
+  [EToolName.Point]: 'Line',
+  [EToolName.Line]: 'Text',
+  [EToolName.Text]: 'Point',
+};
 
 // 文本标注类型
 export enum ETextType {
@@ -56,11 +56,11 @@ export enum ETextType {
 }
 
 export const TEXT_TYPE = {
-  0: '任意字符',
-  1: '序号',
-  2: '仅英文',
-  3: '仅数字',
-  4: '自定义文本格式',
+  0: 'AnyString',
+  1: 'OrderString',
+  2: 'EnglishOnly',
+  3: 'NumbersOnly',
+  4: 'CustomFormat',
 };
 
 /** 线条类型 */

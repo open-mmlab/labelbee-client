@@ -4,12 +4,16 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import { AnnotationProvider } from './store';
+import i18n from './i18n';
+import { I18nextProvider } from 'react-i18next';
 
 ReactDOM.render(
   // <React.StrictMode>
-    <AnnotationProvider>
+  <AnnotationProvider>
+    <I18nextProvider i18n={i18n}>
       <App />
-    </AnnotationProvider>,
+    </I18nextProvider>
+  </AnnotationProvider>,
   // </React.StrictMode>,
   document.getElementById('root'),
 );
