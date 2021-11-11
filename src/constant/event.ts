@@ -9,4 +9,6 @@ export const EIpcEvent = {
   SendDirectoryImages: 'send-directory-image',
   GetDirectoryImages: 'get-directory-image',
   OpenDirectory: 'open-directory',
+
+  SaveFile: "save-file"
 };

@@ -35,6 +35,17 @@ export const ipcListen = (mainWindow) => {
     });
   });
 
+  // 保存结果到指定文件夹
+  ipc.on(EIpcEvent.SaveFile, (event, file, path) => {
+    fse.outputFile(path, file, (err) => {
+      if (err) {
+        console.log(err);
+      } else {
+        console.log(path, ' The file was saved!');
+      }
+    });
+  });
+
   // 获取当前选择目录
   ipc.on(EIpcEvent.SelectDirectory, (event) => {
     dialog
@@ -52,7 +63,7 @@ export const ipcListen = (mainWindow) => {
   ipc.on(EIpcEvent.SendDirectoryImages, (event, path, resultPath) => {
     const files = getFilesFromDirectory(path, IMAGE_SUFFIX);
     const newFiles = getResultFromFiles(files, IMAGE_SUFFIX, path, resultPath);
-    event.reply(EIpcEvent.GetDirectoryImages, newFiles);
+    event.reply(EIpcEvent.GetDirectoryImages, newFiles, files);
   });
 
   ipc.on(EIpcEvent.OpenDirectory, (event, path) => {

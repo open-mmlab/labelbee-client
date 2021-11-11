@@ -11,7 +11,7 @@
   "dependencies": {
     "@ant-design/icons": "^4.6.2",
     "@babel/core": "7.9.0",
-    "@sensetime/label-bee": "^1.1.2",
+    "@sensetime/label-bee": "1.2.0-alpha.1",
     "@svgr/webpack": "4.3.3",
     "@types/lodash": "^4.14.171",
     "antd": "~4.15.0",
@@ -191,7 +191,7 @@
         {
           "name": "@electron-forge/maker-squirrel",
           "config": {
-            "name": "sensebee-client"
+            "name": "LabelBee-Client"
           }
         },
         {
