@@ -7,6 +7,7 @@ import { TOOL_NAME } from '@/constant/store';
 import { deleteStep } from '@/utils/tool/task';
 import { icon } from '@/ProjectPlatform/ProjectList';
 import './index.scss';
+import { useTranslation } from 'react-i18next';
 
 interface IProps {
   footer: ReactNode;
@@ -16,45 +17,59 @@ interface IProps {
   setStepLIst: (stepInfos: IStepInfo[]) => void;
 }
 
-const TaskStep: React.FC<IProps> = ({stepList, footer, setStepId, changeTaskVisible, setStepLIst }) => {
-  const { state: { currentProjectInfo } } = useAnnotation();
+const TaskStep: React.FC<IProps> = ({
+  stepList,
+  footer,
+  setStepId,
+  changeTaskVisible,
+  setStepLIst,
+}) => {
+  const {
+    state: { currentProjectInfo },
+  } = useAnnotation();
+  const { t } = useTranslation();
   // 删除步骤， step为步骤
   const delStep = (step: number) => {
     const list = stepList.slice();
     const { deleteStepList, newStepList } = deleteStep(step, list);
     Modal.confirm({
-      title: '确定删除以下步骤？',
+      title: t('ConfirmToDeleteSteps'),
       content: deleteStepList.map((item: any, index: number) => (
         <div style={{ margin: '5px 0' }} key={index}>
           {item}
         </div>
       )),
       okButtonProps: { type: 'primary' },
-      okText: '确定',
+      okText: t('Confirm'),
       onOk: () => {
-        setStepLIst(newStepList)
+        setStepLIst(newStepList);
       },
-      cancelText: '取消',
+      cancelText: t('Cancel'),
       autoFocusButton: null,
     });
   };
   const edit = (id: string) => {
     setStepId(id);
     changeTaskVisible();
-  }
+  };
 
   return (
     <List
-      size="small"
-      header="任务步骤"
+      size='small'
+      header={t('TaskSteps')}
       className='task-step-list'
-      footer={!currentProjectInfo && <div style={{textAlign: 'right'}}>{footer}</div>}
+      footer={!currentProjectInfo && <div style={{ textAlign: 'right' }}>{footer}</div>}
       bordered
       dataSource={stepList}
-      renderItem={item => (
+      renderItem={(item) => (
         <List.Item
-          actions={[<EditOutlined onClick={() => {edit(item.id)}} />,
-            (!currentProjectInfo) && <CloseCircleOutlined onClick={() => delStep(item.step)} />
+          actions={[
+            <EditOutlined
+              onClick={() => {
+                edit(item.id);
+              }}
+            />,
+            !currentProjectInfo && <CloseCircleOutlined onClick={() => delStep(item.step)} />,
           ].filter(Boolean)}
         >
           <div className='ant-list-item-icon'>

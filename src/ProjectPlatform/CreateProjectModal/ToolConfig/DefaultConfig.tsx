@@ -3,6 +3,7 @@ import { Form, Input, Tooltip } from 'antd';
 import styles from './index.module.scss';
 import SelectFolder from '../SelectFolder';
 import { ExclamationCircleOutlined } from '@ant-design/icons';
+import { useTranslation } from 'react-i18next';
 
 interface IProps {
   disabled: boolean;
@@ -10,19 +11,21 @@ interface IProps {
 
 const isRequired = true;
 const DefaultConfig: React.FC<IProps> = ({ disabled }) => {
+  const { t } = useTranslation();
+
   return (
     <>
       <Form.Item
         name='name'
-        label={<span className={styles.formTitle}>项目名称</span>}
-        rules={[{ required: isRequired, message: '必填项' }]}
+        label={<span className={styles.formTitle}>{t('ProjectName')}</span>}
+        rules={[{ required: isRequired, message: t('Required') }]}
       >
-        <Input disabled={disabled} placeholder='请输入项目名称，方便后续定位' />
+        <Input disabled={disabled} placeholder={t('InputProjectName')} />
       </Form.Item>
       <Form.Item
         name='path'
-        label={<span className={styles.formTitle}>选择图片文件夹</span>}
-        rules={[{ required: isRequired, message: '必填项' }]}
+        label={<span className={styles.formTitle}>{t('SelectImageFolder')}</span>}
+        rules={[{ required: isRequired, message: t('Required') }]}
       >
         <SelectFolder disabled={disabled} key='path' />
       </Form.Item>
@@ -30,16 +33,13 @@ const DefaultConfig: React.FC<IProps> = ({ disabled }) => {
         name='resultPath'
         label={
           <span className={styles.formTitle}>
-            选择结果文件夹
-            <Tooltip
-              title='注意：当前路径将会提取当前文件夹与图片文件夹对应的标注结果文件， 在任务退出之后覆盖当前路径的结果文件，需谨慎设置'
-              placement='bottom'
-            >
+            {t('SelectResultFolder')}
+            <Tooltip title={t('SelectResultFolderNotify')} placement='bottom'>
               <ExclamationCircleOutlined style={{ marginLeft: 5 }} />
             </Tooltip>
           </span>
         }
-        rules={[{ required: isRequired, message: '必填项' }]}
+        rules={[{ required: isRequired, message: t('Required') }]}
       >
         <SelectFolder disabled={disabled} key='resultPath' />
       </Form.Item>

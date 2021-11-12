@@ -7,6 +7,8 @@ import { useAnnotation } from '@/store';
 import { DownOutlined, UpOutlined } from '@ant-design/icons';
 import logo from '@/asstes/logo.svg';
 import noDataImg from '@/asstes/inside_nodata.svg';
+import { useTranslation } from 'react-i18next';
+import i18n from '@/i18n';
 
 const { Header, Content } = Layout;
 
@@ -15,30 +17,34 @@ interface IProps {}
 export type IProjectType = 'base' | 'step';
 const ProjectPlatform: React.FC<IProps> = (props) => {
   // type 项目类型分为 普通 和 多步骤创建
-  const [type, setType] = useState<IProjectType>('base')
+  const [type, setType] = useState<IProjectType>('base');
   const [visibleDown, setVisibleDown] = useState(false);
   const [createModalVisible, setCreateModalVisible] = useState(false);
-  const { state: { projectList }, dispatch } = useAnnotation();
+  const {
+    state: { projectList },
+    dispatch,
+  } = useAnnotation();
+  const { t } = useTranslation();
 
   // Modal 显示不会触发 Dropdown 的 onVisibleChange
   useEffect(() => {
-    createModalVisible && setVisibleDown(!createModalVisible)
-  }, [createModalVisible])
+    createModalVisible && setVisibleDown(!createModalVisible);
+  }, [createModalVisible]);
 
   const createProject = (key: IProjectType) => {
     setCreateModalVisible(true);
-    setType(key as IProjectType)
+    setType(key as IProjectType);
   };
 
   const onCancel = () => {
-    setCreateModalVisible(false)
+    setCreateModalVisible(false);
     dispatch({
       type: 'UPDATE_CURRENT_PROJECTINFO',
       payload: {
         projectInfo: undefined,
       },
     });
-  }
+  };
 
   const menu = (
     <Menu
@@ -46,50 +52,78 @@ const ProjectPlatform: React.FC<IProps> = (props) => {
         createProject(info.key as IProjectType);
       }}
     >
-      <Menu.Item key="base">
-        创建项目
-      </Menu.Item>
-      <Menu.Item key="step">
-        创建多步骤项目
-      </Menu.Item>
+      <Menu.Item key='base'>{t('NewProject')}</Menu.Item>
+      <Menu.Item key='step'>{t('NewMultiProject')}</Menu.Item>
     </Menu>
   );
+
+  const changeLanguage = (lang: string) => {
+    i18n.changeLanguage(lang);
+  };
+
+  const curLang = i18n.language;
 
   return (
     <Layout className={`${styles.main} ${styles.layout}`}>
       <Header className={styles.header}>
-        <img style={{width: 120}} src={logo} alt='' />
+        <img style={{ width: 120 }} src={logo} alt='' />
+
+        <span className={styles.lang}>
+          <span
+            className={`${styles.langCN} ${curLang === 'cn' ? styles.active : ''}`}
+            onClick={() => changeLanguage('cn')}
+          >
+            中文
+          </span>
+          {` / `}
+          <span
+            className={`${styles.langEN} ${curLang === 'en' ? styles.active : ''}`}
+            onClick={() => changeLanguage('en')}
+          >
+            En
+          </span>
+        </span>
       </Header>
       <Content className={styles.content}>
         <div className={styles.contentTitle}>
-          <span>项目描述
-            {
-              !!projectList.length && <span style={{color: '#8e8e8e'}}> ({projectList.length})</span>
-            }
+          <span>
+            {t('ProjectDesc')}
+            {!!projectList.length && (
+              <span style={{ color: '#8e8e8e' }}> ({projectList.length})</span>
+            )}
           </span>
-            <Dropdown trigger={['click']} overlay={menu} arrow placement="bottomLeft" onVisibleChange={(v) => {
-              setVisibleDown(v)
-            }}>
-              <Button type='primary' className={styles.createBtn}>
-                新建项目
-                {
-                  visibleDown ? <UpOutlined style={{fontSize: 12}} /> : <DownOutlined style={{fontSize: 12}} />
-                }
-              </Button>
-            </Dropdown>
+          <Dropdown
+            trigger={['click']}
+            overlay={menu}
+            arrow
+            placement='bottomLeft'
+            onVisibleChange={(v) => {
+              setVisibleDown(v);
+            }}
+          >
+            <Button type='primary' className={styles.createBtn}>
+              {t('NewProject')}
+              {visibleDown ? (
+                <UpOutlined style={{ fontSize: 12 }} />
+              ) : (
+                <DownOutlined style={{ fontSize: 12 }} />
+              )}
+            </Button>
+          </Dropdown>
         </div>
-        {
-          !projectList?.length && <Empty image={noDataImg} imageStyle={{ height: 200 }} style={{color: '#666', marginTop: '22vh', fontSize: '15px'}} description="暂无数据" />
-        }
+        {!projectList?.length && (
+          <Empty
+            image={noDataImg}
+            imageStyle={{ height: 200 }}
+            style={{ color: '#666', marginTop: '22vh', fontSize: '15px' }}
+            description={t('NoData')}
+          />
+        )}
         <div className={styles.projectList}>
           <ProjectList createProject={createProject} />
         </div>
 
-        <CreateProjectModal
-          type={type}
-          visible={createModalVisible}
-          onCancel={onCancel}
-        />
+        <CreateProjectModal type={type} visible={createModalVisible} onCancel={onCancel} />
       </Content>
     </Layout>
   );

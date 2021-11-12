@@ -20,6 +20,7 @@ import IconTag from '@/asstes/toolIcon/icon_tag.svg';
 import IconPolygon from '@/asstes/toolIcon/icon_polygon.svg';
 import IconText from '@/asstes/toolIcon/icon_text.svg';
 import IconStep from '@/asstes/toolIcon/icon_step.svg';
+import { useTranslation } from 'react-i18next';
 
 const electron = window.require && window.require('electron');
 
@@ -74,6 +75,7 @@ function isHasWrongResult(tool: EToolName, fileList: IFileInfo[], step = 1) {
 const ipcRenderer = electron && electron.ipcRenderer;
 const ProjectList: React.FC<IProps> = ({ createProject }) => {
   const [hoverIndex, setHoverIndex] = useState(-1);
+  const { t } = useTranslation();
   const {
     state: { projectList },
     dispatch,
@@ -153,19 +155,19 @@ const ProjectList: React.FC<IProps> = ({ createProject }) => {
                 <div className={styles.name}>
                   {info.name}{' '}
                   <Tag className={styles.tag} color='#EEEFFF'>
-                    {TOOL_NAME[info.toolName] || '多步骤标注'}
+                    {t(TOOL_NAME[info.toolName]) || t('MultiStepAnnotation')}
                   </Tag>
                 </div>
                 <div className={styles.detail}>
                   <div className={styles.path}>
-                    图片路径：{info.path}
+                    {`${t('ImagePath')}：${info.path}`}
                     <FolderOpenOutlined
                       className={styles.folderOpen}
                       onClick={() => openDirectory(info.path)}
                     />
                   </div>
                   <div>
-                    结果路径：{info.resultPath}
+                    {`${t('ResultPath')}：${info.resultPath}`}
                     <FolderOpenOutlined
                       className={styles.folderOpen}
                       onClick={() => openDirectory(info.resultPath)}
@@ -185,7 +187,7 @@ const ProjectList: React.FC<IProps> = ({ createProject }) => {
                   />
                   <Popconfirm
                     placement='top'
-                    title='确认删除？'
+                    title={t('ConfirmToDelete')}
                     icon={<QuestionCircleOutlined style={{ color: 'red' }} />}
                     onConfirm={() => deleteProject(i)}
                   >

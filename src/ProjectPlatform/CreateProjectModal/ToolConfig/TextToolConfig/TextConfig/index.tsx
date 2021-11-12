@@ -2,13 +2,20 @@
 import React from 'react';
 import { Form, FormInstance, InputNumber, Input } from 'antd';
 import { ItextConfig } from '../TextList';
+import { useTranslation } from 'react-i18next';
 const { TextArea } = Input;
 
 interface IProps {
   form: FormInstance;
 }
 
-const Index: React.FC<IProps & ItextConfig> = ({ label, maxLength, default: defaultValue, form }) => {
+const Index: React.FC<IProps & ItextConfig> = ({
+  label,
+  maxLength,
+  default: defaultValue,
+  form,
+}) => {
+  const { t } = useTranslation();
   return (
     <Form
       preserve={false}
@@ -16,35 +23,28 @@ const Index: React.FC<IProps & ItextConfig> = ({ label, maxLength, default: defa
       labelAlign='left'
       labelCol={{ span: 6 }}
       wrapperCol={{ span: 18 }}
-      form={form}>
-      <Form.Item label='名称'>{label}</Form.Item>
+      form={form}
+    >
+      <Form.Item label={t('Name')}>{label}</Form.Item>
       <Form.Item
-        label='文本输入上限'
+        label={t('Maximum Text Input')}
         name='maxLength'
-        rules={[{ required: true, message: '必填项' }]}
+        rules={[{ required: true, message: t('Reqired') }]}
         initialValue={maxLength}
       >
-        <InputNumber
-          min={1} max={1000}
-          style={{ width: '100%' }}
-        />
+        <InputNumber min={1} max={1000} style={{ width: '100%' }} />
       </Form.Item>
-      <Form.Item
-        noStyle
-        shouldUpdate
-      >
+      <Form.Item noStyle shouldUpdate>
         {() => {
-          const len = form.getFieldValue('maxLength')
+          const len = form.getFieldValue('maxLength');
           return (
-            <Form.Item label='文本默认值'
-                       initialValue={defaultValue}
-                       name='default'
-                       rules={[{max: len, message: `请输入不超过 ${len} 个字的文本默认值`}]}
+            <Form.Item
+              label={t('DefaultText')}
+              initialValue={defaultValue}
+              name='default'
+              rules={[{ max: len, message: t('DefaultTextCharactersLimitNotify', { len }) }]}
             >
-              <TextArea
-                maxLength={len}
-                showCount
-              />
+              <TextArea maxLength={len} showCount />
             </Form.Item>
           );
         }}

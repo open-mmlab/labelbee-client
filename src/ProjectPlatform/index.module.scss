@@ -27,6 +27,7 @@ $primary-color: #666fff;
       .icon {
         margin-right: 36px;
       }
+
       .detailInfo {
         font-size: 14px;
         color: #999;
@@ -35,9 +36,11 @@ $primary-color: #666fff;
           font-size: 18px;
           color: #333;
         }
+
         .folderOpen {
           margin-left: 10px;
         }
+
         .path {
           margin: 18px 0 8px;
         }
@@ -46,6 +49,7 @@ $primary-color: #666fff;
           color: #8e8e8e;
         }
       }
+
       .createdAt {
         position: absolute;
         right: 48px;
@@ -53,6 +57,7 @@ $primary-color: #666fff;
         font-size: 14px;
         color: #999999;
       }
+
       .tag {
         color: #666fff;
         height: 32px;
@@ -62,11 +67,13 @@ $primary-color: #666fff;
         margin-left: 16px;
         vertical-align: center !important;
       }
+
       .setting {
         position: absolute;
         right: 30px;
         bottom: 40px;
       }
+
       .deleteButton {
         position: absolute;
         cursor: pointer;
@@ -100,7 +107,8 @@ $primary-color: #666fff;
     font-size: 18px;
 
     &::-webkit-scrollbar {
-      display: none; /* Chrome Safari */
+      display: none;
+      /* Chrome Safari */
     }
 
     padding-bottom: 10px;
@@ -111,5 +119,18 @@ $primary-color: #666fff;
     align-items: center;
     justify-content: space-between;
     padding: 24px 0;
+  }
+}
+
+.lang {
+  float: right;
+
+  .langEN,
+  .langCN {
+    cursor: pointer;
+  }
+
+  .active {
+    font-weight: bold;
   }
 }
