@@ -1,17 +1,20 @@
 // cl 2021/8/5 19:12
 import React, { useState } from 'react';
-import { IFileInfo, IProjectInfo, useAnnotation } from '@/store';
-import { message, Popconfirm, Tag, Image } from 'antd';
+import { IFileInfo, IProjectInfo, IStepInfo, useAnnotation } from '@/store';
+import { message, Popconfirm, Tag } from 'antd';
 import { EToolName, TOOL_NAME } from '@/constant/store';
 import {
   DeleteOutlined,
   QuestionCircleOutlined,
   EditOutlined,
   FolderOpenOutlined,
+  ExportOutlined,
 } from '@ant-design/icons';
+import SelectFolder from '@/ProjectPlatform/CreateProjectModal/SelectFolder';
+import ExportData from './ExportData';
 import styles from '../index.module.scss';
 import { EIpcEvent } from '@/constant/event';
-import { formatDate } from '@/utils/tool/common';
+import { formatDate, jsonParser } from '@/utils/tool/common';
 import { IProjectType } from '@/ProjectPlatform';
 import IconRect from '@/asstes/toolIcon/icon_rect.svg';
 import IconLine from '@/asstes/toolIcon/icon_line.svg';
@@ -72,10 +75,68 @@ function isHasWrongResult(tool: EToolName, fileList: IFileInfo[], step = 1) {
   }
 }
 
+/**
+ * 结果错误检测
+ * @param stepList
+ * @param fileList
+ * @returns
+ */
+function isWrongResultList(stepList: IStepInfo[], fileList: IFileInfo[]): any {
+  let errorResultList: IFileInfo[] = []; //
+  const error = fileList.find((fileInfo) => {
+    const result = jsonParser(fileInfo.result);
+    if (!result) {
+      return false;
+    }
+    let isError: any = false;
+    let isPass = false; // 用于立刻跳过
+
+    /**
+     * 数据不匹配条件
+     * 1. 步骤类型不相同
+     * 2. 只允许前置步骤为空
+     *
+     *
+     *  三种情况：
+     * 1. 步骤结果完全相同
+     * 2. 全部为空
+     * 3.
+     */
+    stepList.forEach((stepInfo) => {
+      const step = stepInfo.step;
+
+      // 前面存在空， 后面存在值的情况为错误
+      if (isPass && result[`step_${step}`]) {
+        isError = true;
+        return;
+      }
+
+      // 当前这一步骤不存在的话
+      if (!result[`step_${step}`]) {
+        isPass = true;
+        return;
+      }
+
+      if (stepInfo.tool !== result[`step_${step}`]?.toolName) {
+        isError = true;
+      }
+    });
+
+    if (isError === true) {
+      errorResultList.push(fileInfo);
+      return true;
+    }
+  });
+
+  return [error, errorResultList];
+}
+
 const ipcRenderer = electron && electron.ipcRenderer;
 const ProjectList: React.FC<IProps> = ({ createProject }) => {
   const [hoverIndex, setHoverIndex] = useState(-1);
   const { t } = useTranslation();
+  const [currentProjectInfo, setProjectInfo] = useState<IProjectInfo | undefined>(undefined);
+
   const {
     state: { projectList },
     dispatch,
@@ -180,6 +241,10 @@ const ProjectList: React.FC<IProps> = ({ createProject }) => {
               </div>
               {hoverIndex === i && (
                 <div className={styles.deleteButton}>
+                  <ExportOutlined
+                    onClick={() => setProjectInfo(info)}
+                    style={{ marginRight: 12 }}
+                  />
                   <EditOutlined
                     onClick={() => editProject(info)}
                     className='primary-color'
@@ -198,6 +263,7 @@ const ProjectList: React.FC<IProps> = ({ createProject }) => {
             </div>
           ))}
       </div>
+      {<ExportData projectInfo={currentProjectInfo} setProjectInfo={setProjectInfo} />}
     </div>
   );
 };
