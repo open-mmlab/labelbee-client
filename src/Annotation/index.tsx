@@ -43,16 +43,6 @@ const Annotation = (props: any) => {
         fileList: [],
       },
     });
-
-    // 将数据保存的到本地
-    if (electron) {
-      electron.ipcRenderer.send(
-        EIpcEvent.SaveResult,
-        imgList,
-        currentProjectInfo?.path,
-        currentProjectInfo?.resultPath,
-      );
-    }
   };
 
   return (
