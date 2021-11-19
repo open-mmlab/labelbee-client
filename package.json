@@ -11,7 +11,7 @@
   "dependencies": {
     "@ant-design/icons": "^4.6.2",
     "@babel/core": "7.9.0",
-    "@sensetime/label-bee": "1.2.0-alpha.1",
+    "@sensetime/label-bee": "1.2.0-alpha.10",
     "@svgr/webpack": "4.3.3",
     "@types/lodash": "^4.14.171",
     "antd": "~4.15.0",
@@ -225,21 +225,21 @@
       "credentials"
     ],
     "mac": {
-      "icon": "./public/icon.png",
+      "icon": "./public/icon/icon_512x512@2x.icns",
       "target": [
         "dmg",
         "zip"
       ]
     },
     "win": {
-      "icon": "./public/icon.ico",
+      "icon": "./public/icon/label-app-icon-256.ico",
       "target": [
         "nsis",
         "zip"
       ]
     },
     "linux": {
-      "icon": "./public/icon256.png",
+      "icon": "./public/icon/label-app-icon-256.png",
       "target": [
         "deb",
         "tar.gz"
