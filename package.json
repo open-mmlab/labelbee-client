@@ -1,6 +1,6 @@
 {
   "name": "LabelBee-Client",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "private": true,
   "homepage": "./",
   "author": "laoluo <luozefeng@sensetime.com>",
@@ -109,6 +109,7 @@
     "packager:mac": "npm run build && rm -rf dist && electron-builder -m",
     "packager:win": "npm run build && rm -rf dist && electron-builder -w",
     "packager:linux": "npm run build && rm -rf dist && electron-builder -l",
+    "packager:all": "npm run build && rm -rf dist && electron-builder -lwm",
     "packager:debug": "electron-builder --mac --dir",
     "package": "electron-forge package –-platform=win",
     "make": "electron-forge make",
