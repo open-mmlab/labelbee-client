@@ -5,6 +5,7 @@ import { IProjectInfo } from '@/store';
 import { EIpcEvent } from '@/constant/event';
 import DataTransfer from '@/utils/DataTransfer';
 import { EToolName } from '@/constant/store';
+import { useTranslation } from 'react-i18next';
 
 interface IProps {
   projectInfo?: IProjectInfo;
@@ -17,6 +18,7 @@ const ipcRenderer = electron && electron.ipcRenderer;
 const ExportData = (props: IProps) => {
   const { projectInfo, setProjectInfo } = props;
   const [form] = Form.useForm();
+  const { t } = useTranslation();
 
   useEffect(() => {
     return () => {
@@ -56,7 +58,7 @@ const ExportData = (props: IProps) => {
           JSON.stringify(json),
           values.path + `/${name}.json`,
         );
-        message.success('导出成功');
+        message.success(t('ExportSuccess'));
         ipcRenderer.send(EIpcEvent.OpenDirectory, values.path + '/');
         setProjectInfo(undefined);
       });
@@ -69,29 +71,29 @@ const ExportData = (props: IProps) => {
   return (
     <Modal
       visible={!!projectInfo}
-      title='选择导出格式'
+      title={t('SelectExportFormat')}
       onOk={onOk}
       width='50%'
       onCancel={onCancel}
       getContainer={window.document.body}
     >
       <Form labelCol={{ span: 6 }} wrapperCol={{ span: 16 }} layout='horizontal' form={form}>
-        <Form.Item label='导出格式' name='format' initialValue='default'>
+        <Form.Item label={t('ExportFormat')} name='format' initialValue='default'>
           <Radio.Group>
             <Radio.Button value='coco' disabled={!isTransfer2Coco}>
               {isTransfer2Coco ? (
                 'COCO'
               ) : (
-                <Popover content={'仅限拉框、多边形工具可以实现 coco 数据的转换'}>COCO</Popover>
+                <Popover content={t('ExportLimitMsg')}>COCO</Popover>
               )}
             </Radio.Button>
-            <Radio.Button value='default'>标准格式</Radio.Button>
+            <Radio.Button value='default'>{t('StandardFormat')}</Radio.Button>
           </Radio.Group>
         </Form.Item>
         <Form.Item
           name='path'
-          label={<span>选择图片文件夹</span>}
-          rules={[{ required: true, message: '请选择图片文件夹' }]}
+          label={<span>{t('SelectedExportPath')}</span>}
+          rules={[{ required: true, message: t('SelectedExportPath') }]}
         >
           <SelectFolder key='path' />
         </Form.Item>
