@@ -5,12 +5,17 @@ import Annotation from './Annotation';
 import ProjectPlatform from './ProjectPlatform';
 import { AnnotationContext } from './store';
 import { EStore } from './constant/store';
+import { useLocale } from './store/locale';
+import { ConfigProvider } from 'antd';
 
 const App = () => {
   const {
     state: { fileList, currentProjectInfo },
     dispatch,
   } = useContext(AnnotationContext);
+  const {
+    state: { locale },
+  } = useLocale();
 
   useEffect(() => {
     try {
@@ -32,9 +37,11 @@ const App = () => {
   }
 
   return (
-    <div className='App'>
-      <ProjectPlatform />
-    </div>
+    <ConfigProvider locale={locale}>
+      <div className='App'>
+        <ProjectPlatform />
+      </div>
+    </ConfigProvider>
   );
 };
 
