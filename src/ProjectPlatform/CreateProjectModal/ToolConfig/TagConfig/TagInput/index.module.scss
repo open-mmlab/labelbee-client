@@ -75,12 +75,19 @@
   display: flex;
   justify-content: flex-start;
   height: 20px;
+
+  :global {
+    .ant-checkbox-checked::after {
+      display: none;
+    }
+  }
   .icon {
-    margin-right: 6px;
+    margin-right: 9px;
   }
   .star {
     display: block;
     margin-right: 6px;
+    cursor: pointer;
   }
   .starSelected {
     color: rgba(255, 179, 102, 1);
@@ -95,6 +102,7 @@
   //width: 90%;
 
   .subSelect {
+    margin-top: 2px;
     padding-bottom: 10px;
     display: inline-block;
     position: relative;

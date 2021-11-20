@@ -128,7 +128,9 @@ const ToolConfig: React.FC<IProps> = ({ form }) => {
                     />
                   ))}
 
-                  <Button onClick={() => addInputInfo()}>{t('New')}</Button>
+                  <Button style={{ marginTop: 10 }} onClick={() => addInputInfo()}>
+                    {t('New')}
+                  </Button>
                 </div>
               </TabPane>
               <TabPane tab='JSON' key='2'>

@@ -96,7 +96,7 @@ const TagInput = (props: IProps) => {
 
       {inputInfo.subSelected && (
         <div className={styles.subMain}>
-          {inputInfo.subSelected.map((subInfo, j) => (
+          {inputInfo.subSelected.map((subInfo, j, arr) => (
             <Row className={styles.subSelect} key={j}>
               <Col span={1} className={styles.inputSerial}></Col>
               <Col span={16} className={styles.firstItem}>
@@ -129,7 +129,7 @@ const TagInput = (props: IProps) => {
                 >
                   <StarFilled style={{ width: 16, height: 16 }} />
                 </div>
-                {!isAllReadOnly && (
+                {arr.length > 1 && !isAllReadOnly && (
                   <a
                     style={{
                       color: '#CCCCCC',
