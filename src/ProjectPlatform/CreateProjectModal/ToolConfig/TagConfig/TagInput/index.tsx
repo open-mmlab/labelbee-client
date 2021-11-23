@@ -3,7 +3,7 @@ import { Input as SensebeeInput } from 'antd';
 import styles from './index.module.scss';
 
 import { CloseCircleFilled, PlusCircleFilled, StarFilled } from '@ant-design/icons';
-import { Checkbox, Col, Input, Row } from 'antd';
+import { Checkbox, Col, Input, Row, Tooltip } from 'antd';
 import { useTranslation } from 'react-i18next';
 const InputGroup = Input.Group;
 
@@ -30,14 +30,8 @@ interface IInfoList {
 }
 
 const TagInput = (props: IProps) => {
-  const {
-    inputInfo,
-    isAllReadOnly,
-    changeInputInfo,
-    addInputInfo,
-    deleteInputInfo,
-    inputIndex,
-  } = props;
+  const { inputInfo, isAllReadOnly, changeInputInfo, addInputInfo, deleteInputInfo, inputIndex } =
+    props;
 
   const { t } = useTranslation();
 
@@ -73,13 +67,15 @@ const TagInput = (props: IProps) => {
         </Col>
         <Col span={7}>
           <div className={styles.headerOption}>
-            <Checkbox
-              className={`${
-                inputInfo.isMulti === true ? styles.checkboxSelected : styles.checkboxUnselected
-              } ${styles.icon}`}
-              checked={true}
-              onChange={(e) => !isAllReadOnly && changeInputInfo(e, 'isMulti', inputIndex)}
-            />
+            <Tooltip placement='right' title={t('MultiSelect')}>
+              <Checkbox
+                className={`${
+                  inputInfo.isMulti === true ? styles.checkboxSelected : styles.checkboxUnselected
+                } ${styles.icon}`}
+                checked={true}
+                onChange={(e) => !isAllReadOnly && changeInputInfo(e, 'isMulti', inputIndex)}
+              />
+            </Tooltip>
             {!isAllReadOnly && (
               <a className={styles.addIcon} onClick={() => addInputInfo(inputIndex)}>
                 <PlusCircleFilled />
@@ -127,7 +123,9 @@ const TagInput = (props: IProps) => {
                       `}
                   onClick={(e) => !isAllReadOnly && changeInputInfo(e, 'isDefault', inputIndex, j)}
                 >
-                  <StarFilled style={{ width: 16, height: 16 }} />
+                  <Tooltip placement='right' title={t('DefaultOrNot')}>
+                    <StarFilled style={{ width: 16, height: 16 }} />
+                  </Tooltip>
                 </div>
                 {arr.length > 1 && !isAllReadOnly && (
                   <a

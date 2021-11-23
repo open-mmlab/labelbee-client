@@ -92,42 +92,49 @@ const CreateProjectModal: React.FC<IProps> = ({ type, visible, onCancel }) => {
   };
 
   const createProject = () => {
-    form.validateFields().then((values) => {
-      let list;
-      if (isBase) {
-        const result = formatData(omit(values, ['name', 'path', 'resultPath']), toolName, form);
-        list = [{ step: 1, tool: toolName, id: uuid(), config: result }];
-      } else {
-        list = stepList;
-      }
-      if (!isBase && stepList.length < 1) {
-        message.error(t('AddTaskStepsNotify'));
-        return;
-      }
-      const arr =
-        form.getFieldValue('attributeList') ||
-        form.getFieldValue('inputList') ||
-        form.getFieldValue('configList')?.map((item: any) => ({ value: item.label, ...item }));
-      if (repeatInputList(arr)) {
-        return;
-      }
-      deleteProject();
-      dispatch({
-        type: 'ADD_PROJECT_LIST',
-        payload: {
-          projectList: [
-            {
-              ...pick(values, ['name', 'path', 'resultPath']),
-              id: uuid(),
-              toolName: isBase ? toolName : undefined,
-              createdAt: Date.now(),
-              stepList: list,
-            },
-          ],
-        },
+    form
+      .validateFields()
+      .then((values) => {
+        let list;
+        if (isBase) {
+          const result = formatData(omit(values, ['name', 'path', 'resultPath']), toolName, form);
+          list = [{ step: 1, tool: toolName, id: uuid(), config: result }];
+        } else {
+          list = stepList;
+        }
+        if (!isBase && stepList.length < 1) {
+          message.error(t('AddTaskStepsNotify'));
+          return;
+        }
+        const arr =
+          form.getFieldValue('attributeList') ||
+          form.getFieldValue('inputList') ||
+          form.getFieldValue('configList')?.map((item: any) => ({ value: item.label, ...item }));
+        if (repeatInputList(arr)) {
+          return;
+        }
+        deleteProject();
+        dispatch({
+          type: 'ADD_PROJECT_LIST',
+          payload: {
+            projectList: [
+              {
+                ...pick(values, ['name', 'path', 'resultPath']),
+                id: uuid(),
+                toolName: isBase ? toolName : undefined,
+                createdAt: Date.now(),
+                stepList: list,
+              },
+            ],
+          },
+        });
+        onCancel();
+      })
+      .catch(({ errorFields }) => {
+        if (errorFields?.length > 0 && errorFields[0].name) {
+          form.scrollToField(errorFields[0].name);
+        }
       });
-      onCancel();
-    });
   };
 
   const getName = () => {

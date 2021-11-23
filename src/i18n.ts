@@ -22,7 +22,7 @@ const resources = {
       AnnotationTool: 'Annotation Tool',
       Save: 'Save',
       ProjectName: 'Project Name',
-      Required: 'Required˝',
+      Required: 'Required',
       SelectImageFolder: 'Image Path',
       InputProjectName: 'Please Input Project Name',
       SelectResultFolder: 'Result Path',
@@ -85,6 +85,8 @@ const resources = {
       ExportSuccess: 'Export successfully',
       ExportLimitMsg: 'Only rectTool and polygonTool can realize the conversion of coco data',
       SelectedExportPath: 'Choose export path',
+      MultiSelect: 'multi-select',
+      DefaultOption: 'Default Option',
     },
   },
   cn: {
@@ -166,6 +168,8 @@ const resources = {
       ExportSuccess: '导出成功',
       ExportLimitMsg: '仅限拉框、多边形工具可以实现 coco 数据的转换',
       SelectedExportPath: '选择导出的路径',
+      MultiSelect: '多选',
+      DefaultOption: '默认选择',
     },
   },
 };

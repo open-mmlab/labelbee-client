@@ -10,6 +10,7 @@ import {
 } from '@/utils/tool/editTool';
 import MonacoEditor from 'react-monaco-editor';
 import { useTranslation } from 'react-i18next';
+import i18n from '@/i18n';
 
 const { TabPane } = Tabs;
 interface IProps {
@@ -33,11 +34,21 @@ interface IInfoList {
 const initInputList = [
   {
     key: '类别1',
-    value: 'class1',
+    value: 'class-1',
     isMulti: false,
-    subSelected: [{ key: '选项1', value: 'option1', isDefault: false }],
+    subSelected: [{ key: '选项1-1', value: 'option1-1', isDefault: false }],
   },
 ];
+
+const initInputList_EN = [
+  {
+    key: 'className1',
+    value: 'class-1',
+    isMulti: false,
+    subSelected: [{ key: 'optionName1-1', value: 'option1-1', isDefault: false }],
+  },
+];
+
 // 限定质检
 const options = {
   selectOnLineNumbers: true,
@@ -64,7 +75,10 @@ const ToolConfig: React.FC<IProps> = ({ form }) => {
   const addInputInfo = (i?: number) => {
     const inputList = form?.getFieldValue('inputList');
     form?.setFieldsValue({
-      inputList: addInputList(inputList, EDIT_SUBSELECTED, i, { isMulti: true }),
+      inputList: addInputList(inputList, EDIT_SUBSELECTED, i, {
+        isMulti: true,
+        lang: i18n.language,
+      }),
     });
   };
   // 删除对应输入
@@ -87,7 +101,12 @@ const ToolConfig: React.FC<IProps> = ({ form }) => {
   };
   useEffect(() => {
     // 通过 form 来管理数据 后面有异步的话也可以通过这里管理
-    form?.setFieldsValue({ inputList: initInputList });
+    let inputList = initInputList;
+    if (i18n.language === 'en') {
+      inputList = initInputList_EN;
+    }
+
+    form?.setFieldsValue({ inputList });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (

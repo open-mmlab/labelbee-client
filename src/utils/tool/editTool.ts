@@ -1,8 +1,7 @@
-
 import { cloneDeep } from 'lodash';
 import uuid from './uuid';
 import { message } from 'antd';
-import { IInputList } from '@/ProjectPlatform/CreateProjectModal/ToolConfig/TagConfig'
+import { IInputList } from '@/ProjectPlatform/CreateProjectModal/ToolConfig/TagConfig';
 
 // export const DEFAULT_LINK = '@@';
 // const DEFAULT_TOOL_ATTRIBUTE = ['valid', 'invalid'];
@@ -21,27 +20,42 @@ export const addInputList = (
   specialState?: {
     isMulti?: boolean;
     isDefault?: boolean;
+    lang: 'cn' | 'en';
   },
 ) => {
   inputList = cloneDeep(inputList);
+  let baseClassName = '类别';
+  let baseOptionName = '选项';
+
+  switch (specialState?.lang) {
+    case 'en':
+      baseClassName = 'className';
+      baseOptionName = 'optionName';
+      break;
+    default: {
+      //
+      break;
+    }
+  }
+
   if (i !== undefined) {
     if (inputList[i].subSelected) {
       const len = inputList[i].subSelected.length + 1;
       inputList[i].subSelected.push({
-        key: `选项${i + 1}-${len}`,
+        key: `${baseOptionName}${i + 1}-${len}`,
         value: `option${i + 1}-${len}`,
         isDefault: false,
       });
     } else {
       inputList[i].subSelected = [
-        { key: `选项${i + 1}-1`, value: `option${i + 1}-1`, isDefault: false },
+        { key: `${baseOptionName}${i + 1}-1`, value: `option${i + 1}-1`, isDefault: false },
       ];
     }
   } else {
     const len = inputList.length + 1;
     const id = uuid(2, 62);
     const newData = {
-      key: `类别${id}`,
+      key: `${baseClassName}${id}`,
       value: `class-${id}`,
     };
 
@@ -55,7 +69,9 @@ export const addInputList = (
 
     if (isInitSubSelected) {
       Object.assign(newData, {
-        subSelected: [{ key: `选项${len}-1`, value: `option${len}-1`, isMulti: false }],
+        subSelected: [
+          { key: `${baseOptionName}${len}-1`, value: `option${len}-1`, isMulti: false },
+        ],
       });
     }
     inputList.push(newData);
@@ -72,7 +88,7 @@ export const addInputList = (
  * @param {number} index
  * @return
  */
- export function clearTagDefault(inputList: any[], index: number) {
+export function clearTagDefault(inputList: any[], index: number) {
   inputList = cloneDeep(inputList);
 
   if (!inputList[index]?.subSelected) {
@@ -138,7 +154,7 @@ export const changeInputList = (
         const newIsDefault = !inputList[index].isDefault;
 
         // 顶层更新数据更新
-        inputList = inputList.map(v => ({ ...v, isDefault: false }));
+        inputList = inputList.map((v) => ({ ...v, isDefault: false }));
         inputList[index].isDefault = newIsDefault;
       }
       break;
@@ -210,9 +226,9 @@ export function judgeIsTagConfig(inputList: any) {
 }
 
 export function repeatInputList(inputList?: IInputList[]) {
-  if(!inputList) return false;
-  let keyMap: {[key: string]: string[]} = {}
-  let valMap: {[key: string]: string[]} = {}
+  if (!inputList) return false;
+  let keyMap: { [key: string]: string[] } = {};
+  let valMap: { [key: string]: string[] } = {};
   let isRepeat = false;
   function dep(list: IInputList[], key: string) {
     list.forEach((item, index: number) => {
@@ -220,24 +236,24 @@ export function repeatInputList(inputList?: IInputList[]) {
         message.info('请填写完整标注的表单信息');
         isRepeat = true;
       }
-      if(item.value.includes(';')) {
+      if (item.value.includes(';')) {
         message.info('value 并不能带有分号');
         isRepeat = true;
       }
-      if(keyMap[key] || valMap[key]) {
-        if(keyMap[key].includes(item.key) || valMap[key].includes(item.value)) {
+      if (keyMap[key] || valMap[key]) {
+        if (keyMap[key].includes(item.key) || valMap[key].includes(item.value)) {
           message.info('表单项不能设置相同的值！');
           isRepeat = true;
         }
-        keyMap[key].push(item.key)
-        valMap[key].push(item.value)
-      }else {
-        keyMap[key] = [item.key]
-        valMap[key] = [item.value]
+        keyMap[key].push(item.key);
+        valMap[key].push(item.value);
+      } else {
+        keyMap[key] = [item.key];
+        valMap[key] = [item.value];
       }
-      item.subSelected && dep(item.subSelected, `sub${index}`)
-    })
+      item.subSelected && dep(item.subSelected, `sub${index}`);
+    });
   }
-  dep(inputList, 'root')
-  return isRepeat
+  dep(inputList, 'root');
+  return isRepeat;
 }
