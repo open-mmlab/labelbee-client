@@ -10,8 +10,6 @@ import noDataImg from '@/asstes/inside_nodata.svg';
 import { useTranslation } from 'react-i18next';
 import { useLocale } from '../store/locale';
 import i18n from '@/i18n';
-import zhCN from 'antd/lib/locale/zh_CN';
-import enUS from 'antd/lib/locale/en_US';
 
 const { Header, Content } = Layout;
 
@@ -28,13 +26,7 @@ const ProjectPlatform: React.FC<IProps> = (props) => {
     dispatch,
   } = useAnnotation();
 
-  const locale = useLocale();
   const { t } = useTranslation();
-
-  useEffect(() => {
-    // 默认语言设置为英语
-    i18n.changeLanguage('en');
-  }, []);
 
   // Modal 显示不会触发 Dropdown 的 onVisibleChange
   useEffect(() => {
@@ -68,25 +60,6 @@ const ProjectPlatform: React.FC<IProps> = (props) => {
   );
 
   const changeLanguage = (lang: string) => {
-    switch (lang) {
-      case 'cn':
-        locale.dispatch({
-          type: 'UPDATE_LOCALE',
-          payload: {
-            locale: zhCN,
-          },
-        });
-        break;
-
-      case 'en':
-        locale.dispatch({
-          type: 'UPDATE_LOCALE',
-          payload: {
-            locale: enUS,
-          },
-        });
-        break;
-    }
     i18n.changeLanguage(lang);
   };
 

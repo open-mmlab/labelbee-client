@@ -3,6 +3,7 @@ import AnnotationOperation from '@sensetime/label-bee';
 import '@sensetime/label-bee/dist/index.css';
 import { EIpcEvent } from '../constant/event';
 import { AnnotationContext } from '../store';
+import i18n from '@/i18n';
 
 const electron = window.require && window.require('electron');
 
@@ -57,6 +58,7 @@ const Annotation = (props: any) => {
         goBack={goBack}
         stepList={stepList}
         step={step}
+        defaultLang={i18n.language}
       />
     </div>
   );

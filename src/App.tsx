@@ -7,15 +7,41 @@ import { AnnotationContext } from './store';
 import { EStore } from './constant/store';
 import { useLocale } from './store/locale';
 import { ConfigProvider } from 'antd';
+import i18n from './i18n';
+import zhCN from 'antd/lib/locale/zh_CN';
+import enUS from 'antd/lib/locale/en_US';
 
 const App = () => {
   const {
     state: { fileList, currentProjectInfo },
     dispatch,
   } = useContext(AnnotationContext);
-  const {
-    state: { locale },
-  } = useLocale();
+  const locale = useLocale();
+
+  useEffect(() => {
+    i18n.on('languageChanged', function (lang: string) {
+      // 更改内部 antd 的国际化
+      switch (lang) {
+        case 'cn':
+          locale.dispatch({
+            type: 'UPDATE_LOCALE',
+            payload: {
+              locale: zhCN,
+            },
+          });
+          break;
+
+        case 'en':
+          locale.dispatch({
+            type: 'UPDATE_LOCALE',
+            payload: {
+              locale: enUS,
+            },
+          });
+          break;
+      }
+    });
+  }, []);
 
   useEffect(() => {
     try {
@@ -37,7 +63,7 @@ const App = () => {
   }
 
   return (
-    <ConfigProvider locale={locale}>
+    <ConfigProvider locale={locale.state.locale}>
       <div className='App'>
         <ProjectPlatform />
       </div>
