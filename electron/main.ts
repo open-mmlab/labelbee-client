@@ -1,7 +1,7 @@
 import { ipcListen } from './ipcEvent';
 const electron = require('electron');
 const platform = require('os').platform(); // 获取平台：https://nodejs.org/api/os.html#os_os_platform
-const version = '1.1.0';
+const version = '1.1.1';
 
 // 控制app生命周期.
 const app = electron.app;
@@ -30,7 +30,7 @@ const setupMenu = () => {
       submenu: [
         {
           label: `版本版本：${version}`,
-          type: 'normal'
+          type: 'normal',
         },
       ],
     },
