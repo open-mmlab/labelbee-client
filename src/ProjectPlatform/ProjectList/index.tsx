@@ -8,7 +8,7 @@ import {
   QuestionCircleOutlined,
   EditOutlined,
   FolderOpenOutlined,
-  ExportOutlined,
+  DeliveredProcedureOutlined,
 } from '@ant-design/icons';
 import SelectFolder from '@/ProjectPlatform/CreateProjectModal/SelectFolder';
 import ExportData from './ExportData';
@@ -207,7 +207,7 @@ const ProjectList: React.FC<IProps> = ({ createProject }) => {
               key={i}
               onMouseEnter={() => setHoverIndex(i)}
               onMouseLeave={() => setHoverIndex(-1)}
-              onDoubleClick={() => startAnnotation(info)}
+              onClick={() => startAnnotation(info)}
             >
               <div className={styles.icon}>
                 <img style={{ width: 72 }} src={icon[info.toolName || 'step']} alt='' />
@@ -224,14 +224,20 @@ const ProjectList: React.FC<IProps> = ({ createProject }) => {
                     {`${t('ImagePath')}：${info.path}`}
                     <FolderOpenOutlined
                       className={styles.folderOpen}
-                      onClick={() => openDirectory(info.path)}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        openDirectory(info.path);
+                      }}
                     />
                   </div>
                   <div>
                     {`${t('ResultPath')}：${info.resultPath}`}
                     <FolderOpenOutlined
                       className={styles.folderOpen}
-                      onClick={() => openDirectory(info.resultPath)}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        openDirectory(info.resultPath);
+                      }}
                     />
                   </div>
                 </div>
@@ -241,23 +247,38 @@ const ProjectList: React.FC<IProps> = ({ createProject }) => {
               </div>
               {hoverIndex === i && (
                 <div className={styles.deleteButton}>
-                  <ExportOutlined
-                    onClick={() => setProjectInfo(info)}
+                  <DeliveredProcedureOutlined
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setProjectInfo(info);
+                    }}
+                    className={styles.icon}
                     style={{ marginRight: 12 }}
                   />
                   <EditOutlined
-                    onClick={() => editProject(info)}
-                    className='primary-color'
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      editProject(info);
+                    }}
+                    className={styles.icon}
                     style={{ marginRight: 12 }}
                   />
-                  <Popconfirm
-                    placement='top'
-                    title={t('ConfirmToDelete')}
-                    icon={<QuestionCircleOutlined style={{ color: 'red' }} />}
-                    onConfirm={() => deleteProject(i)}
+                  <span
+                    onClick={(e) => {
+                      e.stopPropagation();
+                    }}
                   >
-                    <DeleteOutlined className='primary-color' />
-                  </Popconfirm>
+                    <Popconfirm
+                      placement='top'
+                      title={t('ConfirmToDelete')}
+                      icon={<QuestionCircleOutlined style={{ color: 'red' }} />}
+                      onConfirm={() => {
+                        deleteProject(i);
+                      }}
+                    >
+                      <DeleteOutlined className={styles.icon} />
+                    </Popconfirm>
+                  </span>
                 </div>
               )}
             </div>

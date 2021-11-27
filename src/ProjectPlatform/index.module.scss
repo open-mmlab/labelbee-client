@@ -1,6 +1,7 @@
 $navWidth: 300px;
 $projectMarginTop: 10px;
 $primary-color: #666fff;
+$primary-color-base: #666666;
 
 .main {
   position: relative;
@@ -18,7 +19,7 @@ $primary-color: #666fff;
       background: #ffffff;
       box-shadow: 0px 0px 0px rgba(102, 111, 255, 0.08);
       margin-bottom: 24px;
-      cursor: url('../asstes/icon_doubleClick.png') 4 12, auto;
+      cursor: default;
 
       &:hover {
         box-shadow: 0px 8px 16px rgba(102, 111, 255, 0.08);
@@ -39,6 +40,7 @@ $primary-color: #666fff;
 
         .folderOpen {
           margin-left: 10px;
+          cursor: pointer;
         }
 
         .path {
@@ -76,10 +78,16 @@ $primary-color: #666fff;
 
       .deleteButton {
         position: absolute;
+        background-color: white;
         cursor: pointer;
-        right: 64px;
-        bottom: 36px;
-        color: $primary-color;
+        right: 12px;
+        bottom: 26px;
+        .icon {
+          color: $primary-color-base;
+          &:hover {
+            color: $primary-color;
+          }
+        }
       }
     }
   }
