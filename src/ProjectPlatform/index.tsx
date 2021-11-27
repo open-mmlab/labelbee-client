@@ -54,8 +54,8 @@ const ProjectPlatform: React.FC<IProps> = (props) => {
         createProject(info.key as IProjectType);
       }}
     >
-      <Menu.Item key='base'>{t('NewProject')}</Menu.Item>
-      <Menu.Item key='step'>{t('NewMultiProject')}</Menu.Item>
+      <Menu.Item key='base'>{t('NewOneStepProject')}</Menu.Item>
+      <Menu.Item key='step'>{t('NewMultiStepProject')}</Menu.Item>
     </Menu>
   );
 
@@ -75,7 +75,7 @@ const ProjectPlatform: React.FC<IProps> = (props) => {
             className={`${styles.langCN} ${curLang === 'cn' ? styles.active : ''}`}
             onClick={() => changeLanguage('cn')}
           >
-            中文
+            中
           </span>
           {` / `}
           <span
@@ -89,7 +89,7 @@ const ProjectPlatform: React.FC<IProps> = (props) => {
       <Content className={styles.content}>
         <div className={styles.contentTitle}>
           <span>
-            {t('ProjectDesc')}
+            {t('ProjectList')}
             {!!projectList.length && (
               <span style={{ color: '#8e8e8e' }}> ({projectList.length})</span>
             )}

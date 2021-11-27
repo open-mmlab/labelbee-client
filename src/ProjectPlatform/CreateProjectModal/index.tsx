@@ -139,7 +139,7 @@ const CreateProjectModal: React.FC<IProps> = ({ type, visible, onCancel }) => {
 
   const getName = () => {
     return t(
-      currentProjectInfo ? currentProjectInfo.name : isBase ? 'NewProject' : 'NewMultiProject',
+      currentProjectInfo ? currentProjectInfo.name : isBase ? 'NewProject' : 'NewMultiStepProject',
     );
   };
 
