@@ -53,7 +53,7 @@ export const getFilesFromDirectory = (
 export const getResultFromImg = (path: string, supportedSuffix: string[]) => {
   const fileName = path.split('.');
 
-  const suffix = fileName.slice(-1)[0]?.toLowerCase() ?? ''; 
+  const suffix = fileName.slice(-1)[0]?.toLowerCase() ?? '';
 
   if (supportedSuffix.includes(suffix)) {
     fileName.push('json');
@@ -65,8 +65,10 @@ export const getResultFromImg = (path: string, supportedSuffix: string[]) => {
 
 /**
  * 获取当前路径下的结果集合
- * @param files
- * @param supportedSuffix
+ * @param files 当前图片的路径
+ * @param supportedSuffix 需要支持的图片后缀
+ * @param path 图片的根路径
+ * @param resultPath 结果的跟路径
  * @returns
  */
 export const getResultFromFiles = (
@@ -76,6 +78,7 @@ export const getResultFromFiles = (
   resultPath: string,
 ) => {
   return files.map((url, i) => {
+    const fileName = getImgRelativePath(url, path, resultPath);
     try {
       const result = fs.readFileSync(
         getResultFromImg(getResultPathFromImgPath(url, path, resultPath), supportedSuffix),
@@ -84,12 +87,14 @@ export const getResultFromFiles = (
         id: i + 1,
         result: result.toString(),
         url,
+        fileName,
       };
     } catch {
       return {
         id: i + 1,
         result: '{}',
         url,
+        fileName,
       };
     }
   });
@@ -111,6 +116,25 @@ export const getResultPathFromImgPath = (url: string, path: string, resultPath: 
 
   urls.shift();
   urls.unshift(resultPath);
+
+  return urls.join('');
+};
+
+/**
+ * 通过图片路径 + 图片文件夹 + 结果文件夹路径，获取图片的相对路径
+ * @param url
+ * @param path
+ * @param resultPath
+ * @returns
+ */
+export const getImgRelativePath = (url: string, path: string, resultPath: string) => {
+  const urls = url.split(path);
+  if (urls.length === 1) {
+    // 返回自己
+    return url;
+  }
+
+  urls.shift();
 
   return urls.join('');
 };

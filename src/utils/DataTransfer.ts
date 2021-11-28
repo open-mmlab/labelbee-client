@@ -5,6 +5,31 @@
 import { EToolName } from '@/constant/store';
 import { IFileInfo } from '@/store';
 import { jsonParser } from './tool/common';
+import { DrawUtils } from '@sensetime/annotation';
+
+// ADE20K baseColor
+const ADE20KBaseColorList = [
+  [128, 0, 0],
+  [0, 128, 0],
+  [128, 128, 0],
+  [0, 0, 128],
+  [128, 0, 128],
+  [0, 128, 128],
+  [128, 128, 128],
+  [64, 0, 0],
+  [192, 0, 0],
+  [64, 128, 0],
+  [192, 128, 0],
+  [64, 0, 128],
+  [192, 0, 128],
+  [64, 128, 128],
+  [192, 128, 128],
+  [0, 64, 0],
+  [128, 64, 0],
+  [0, 192, 0],
+  [128, 192, 0],
+  [0, 64, 128],
+];
 
 interface CocoDataFormat {
   // 导出数据无需支持
@@ -35,6 +60,10 @@ interface ICocoImage {
   // flickr_url: string;
   // coco_url: string;
   // date_captured: string;
+
+  // LabelBee 补充内容
+  valid?: boolean;
+  rotate?: number;
 }
 
 interface ICocoObjectDetection {
@@ -47,6 +76,10 @@ interface ICocoObjectDetection {
 
   // 导出数据无需支持
   iscrowd: 0 | 1; // 0 代表 segmentation 使用 [polygon] 形式， 1 代表 RLE 格式
+
+  textAttribute?: string; // 对其内部数据
+  order?: number;
+  valid?: boolean;
 }
 
 /**
@@ -132,11 +165,13 @@ export default class DataTransfer {
     const mainObject: CocoDataFormat = {
       images: [],
       annotations: [],
-      category: [{
-        id: 0,
-        name: '',
-        supercategory: ''
-      }],
+      category: [
+        {
+          id: 0,
+          name: '',
+          supercategory: '',
+        },
+      ],
     };
 
     let image_id = 1;
@@ -150,6 +185,8 @@ export default class DataTransfer {
         file_name: info.url,
         width: result?.width ?? 0,
         height: result?.height ?? 0,
+        valid: result?.valid ?? true,
+        rotate: result?.rotate ?? 0,
       };
 
       // 2. 标注结果
@@ -157,7 +194,7 @@ export default class DataTransfer {
 
       // 获取当前标注
       const getCategoryID = (data: any) => {
-        let category_id = 0; // 0 默认为 
+        let category_id = 0; // 0 默认为
 
         if (data?.attribute) {
           const category = mainObject.category.find((v) => v.name === data.attribute);
@@ -181,22 +218,30 @@ export default class DataTransfer {
         case EToolName.Rect:
           step1Result?.forEach((rect: any) => {
             let category_id = getCategoryID(rect);
-            annotation.push({
+            const defaultData = {
               image_id,
               id: result_id,
               bbox: [rect.x, rect.y, rect.width, rect.height],
               iscrowd: 0,
               segmentation: [],
               category_id,
-            });
+            };
+
+            if (rect.textAttribute) {
+              Object.assign(defaultData, { textAttribute: rect.textAttribute });
+            }
+            if (rect.order) {
+              Object.assign(defaultData, { order: rect.order });
+            }
+
+            annotation.push(defaultData);
             result_id++;
           });
           break;
         case EToolName.Polygon:
           step1Result?.forEach((polygon: any) => {
             let category_id = getCategoryID(polygon);
-
-            annotation.push({
+            const defaultData = {
               image_id,
               id: result_id,
               iscrowd: 0,
@@ -204,7 +249,14 @@ export default class DataTransfer {
               area: this.getPolygonArea(polygon.pointList),
               bbox: this.getPolygonBbox(polygon.pointList),
               category_id,
-            });
+            };
+            if (polygon.textAttribute) {
+              Object.assign(defaultData, { textAttribute: polygon.textAttribute });
+            }
+            if (polygon.order) {
+              Object.assign(defaultData, { order: polygon.order });
+            }
+            annotation.push(defaultData);
             result_id++;
           });
           break;
@@ -219,5 +271,45 @@ export default class DataTransfer {
       image_id++;
     });
     return mainObject;
+  }
+
+  /**
+   * 导出 ADE20K 的格式数据
+   * @param width
+   * @param height
+   * @param polygon
+   * @returns
+   */
+  public static transferPolygon2ADE20k(width: number, height: number, polygon: any[]) {
+    const canvas = document.createElement('canvas');
+    canvas.width = width;
+    canvas.height = height;
+    const keyList: string[] = [];
+    DrawUtils.drawRectWithFill(canvas, { x: 0, y: 0, width, height }, { color: 'black' });
+    if (polygon.length > 0) {
+      polygon.forEach((p) => {
+        const key = `${p?.attribute ?? ''}` + `${p?.textAttribute ?? ''}`;
+        let colorIndex = keyList.findIndex((v) => v === key);
+        if (colorIndex === -1) {
+          keyList.push(key);
+          colorIndex = keyList.length - 1;
+        }
+
+        const baseColor = ADE20KBaseColorList[colorIndex];
+        DrawUtils.drawPolygonWithFill(canvas, p.pointList, {
+          color: `rgb(${baseColor[0]},${baseColor[1]},${baseColor[2]})`,
+        });
+      });
+    }
+
+    const MIME_TYPE = 'image/png';
+
+    // Get the DataUrl from the Canvas
+    const url = canvas.toDataURL(MIME_TYPE, 1);
+
+    // remove Base64 stuff from the Image
+    const base64Data = url.replace(/^data:image\/png;base64,/, '');
+
+    return base64Data;
   }
 }

@@ -6,22 +6,23 @@ export interface IProjectInfo {
   name: string;
   path: string;
   resultPath: string;
-  toolName: EToolName
+  toolName: EToolName;
   createdAt: number;
-  stepList: IStepInfo[]
+  stepList: IStepInfo[];
 }
 
 export interface IStepInfo {
   id: string;
-  step: number,
+  step: number;
   dataSourceStep?: number;
-  tool: EToolName,
-  config: string
+  tool: EToolName;
+  config: string;
 }
 
 export interface IFileInfo {
   url: string;
   result: string;
+  fileName?: string;
 }
 
 interface IAnnotation {
@@ -98,7 +99,7 @@ export function AnnotationProvider(props: any) {
 export const useAnnotation = () => {
   const context: IAnnotationContext = React.useContext(AnnotationContext);
   if (!context) {
-    throw new Error("useAnnotation 必须在 AnnotationContext 中使用 ");
+    throw new Error('useAnnotation 必须在 AnnotationContext 中使用 ');
   }
   return context;
 };

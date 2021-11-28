@@ -2,6 +2,7 @@ import { EIpcEvent } from '../src/constant/event';
 import { getFilesFromDirectory, getResultFromFiles, getResultPathFromImgPath } from './file';
 import { IMAGE_SUFFIX } from '../src/constant/file';
 const fs = require('fs');
+const path = require('path');
 const { ipcMain: ipc, dialog } = require('electron');
 const fse = require('fs-extra');
 const { shell } = require('electron');
@@ -36,12 +37,12 @@ export const ipcListen = (mainWindow) => {
   });
 
   // 保存结果到指定文件夹
-  ipc.on(EIpcEvent.SaveFile, (event, file, path) => {
-    fse.outputFile(path, file, (err) => {
+  ipc.on(EIpcEvent.SaveFile, (event, file, basePath, mode = 'utf8', ext = '') => {
+    fse.outputFile(path.join(basePath, ext), file, mode, (err) => {
       if (err) {
         console.log(err);
       } else {
-        console.log(path, ' The file was saved!');
+        console.log(basePath, ' The file was saved!');
       }
     });
   });

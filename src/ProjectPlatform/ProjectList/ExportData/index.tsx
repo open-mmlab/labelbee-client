@@ -1,11 +1,12 @@
 import React, { useEffect } from 'react';
 import { Modal, Form, Radio, message, Popover } from 'antd';
 import SelectFolder from '@/ProjectPlatform/CreateProjectModal/SelectFolder';
-import { IProjectInfo } from '@/store';
+import { IFileInfo, IProjectInfo } from '@/store';
 import { EIpcEvent } from '@/constant/event';
 import DataTransfer from '@/utils/DataTransfer';
 import { EToolName } from '@/constant/store';
 import { useTranslation } from 'react-i18next';
+import { jsonParser } from '@/utils/tool/common';
 
 interface IProps {
   projectInfo?: IProjectInfo;
@@ -32,34 +33,68 @@ const ExportData = (props: IProps) => {
   const isTransfer2Coco =
     projectInfo?.toolName === EToolName.Rect || projectInfo?.toolName === EToolName.Polygon;
 
+  /**
+   * 是否允许被转换的成 ADE20K
+   */
+  const isTransfer2ACE20k = projectInfo?.toolName === EToolName.Polygon;
   const onOk = () => {
     if (!ipcRenderer || !projectInfo) {
       return;
     }
     form.validateFields().then((values: any) => {
       ipcRenderer.send(EIpcEvent.SendDirectoryImages, projectInfo.path, projectInfo.resultPath);
-      ipcRenderer.once(EIpcEvent.GetDirectoryImages, function (event: any, fileList: any[]) {
-        let json: any = {};
+      ipcRenderer.once(EIpcEvent.GetDirectoryImages, function (event: any, fileList: IFileInfo[]) {
+        let data: any = {};
         let name = '';
+        let suffix = 'json';
 
         switch (values.format) {
           case 'default':
-            json = fileList;
-            name = `${projectInfo.name}-default`;
+            data = JSON.stringify(fileList);
+            name = `${projectInfo.name}-labelbee`;
             break;
           case 'coco':
-            json = DataTransfer.transferDefault2Coco(fileList);
+            data = JSON.stringify(DataTransfer.transferDefault2Coco(fileList));
             name = `${projectInfo.name}-coco`;
+            break;
+
+          case 'ADE20K':
+            name = `${projectInfo.name}-ADE20K`;
+            suffix = 'png';
+
+            fileList.forEach((file, i) => {
+              const result = jsonParser(file.result);
+              // 暂时设定为第一步
+              if (result['step_1']?.result) {
+                const data = DataTransfer.transferPolygon2ADE20k(
+                  result.width,
+                  result.height,
+                  result['step_1'].result,
+                );
+
+                electron.ipcRenderer.send(
+                  EIpcEvent.SaveFile,
+                  data,
+                  values.path + `${file.fileName}.${suffix}`,
+                  'base64',
+                );
+              }
+            });
+
             break;
         }
 
-        electron.ipcRenderer.send(
-          EIpcEvent.SaveFile,
-          JSON.stringify(json),
-          values.path + `/${name}.json`,
-        );
+        if (['default', 'coco'].includes(values.format)) {
+          electron.ipcRenderer.send(
+            EIpcEvent.SaveFile,
+            data,
+            values.path,
+            'utf8',
+            `${name}.${suffix}`,
+          );
+        }
         message.success(t('ExportSuccess'));
-        ipcRenderer.send(EIpcEvent.OpenDirectory, values.path + '/');
+        ipcRenderer.send(EIpcEvent.OpenDirectory, values.path);
         setProjectInfo(undefined);
       });
     });
@@ -81,13 +116,16 @@ const ExportData = (props: IProps) => {
         <Form.Item label={t('ExportFormat')} name='format' initialValue='default'>
           <Radio.Group>
             <Radio.Button value='coco' disabled={!isTransfer2Coco}>
-              {isTransfer2Coco ? (
-                'COCO'
-              ) : (
-                <Popover content={t('ExportLimitMsg')}>COCO</Popover>
-              )}
+              {isTransfer2Coco ? 'COCO' : <Popover content={t('ExportCOCOLimitMsg')}>COCO</Popover>}
             </Radio.Button>
             <Radio.Button value='default'>{t('StandardFormat')}</Radio.Button>
+            <Radio.Button value='ADE20K' disabled={!isTransfer2ACE20k}>
+              {isTransfer2ACE20k ? (
+                'ADE20K'
+              ) : (
+                <Popover content={t('ExportADE20KLimitMsg')}>ADE20K</Popover>
+              )}
+            </Radio.Button>
           </Radio.Group>
         </Form.Item>
         <Form.Item
