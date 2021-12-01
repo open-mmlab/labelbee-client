@@ -7,6 +7,7 @@ import DataTransfer from '@/utils/DataTransfer';
 import { EToolName } from '@/constant/store';
 import { useTranslation } from 'react-i18next';
 import { jsonParser } from '@/utils/tool/common';
+import DataLoading from '@/components/DataLoading';
 
 interface IProps {
   projectInfo?: IProjectInfo;
@@ -44,7 +45,6 @@ const ExportData = (props: IProps) => {
     }
     form.validateFields().then((values: any) => {
       setLoading(true);
-      message.info(t('MessageBeforeExport'));
 
       ipcRenderer.send(EIpcEvent.SendDirectoryImages, projectInfo.path, projectInfo.resultPath);
       ipcRenderer.once(EIpcEvent.GetDirectoryImages, function (event: any, fileList: IFileInfo[]) {
@@ -122,7 +122,10 @@ const ExportData = (props: IProps) => {
       onCancel={onCancel}
       getContainer={window.document.body}
     >
-      <Spin spinning={loading}>
+      <Spin
+        spinning={loading}
+        indicator={<DataLoading message='Wait a minute ~ Exporting data...' />}
+      >
         <Form labelCol={{ span: 6 }} wrapperCol={{ span: 16 }} layout='horizontal' form={form}>
           <Form.Item label={t('ExportFormat')} name='format' initialValue='default'>
             <Radio.Group>

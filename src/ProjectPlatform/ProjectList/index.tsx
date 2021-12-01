@@ -1,7 +1,7 @@
 // cl 2021/8/5 19:12
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { IFileInfo, IProjectInfo, IStepInfo, useAnnotation } from '@/store';
-import { message, Popconfirm, Tag } from 'antd';
+import { message, Popconfirm, Tag, Spin } from 'antd';
 import { EToolName, TOOL_NAME } from '@/constant/store';
 import {
   DeleteOutlined,
@@ -24,6 +24,8 @@ import IconPolygon from '@/assets/toolIcon/icon_polygon.svg';
 import IconText from '@/assets/toolIcon/icon_text.svg';
 import IconStep from '@/assets/toolIcon/icon_step.svg';
 import { useTranslation } from 'react-i18next';
+import DataLoading from '@/components/DataLoading';
+import LoadingGif from '@/assets/loading.gif';
 
 const electron = window.require && window.require('electron');
 
@@ -133,6 +135,7 @@ function isWrongResultList(stepList: IStepInfo[], fileList: IFileInfo[]): any {
 
 const ipcRenderer = electron && electron.ipcRenderer;
 const ProjectList: React.FC<IProps> = ({ createProject }) => {
+  const [loading, setLoading] = useState(false);
   const [hoverIndex, setHoverIndex] = useState(-1);
   const { t } = useTranslation();
   const [currentProjectInfo, setProjectInfo] = useState<IProjectInfo | undefined>(undefined);
@@ -145,10 +148,13 @@ const ProjectList: React.FC<IProps> = ({ createProject }) => {
   const startAnnotation = (projectInfo: IProjectInfo) => {
     // 加载当前路径下的所有图片
     if (ipcRenderer) {
+      setLoading(true);
       ipcRenderer.send(EIpcEvent.SendDirectoryImages, projectInfo.path, projectInfo.resultPath);
       ipcRenderer.once(EIpcEvent.GetDirectoryImages, function (event: any, fileList: any[]) {
+        setLoading(false);
         if (isHasWrongResult(projectInfo.toolName, fileList)) {
           message.error('工具类型不相同，结果无法解析，请选择与项目相同类型的标注结果');
+
           return;
         }
         dispatch({
@@ -198,93 +204,96 @@ const ProjectList: React.FC<IProps> = ({ createProject }) => {
 
   return (
     <div>
-      <div className={styles.projectList}>
-        {projectList
-          .sort((a, b) => b.createdAt - a.createdAt)
-          .map((info, i) => (
-            <div
-              className={styles.project}
-              key={i}
-              onMouseEnter={() => setHoverIndex(i)}
-              onMouseLeave={() => setHoverIndex(-1)}
-              onClick={() => startAnnotation(info)}
-            >
-              <div className={styles.icon}>
-                <img style={{ width: 72 }} src={icon[info.toolName || 'step']} alt='' />
-              </div>
-              <div className={styles.detailInfo}>
-                <div className={styles.name}>
-                  {info.name}{' '}
-                  <Tag className={styles.tag} color='#EEEFFF'>
-                    {t(TOOL_NAME[info.toolName]) || t('MultiStepAnnotation')}
-                  </Tag>
+      <Spin spinning={loading} indicator={<DataLoading />} delay={200} size='large'>
+        <div className={styles.projectList}>
+          {projectList
+            .sort((a, b) => b.createdAt - a.createdAt)
+            .map((info, i) => (
+              <div
+                className={styles.project}
+                key={i}
+                onMouseEnter={() => setHoverIndex(i)}
+                onMouseLeave={() => setHoverIndex(-1)}
+                onClick={() => startAnnotation(info)}
+              >
+                <div className={styles.icon}>
+                  <img style={{ width: 72 }} src={icon[info.toolName || 'step']} alt='' />
                 </div>
-                <div className={styles.detail}>
-                  <div className={styles.path}>
-                    {`${t('ImagePath')}：${info.path}`}
-                    <FolderOpenOutlined
-                      className={styles.folderOpen}
+                <div className={styles.detailInfo}>
+                  <div className={styles.name}>
+                    {info.name}{' '}
+                    <Tag className={styles.tag} color='#EEEFFF'>
+                      {t(TOOL_NAME[info.toolName]) || t('MultiStepAnnotation')}
+                    </Tag>
+                  </div>
+                  <div className={styles.detail}>
+                    <div className={styles.path}>
+                      {`${t('ImagePath')}：${info.path}`}
+                      <FolderOpenOutlined
+                        className={styles.folderOpen}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          openDirectory(info.path);
+                        }}
+                      />
+                    </div>
+                    <div>
+                      {`${t('ResultPath')}：${info.resultPath}`}
+                      <FolderOpenOutlined
+                        className={styles.folderOpen}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          openDirectory(info.resultPath);
+                        }}
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div className={styles.createdAt}>
+                  {formatDate(new Date(info.createdAt), 'yyyy-MM-dd hh:mm:ss')}
+                </div>
+                {hoverIndex === i && (
+                  <div className={styles.deleteButton}>
+                    <DeliveredProcedureOutlined
                       onClick={(e) => {
                         e.stopPropagation();
-                        openDirectory(info.path);
+                        setProjectInfo(info);
                       }}
+                      className={styles.icon}
+                      style={{ marginRight: 12 }}
                     />
-                  </div>
-                  <div>
-                    {`${t('ResultPath')}：${info.resultPath}`}
-                    <FolderOpenOutlined
-                      className={styles.folderOpen}
+                    <EditOutlined
                       onClick={(e) => {
                         e.stopPropagation();
-                        openDirectory(info.resultPath);
+                        editProject(info);
                       }}
+                      className={styles.icon}
+                      style={{ marginRight: 12 }}
                     />
-                  </div>
-                </div>
-              </div>
-              <div className={styles.createdAt}>
-                {formatDate(new Date(info.createdAt), 'yyyy-MM-dd hh:mm:ss')}
-              </div>
-              {hoverIndex === i && (
-                <div className={styles.deleteButton}>
-                  <DeliveredProcedureOutlined
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setProjectInfo(info);
-                    }}
-                    className={styles.icon}
-                    style={{ marginRight: 12 }}
-                  />
-                  <EditOutlined
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      editProject(info);
-                    }}
-                    className={styles.icon}
-                    style={{ marginRight: 12 }}
-                  />
-                  <span
-                    onClick={(e) => {
-                      e.stopPropagation();
-                    }}
-                  >
-                    <Popconfirm
-                      placement='top'
-                      title={t('ConfirmToDelete')}
-                      icon={<QuestionCircleOutlined style={{ color: 'red' }} />}
-                      onConfirm={() => {
-                        deleteProject(i);
+                    <span
+                      onClick={(e) => {
+                        e.stopPropagation();
                       }}
                     >
-                      <DeleteOutlined className={styles.icon} />
-                    </Popconfirm>
-                  </span>
-                </div>
-              )}
-            </div>
-          ))}
-      </div>
+                      <Popconfirm
+                        placement='top'
+                        title={t('ConfirmToDelete')}
+                        icon={<QuestionCircleOutlined style={{ color: 'red' }} />}
+                        onConfirm={() => {
+                          deleteProject(i);
+                        }}
+                      >
+                        <DeleteOutlined className={styles.icon} />
+                      </Popconfirm>
+                    </span>
+                  </div>
+                )}
+              </div>
+            ))}
+        </div>
+      </Spin>
       {<ExportData projectInfo={currentProjectInfo} setProjectInfo={setProjectInfo} />}
+      <img src={LoadingGif} style={{ display: 'none' }} />
     </div>
   );
 };
