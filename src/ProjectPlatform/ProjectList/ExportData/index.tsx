@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import { Modal, Form, Radio, message, Popover } from 'antd';
+import React, { useEffect, useState } from 'react';
+import { Modal, Form, Radio, message, Popover, Spin } from 'antd';
 import SelectFolder from '@/ProjectPlatform/CreateProjectModal/SelectFolder';
 import { IFileInfo, IProjectInfo } from '@/store';
 import { EIpcEvent } from '@/constant/event';
@@ -19,6 +19,7 @@ const ipcRenderer = electron && electron.ipcRenderer;
 const ExportData = (props: IProps) => {
   const { projectInfo, setProjectInfo } = props;
   const [form] = Form.useForm();
+  const [loading, setLoading] = useState(false);
   const { t } = useTranslation();
 
   useEffect(() => {
@@ -42,11 +43,15 @@ const ExportData = (props: IProps) => {
       return;
     }
     form.validateFields().then((values: any) => {
+      setLoading(true);
+      message.info(t('MessageBeforeExport'));
+
       ipcRenderer.send(EIpcEvent.SendDirectoryImages, projectInfo.path, projectInfo.resultPath);
       ipcRenderer.once(EIpcEvent.GetDirectoryImages, function (event: any, fileList: IFileInfo[]) {
         let data: any = {};
         let name = '';
         let suffix = 'json';
+        let defaultKeyList: string[] = [];
 
         switch (values.format) {
           case 'default':
@@ -66,10 +71,11 @@ const ExportData = (props: IProps) => {
               const result = jsonParser(file.result);
               // 暂时设定为第一步
               if (result['step_1']?.result) {
-                const data = DataTransfer.transferPolygon2ADE20k(
+                const [data, keyList] = DataTransfer.transferPolygon2ADE20k(
                   result.width,
                   result.height,
                   result['step_1'].result,
+                  defaultKeyList,
                 );
 
                 electron.ipcRenderer.send(
@@ -78,6 +84,8 @@ const ExportData = (props: IProps) => {
                   values.path + `${file.fileName}.${suffix}`,
                   'base64',
                 );
+
+                defaultKeyList = keyList as string[];
               }
             });
 
@@ -93,6 +101,7 @@ const ExportData = (props: IProps) => {
             `${name}.${suffix}`,
           );
         }
+        setLoading(false);
         message.success(t('ExportSuccess'));
         ipcRenderer.send(EIpcEvent.OpenDirectory, values.path);
         setProjectInfo(undefined);
@@ -103,6 +112,7 @@ const ExportData = (props: IProps) => {
   const onCancel = () => {
     setProjectInfo(undefined);
   };
+
   return (
     <Modal
       visible={!!projectInfo}
@@ -112,30 +122,36 @@ const ExportData = (props: IProps) => {
       onCancel={onCancel}
       getContainer={window.document.body}
     >
-      <Form labelCol={{ span: 6 }} wrapperCol={{ span: 16 }} layout='horizontal' form={form}>
-        <Form.Item label={t('ExportFormat')} name='format' initialValue='default'>
-          <Radio.Group>
-            <Radio.Button value='coco' disabled={!isTransfer2Coco}>
-              {isTransfer2Coco ? 'COCO' : <Popover content={t('ExportCOCOLimitMsg')}>COCO</Popover>}
-            </Radio.Button>
-            <Radio.Button value='default'>{t('StandardFormat')}</Radio.Button>
-            <Radio.Button value='ADE20K' disabled={!isTransfer2ACE20k}>
-              {isTransfer2ACE20k ? (
-                'ADE20K'
-              ) : (
-                <Popover content={t('ExportADE20KLimitMsg')}>ADE20K</Popover>
-              )}
-            </Radio.Button>
-          </Radio.Group>
-        </Form.Item>
-        <Form.Item
-          name='path'
-          label={<span>{t('SelectedExportPath')}</span>}
-          rules={[{ required: true, message: t('SelectedExportPath') }]}
-        >
-          <SelectFolder key='path' />
-        </Form.Item>
-      </Form>
+      <Spin spinning={loading}>
+        <Form labelCol={{ span: 6 }} wrapperCol={{ span: 16 }} layout='horizontal' form={form}>
+          <Form.Item label={t('ExportFormat')} name='format' initialValue='default'>
+            <Radio.Group>
+              <Radio.Button value='coco' disabled={!isTransfer2Coco}>
+                {isTransfer2Coco ? (
+                  'COCO'
+                ) : (
+                  <Popover content={t('ExportCOCOLimitMsg')}>COCO</Popover>
+                )}
+              </Radio.Button>
+              <Radio.Button value='default'>{t('StandardFormat')}</Radio.Button>
+              <Radio.Button value='ADE20K' disabled={!isTransfer2ACE20k}>
+                {isTransfer2ACE20k ? (
+                  'ADE20K'
+                ) : (
+                  <Popover content={t('ExportADE20KLimitMsg')}>ADE20K</Popover>
+                )}
+              </Radio.Button>
+            </Radio.Group>
+          </Form.Item>
+          <Form.Item
+            name='path'
+            label={<span>{t('SelectedExportPath')}</span>}
+            rules={[{ required: true, message: t('SelectedExportPath') }]}
+          >
+            <SelectFolder key='path' />
+          </Form.Item>
+        </Form>
+      </Spin>
     </Modal>
   );
 };

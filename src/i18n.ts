@@ -90,6 +90,7 @@ const resources = {
       SelectedExportPath: 'Choose Export path',
       MultiSelect: 'multi-select',
       DefaultOption: 'Default Option',
+      MessageBeforeExport: 'Exporting, please wait',
     },
   },
   cn: {
@@ -177,6 +178,7 @@ const resources = {
       SelectedExportPath: '选择导出的路径',
       MultiSelect: '多选',
       DefaultOption: '默认选择',
+      MessageBeforeExport: '导出中，请稍后',
     },
   },
 };

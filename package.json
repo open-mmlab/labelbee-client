@@ -102,10 +102,10 @@
   },
   "scripts": {
     "start": "node scripts/start.js",
-    "build": "rm -rf build && node scripts/build.js",
+    "build": "npm run build-electron && rm -rf build && node scripts/build.js",
     "test": "node scripts/test.js",
     "build-electron": "rm -rf electron/dist && tsc -p electron/tsconfig.json",
-    "electron-dev": "yarn build-electron && ELECTRON_START_URL=http://localhost:3000/ electron electron/dist/electron/main.js",
+    "electron-dev": "npm run build-electron && ELECTRON_START_URL=http://localhost:3000/ electron electron/dist/electron/main.js",
     "packager:mac": "npm run build && rm -rf dist && electron-builder -m",
     "packager:win": "npm run build && rm -rf dist && electron-builder -w",
     "packager:linux": "npm run build && rm -rf dist && electron-builder -l",

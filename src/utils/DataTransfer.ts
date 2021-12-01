@@ -278,13 +278,19 @@ export default class DataTransfer {
    * @param width
    * @param height
    * @param polygon
+   * @param defaultKeyList
    * @returns
    */
-  public static transferPolygon2ADE20k(width: number, height: number, polygon: any[]) {
+  public static transferPolygon2ADE20k(
+    width: number,
+    height: number,
+    polygon: any[],
+    defaultKeyList: string[] = [],
+  ) {
     const canvas = document.createElement('canvas');
     canvas.width = width;
     canvas.height = height;
-    const keyList: string[] = [];
+    const keyList: string[] = [...defaultKeyList];
     DrawUtils.drawRectWithFill(canvas, { x: 0, y: 0, width, height }, { color: 'black' });
     if (polygon.length > 0) {
       polygon.forEach((p) => {
@@ -310,6 +316,6 @@ export default class DataTransfer {
     // remove Base64 stuff from the Image
     const base64Data = url.replace(/^data:image\/png;base64,/, '');
 
-    return base64Data;
+    return [base64Data, keyList];
   }
 }
