@@ -3,7 +3,7 @@ import { Modal, Form, Radio, message, Popover, Spin } from 'antd';
 import SelectFolder from '@/ProjectPlatform/CreateProjectModal/SelectFolder';
 import { IFileInfo, IProjectInfo } from '@/store';
 import { EIpcEvent } from '@/constant/event';
-import DataTransfer from '@/utils/DataTransfer';
+import DataTransfer, { getRgbFromColorCheatSheet } from '@/utils/DataTransfer';
 import { EToolName } from '@/constant/store';
 import { useTranslation } from 'react-i18next';
 import { jsonParser } from '@/utils/tool/common';
@@ -70,7 +70,7 @@ const ExportData = (props: IProps) => {
             fileList.forEach((file, i) => {
               const result = jsonParser(file.result);
               // 暂时设定为第一步
-              if (result['step_1']?.result) {
+              if (result['step_1']?.result?.length > 0) {
                 const [data, keyList] = DataTransfer.transferPolygon2ADE20k(
                   result.width,
                   result.height,
@@ -78,10 +78,24 @@ const ExportData = (props: IProps) => {
                   defaultKeyList,
                 );
 
+                const [grayData] = DataTransfer.transferPolygon2Gray(
+                  result.width,
+                  result.height,
+                  result['step_1'].result,
+                  keyList as string[],
+                );
+
                 electron.ipcRenderer.send(
                   EIpcEvent.SaveFile,
                   data,
-                  values.path + `${file.fileName}.${suffix}`,
+                  values.path + `${file.fileName}_segmentation.${suffix}`,
+                  'base64',
+                );
+
+                electron.ipcRenderer.send(
+                  EIpcEvent.SaveFile,
+                  grayData,
+                  values.path + `${file.fileName}_labelTrainIds.${suffix}`,
                   'base64',
                 );
 
@@ -89,6 +103,21 @@ const ExportData = (props: IProps) => {
               }
             });
 
+            // 导出的配置数据
+            const colorDataList = defaultKeyList.map((key, i) => ({
+              attribute: key,
+              color: getRgbFromColorCheatSheet(i + 1),
+              trainIds: i + 1,
+            }));
+
+            const colorName = `${projectInfo.name}-color-list.json`;
+            electron.ipcRenderer.send(
+              EIpcEvent.SaveFile,
+              JSON.stringify(colorDataList),
+              values.path,
+              'utf8',
+              colorName,
+            );
             break;
         }
 

@@ -6,30 +6,13 @@ import { EToolName } from '@/constant/store';
 import { IFileInfo } from '@/store';
 import { jsonParser } from './tool/common';
 import { DrawUtils } from '@sensetime/annotation';
+import ColorCheatSheet from '@/assets/color.json';
 
-// ADE20K baseColor
-const ADE20KBaseColorList = [
-  [128, 0, 0],
-  [0, 128, 0],
-  [128, 128, 0],
-  [0, 0, 128],
-  [128, 0, 128],
-  [0, 128, 128],
-  [128, 128, 128],
-  [64, 0, 0],
-  [192, 0, 0],
-  [64, 128, 0],
-  [192, 128, 0],
-  [64, 0, 128],
-  [192, 0, 128],
-  [64, 128, 128],
-  [192, 128, 128],
-  [0, 64, 0],
-  [128, 64, 0],
-  [0, 192, 0],
-  [128, 192, 0],
-  [0, 64, 128],
-];
+// 获取 color cheat sheet 内的颜色
+export const getRgbFromColorCheatSheet = (index: number) => {
+  const rgb = ColorCheatSheet[index].rgb;
+  return `rgb(${rgb.r},${rgb.g},${rgb.b})`;
+};
 
 interface CocoDataFormat {
   // 导出数据无需支持
@@ -291,19 +274,78 @@ export default class DataTransfer {
     canvas.width = width;
     canvas.height = height;
     const keyList: string[] = [...defaultKeyList];
-    DrawUtils.drawRectWithFill(canvas, { x: 0, y: 0, width, height }, { color: 'black' });
+
+    // 背景绘制为的 0 - 全黑 - rgb (0,0,0)
+    DrawUtils.drawRectWithFill(canvas, { x: 0, y: 0, width, height }, { color: `rgb(0, 0, 0)` });
+
     if (polygon.length > 0) {
       polygon.forEach((p) => {
-        const key = `${p?.attribute ?? ''}` + `${p?.textAttribute ?? ''}`;
+        let key = '';
+        if (p.attribute) {
+          key = p.attribute;
+        }
+
         let colorIndex = keyList.findIndex((v) => v === key);
         if (colorIndex === -1) {
           keyList.push(key);
           colorIndex = keyList.length - 1;
         }
 
-        const baseColor = ADE20KBaseColorList[colorIndex];
         DrawUtils.drawPolygonWithFill(canvas, p.pointList, {
-          color: `rgb(${baseColor[0]},${baseColor[1]},${baseColor[2]})`,
+          color: getRgbFromColorCheatSheet(colorIndex + 1),
+        });
+      });
+    }
+
+    const MIME_TYPE = 'image/png';
+
+    // Get the DataUrl from the Canvas
+    const url = canvas.toDataURL(MIME_TYPE, 1);
+
+    // remove Base64 stuff from the Image
+    const base64Data = url.replace(/^data:image\/png;base64,/, '');
+
+    return [base64Data, keyList];
+  }
+
+  /**
+   * 导出灰值图
+   * canvas 仅能导出三通道的值，暂时以上相同值导出
+   * @param width
+   * @param height
+   * @param polygon
+   * @param defaultKeyList
+   * @returns
+   */
+  public static transferPolygon2Gray(
+    width: number,
+    height: number,
+    polygon: any[],
+    defaultKeyList: string[] = [],
+  ) {
+    const canvas = document.createElement('canvas');
+    canvas.width = width;
+    canvas.height = height;
+    const keyList: string[] = [...defaultKeyList];
+
+    // 背景绘制为的 0 - 全黑 - rgb (0,0,0)
+    DrawUtils.drawRectWithFill(canvas, { x: 0, y: 0, width, height }, { color: `rgb(0, 0, 0)` });
+    if (polygon.length > 0) {
+      polygon.forEach((p) => {
+        let key = '';
+        if (p.attribute) {
+          key = p.attribute;
+        }
+
+        let colorIndex = keyList.findIndex((v) => v === key);
+        if (colorIndex === -1) {
+          keyList.push(key);
+          colorIndex = keyList.length - 1;
+        }
+
+        const trainIds = colorIndex + 1;
+        DrawUtils.drawPolygonWithFill(canvas, p.pointList, {
+          color: `rgb(${trainIds},${trainIds},${trainIds})`,
         });
       });
     }
