@@ -18,6 +18,7 @@ LabelBee-Client 是一款集成通用标注功能的客户端标注工具
 - 文本
 - 线条
 - 标点工具
+
 ## 下载
 
 [Mac]() / [Window]() / [Linux]()
