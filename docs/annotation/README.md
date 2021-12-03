@@ -5,9 +5,9 @@
 - [目标检测](./rectTool.md)
 - [目标分类](./tagTool.md)
 - [语义分割](./polygonTool.md)
-- [文本](./textTool.md)
-- [线条](./lineTool.md)
-- [标点](./pointTool.md)
+- [文本转写](./textTool.md)
+- [轮廓线检测](./lineTool.md)
+- [关键点检测](./pointTool.md)
 
 ## 通用格式说明
 
