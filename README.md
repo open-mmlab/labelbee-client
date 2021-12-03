@@ -1,8 +1,11 @@
-<div align="center">
-  <img src="src/assets/logo.svg" width="600"/>
-</div>
 
-LabelBee-Client 是一款集成通用标注功能的客户端标注工具
+<div align="center">
+<article style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
+    <p align="center"><img width="300" src="./src/assets/logo.svg" /></p>
+    <h1 style="width: 100%; text-align: center;">LabelBee-Client</h1>
+    <p>一款集成通用标注功能的客户端标注工具</p>
+</article>
+</div>
 
 ## 特性
 
