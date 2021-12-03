@@ -41,9 +41,9 @@ export const TOOL_NAME: { [key: string]: string } = {
   [EToolName.Rect]: 'Detection',
   [EToolName.Tag]: 'Classification',
   [EToolName.Polygon]: 'SemanticSegmentation',
-  [EToolName.Point]: 'Line',
-  [EToolName.Line]: 'Text',
-  [EToolName.Text]: 'Point',
+  [EToolName.Point]: 'Point',
+  [EToolName.Line]: 'Line',
+  [EToolName.Text]: 'Text',
 };
 
 // 文本标注类型
