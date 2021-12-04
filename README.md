@@ -3,50 +3,83 @@
 <article style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
     <p align="center"><img width="300" src="./src/assets/logo.svg" /></p>
     <h1 style="width: 100%; text-align: center;">LabelBee-Client</h1>
-    <p>一款集成通用标注功能的客户端标注工具</p>
+    <p>
+        <a href="https://github.com/Kerwin-L/labelbee-client/releases">Releases</a>
+        ·
+        <a href="./docs/README.md" >Getting Started</a>
+        ·
+        <a href="./README_zh-CN.md" >简体中文</a>
+    </p>
 </article>
+<img src="./docs/assets/main.png">
+
 </div>
 
-## 特性
+## Features
 
-- 📦 开箱即用，内置 6 款通用的标注工具，仅需简单配置的即可创建标注项目进行标注
-- 任意搭配，多种工具可直接互相依赖使用
-- 支持通用数据，COCO 格式导出，语义分割 Mask 导出
+- 📦 Out of the Box, built-in 6 annotation tools,only need simple configuration to
+- 🪵 Arbitrary collocation, multiple tools can be directly dependent on each other
+- 🏁 Support general data, COCO format export, semantic segmentation Mask export
+- 💻 Full platform support: Mac / Linux / Windows
 
-## 支持场景
- 
-- 目标检测
-- 目标分类
-- 语义分割
-- 文本转写
-- 轮廓线检测
-- 关键点检测
-## 下载
+## Support scene
 
-[Mac]() / [Windows]() / [Linux]()
+- Detection: Detection scenes for vehicles, license plates, pedestrians, faces, industrial parts, etc.
+- Classification: Detection of object classification, target characteristics, right and wrong judgments and other classification scenarios
+- Semantic segmentation: Human body segmentation, panoramic segmentation, drivable area segmentation, vehicle segmentation, etc.
+- Text transcription: Text detection and recognition of license plates, invoices, insurance policies, signs, etc.
+- Contour detection: positioning line scenes such as human contour lines, lane lines, etc.
+- Key point detection: positioning scenes such as human face key points, vehicle key points, road edge key points, etc.
 
+<p align="center">
+  <img src="./docs/assets/annotation-detection-segmentation.gif">
+  <i style="text-align: center;">Detection / Segmentation </i>
+  
+  <img src="./docs/assets/annotation-line-point-text.gif">
+  <i style="text-align: center;">Line / Point / Text </i>
 
-## 快速上手
+</p> 
 
-1. [基础流程创建](./docs/README.md) 
-2. [进阶指南](./docs/)
+## Getting Started
 
-## 标注格式说明
+ [Basic task creation](./docs/README.md) 
 
-- [LabelBee 标注格式](./docs/annotation/README.md)
+## Annotation format description
 
-## 链接
+```json
+{
+  "width": 4368,
+  "height": 2912,
+  "valid": true,
+  "rotate": 0,
+  "step_1": {
+    "toolName": "rectTool",
+    "result": [
+      {
+        "x": 530.7826086956522,
+        "y": 1149.217391304348,
+        "width": 1314.7826086956522,
+        "height": 1655.6521739130435,
+        "attribute": "",
+        "valid": true,
+        "id": "Rp1x6bZs",
+        "sourceID": "",
+        "textAttribute": "",
+        "order": 1
+      }
+    ]
+  }
+```
+For details, please see [LabelBee Annotation Format](./docs/annotation/README.md)
 
-- [LabelBee]()（本工具的都是通过 LabelBee 进行开发）
+## Links
 
+- [LabelBee](https://github.com/Kerwin-L/labelbee)（Created by LabelBee）
 
-## 开发指南
-
-- [开发指南](./docs/develop/README.md)
-## 贡献
+## Contributors
 
 xxx
 
 ## LICENSE
 
-[Apache License](./LICENSE)
+This project is released under the [Apache 2.0 license](./LICENSE).

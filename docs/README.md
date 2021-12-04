@@ -1,116 +1,111 @@
-# 快速上手
+English | [简体中文](./README_zh-CN.md)
 
-## 概念速递
-- 项目：标注任务的载体，可分为 `单步骤` 和 `多步骤`
-- 单步骤：简单标注任务首选
-- 多步骤：支持多种工具搭配标注，步骤分离标注能更加专注与标注场景
+# Getting Started
 
-## 一、项目创建
+## Concept
+- Project：A annotation Task，divided into `Single Step` and `Multiple Step`
+- Single Step：The first choice for simple annotation Task
+- Multiple Step：Support multiple tools with labeling, step separation labeling can be more focused on labeling the scene
 
-### 1. 打开界面
+## 一、Project creation
+
+### 1. Open it
 <img src="./assets/projectPlatform.png">
 
-### 2. 新建项目
+### 2. Create Project
 
-选择 `单步骤` 进行基础标注任务创建
+select `one step` to create a basic Annotation Task.
 
 <div  align="center">
 <img src="./assets/project-step.png">
 </div>
 
-### 3. 基础配置
+### 3. Basic Configuration
 
-各款工具都有特定配置，用于标注功能的添加和限定，下方以目标检测（矩形框）为例。
+Each tool has a specific configuration, both operating restrictions (minimum range of the frame), and high-level labeling configuration (text labeling, attribute labeling), the following is an example of `Detection`.
 
 <img src="./assets/create-project.png">
 
-前三个配置为基础配置：
+The first three configurations are basic configurations:
 
-* a.	项目名称：单纯用于展示
-* b.	图片路径： 选择需要标注的图片文件夹；LabelBee-Client 会将读取当前文件夹内所有的图片文件，包括嵌套文件夹内的图片。
-* c.	结果路径： 选择标注结果保存文件夹；保存时将会以原有图片名及路径为参考进行数据存储；同理也可以当做预先标注数据注入，**注意：需要严格按照 LabelBee 数据才可以正确展示**，具体可以查看 [LabelBee 标注格式](./annotation/README.md)
+* a.	Project name: purely for display
+* b.	Image path: Select the image folder to be marked; LabelBee-Client will read all image files in the current folder, including images in nested folders.
+* c. Result Path: Select the labeling result save folder; the original image name and path will be used as a reference for data storage when saving; the same can also be used as pre-labeled data injection, **Note: You need to strictly follow the LabelBee format to display correctly **, you can check for details [LabelBee format](./annotation/README.md)
 
 <img src="./assets/common-config.png">
 
-### 4. 标注进阶配置
+### 4. Advanced Configuration
 
-基础类型标注任务可直接跳过下方配置
+Basic type labeling tasks can be skipped directly below the configuration
+#### a. General configuration of graphics tools
 
+- Minimum size: the smallest range limit of the detection frame
+- Annotation outside the target: By default, annotation outside the picture is not allowed
+- Copy the last result: directly copy the annotation result of the previous picture (mainly used to mark the scene of the framed image)
+- Display labeling order: display the order of labeling boxes on the current page
 
-#### a. 图形类工具通用配置
-
-用于限制标注操作
 <img src="./assets/rectTool-common-config.png">
 
-#### b. 属性标注
+#### b. Attribute
 
-预先配置检测框体可赋予的属性配置，表单左侧为标注展示值，右侧为载入数据值
+Pre-configure the attribute configuration that can be assigned to the detection box, the left side of the form is the label display value, and the right side is the written label result value
+
 <img src="./assets/config-attribute.png">
 
-#### c. 文本标注
+#### c. Text Annotation
 
-每个检测框体可输入特定文本，可对输入内容进行限制，主要开启于 OCR 场景
+Each detection box can input specific text, and can restrict the input content, mainly open in OCR scene
+
 <img src="./assets/config-textAttribute.png">
 
+Click OK to create the project
 
-点击确认即可创建项目
+## 二、Annotation Operation
 
----
+### 1. Start the project
 
-## 二、标注操作介绍
-
-### 1. 进入项目
-
-单击进入项目
+Click to Start the project
 
 <img src="./assets/project-face-detection.png">
 
-### 2. 正式标注
+### 2. Annotation
 
-左下角有详细的当前工具操作方式
+There are detailed current tool operation methods in the lower left corner
 
 <img src="./assets/annotation.png">
 
 <img src="./assets/hotkey.png">
 
-
-（该部分需插入视频或其他方式，这部分交互可以讨论下）
-
-https://www.bilibili.com/video/BV1wQ4y1e7MJ/
+[Basic operation demonstration video](https://www.bilibili.com/video/BV1wQ4y1e7MJ/)
 
 
-#### 基础标注操作
+#### Basic labeling operations
 
-- 图片切换/提交： 快捷键 AD 进行前后翻页 - 将自动保存至结果路径
-- 拖拽图片：右键长按移动
-- 缩放图片：鼠标滚轮
-- 标注（目标检测）：拉框 - 左键点击 - 移动 - 左键点击
-- 左上角进行项目退出
+- Picture switch/submit: Shortcut key AD to turn page forward and backward, it will be automatically saved to the result path
+- Drag and drop the picture: Right click and long press to move
+- Zoom Image: Mouse wheel
+- Annotation (Detection): left click - move -left click
+- Project exit in the upper left corner
 
-其他进阶操作参考快捷键即可
+For other advanced operations, please refer to the shortcut keys
+## 三、Data Export
 
----
+The data supports COCO and Mask format export.
+### 1.Open the Export
 
-## 三、数据导出
-
-支持 COCO、Mask 格式导出。
-
-### 1.打开导出界面  
-
-移动鼠标至指定项目上，点击有右下角第一个导出按钮
+Move the mouse to the designated item and click the first export button in the lower right corner
 
 <img src="./assets/project-folder.png">
 
+### 2. Export restrictions
 
-### 2. 导出限制说明
-
-- 目标检测（矩形框）: 支持 COCO 格式导出
-- 语义分割（多边形）: 支持 COCO、Mask 格式导出
+- Target detection (rectangular frame): Support COCO format export
+- Semantic segmentation (polygon): Support COCO, Mask format export
 
 <img src="./assets/export-rect-format.png">
 
 ---
 
-## 四、LabelBee 格式介绍
+## 四、LabelBee Format
 
-[LabelBee 格式说明](./annotation/README.md)
+[LabelBee Format](./annotation/README.md)

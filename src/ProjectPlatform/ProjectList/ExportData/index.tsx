@@ -78,13 +78,6 @@ const ExportData = (props: IProps) => {
                   defaultKeyList,
                 );
 
-                const [grayData] = DataTransfer.transferPolygon2Gray(
-                  result.width,
-                  result.height,
-                  result['step_1'].result,
-                  keyList as string[],
-                );
-
                 electron.ipcRenderer.send(
                   EIpcEvent.SaveFile,
                   data,
@@ -92,12 +85,19 @@ const ExportData = (props: IProps) => {
                   'base64',
                 );
 
-                electron.ipcRenderer.send(
-                  EIpcEvent.SaveFile,
-                  grayData,
-                  values.path + `${file.fileName}_labelTrainIds.${suffix}`,
-                  'base64',
-                );
+                // const [grayData] = DataTransfer.transferPolygon2Gray(
+                //   result.width,
+                //   result.height,
+                //   result['step_1'].result,
+                //   keyList as string[],
+                // );
+
+                // electron.ipcRenderer.send(
+                //   EIpcEvent.SaveFile,
+                //   grayData,
+                //   values.path + `${file.fileName}.${suffix}`,
+                //   'base64',
+                // );
 
                 defaultKeyList = keyList as string[];
               }
