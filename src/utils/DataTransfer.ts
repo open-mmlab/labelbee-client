@@ -14,6 +14,11 @@ export const getRgbFromColorCheatSheet = (index: number) => {
   return `rgb(${rgb.r},${rgb.g},${rgb.b})`;
 };
 
+export const getRgbaColorListFromColorCheatSheet = (index: number) => {
+  const rgb = ColorCheatSheet[index].rgb;
+  return [rgb.r, rgb.g, rgb.b, 255];
+};
+
 interface CocoDataFormat {
   // 导出数据无需支持
   // info: {

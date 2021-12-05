@@ -3,7 +3,10 @@ import { Modal, Form, Radio, message, Popover, Spin } from 'antd';
 import SelectFolder from '@/ProjectPlatform/CreateProjectModal/SelectFolder';
 import { IFileInfo, IProjectInfo } from '@/store';
 import { EIpcEvent } from '@/constant/event';
-import DataTransfer, { getRgbFromColorCheatSheet } from '@/utils/DataTransfer';
+import DataTransfer, {
+  getRgbaColorListFromColorCheatSheet,
+  getRgbFromColorCheatSheet,
+} from '@/utils/DataTransfer';
 import { EToolName } from '@/constant/store';
 import { useTranslation } from 'react-i18next';
 import { jsonParser } from '@/utils/tool/common';
@@ -78,18 +81,18 @@ const ExportData = (props: IProps) => {
                   defaultKeyList,
                 );
 
-                const [grayData] = DataTransfer.transferPolygon2Gray(
-                  result.width,
-                  result.height,
-                  result['step_1'].result,
-                  keyList as string[],
-                );
-
                 electron.ipcRenderer.send(
                   EIpcEvent.SaveFile,
                   data,
                   values.path + `${file.fileName}_segmentation.${suffix}`,
                   'base64',
+                );
+
+                const [grayData] = DataTransfer.transferPolygon2Gray(
+                  result.width,
+                  result.height,
+                  result['step_1'].result,
+                  keyList as string[],
                 );
 
                 electron.ipcRenderer.send(
@@ -107,6 +110,7 @@ const ExportData = (props: IProps) => {
             const colorDataList = defaultKeyList.map((key, i) => ({
               attribute: key,
               color: getRgbFromColorCheatSheet(i + 1),
+              colorList: getRgbaColorListFromColorCheatSheet(i + 1),
               trainIds: i + 1,
             }));
 
