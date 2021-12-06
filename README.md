@@ -11,7 +11,7 @@
         <a href="./README_zh-CN.md" >简体中文</a>
     </p>
 </article>
-<img src="./docs/assets/main.png">
+<img src="./docs/assets/main2.png">
 
 </div>
 
@@ -22,10 +22,10 @@
 - 💻 Multiple operating systems: Mac / Linux / Windows
 - 🏁 Support Data Formats
 
-|         | General Data  | COCO  | Semantic Segmentation Mask  |
-| ------- | ------------- |-------| --------------------------- |
-| Export  |    ✔️          | ✔️     |                ✔️            |
-| Import  |    ✔️          | ✖     |                ✖            |
+|        | General Data | COCO | Semantic Segmentation Mask |
+| ------ | ------------ | ---- | -------------------------- |
+| Export | ✔️            | ✔️    | ✔️                          |
+| Import | ✔️            | ✖    | ✖                          |
 
 ## Support Scenes
 
@@ -39,10 +39,6 @@
 <p align="center">
   <img src="./docs/assets/annotation-detection-segmentation.gif">
   <i style="text-align: center;">Detection / Segmentation </i>
-  
-  <img src="./docs/assets/annotation-line-point-text.gif">
-  <i style="text-align: center;">Line / Point / Text </i>
-
 </p> 
 
 ## Usage

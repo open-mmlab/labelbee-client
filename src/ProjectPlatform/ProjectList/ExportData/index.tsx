@@ -39,7 +39,7 @@ const ExportData = (props: IProps) => {
     projectInfo?.toolName === EToolName.Rect || projectInfo?.toolName === EToolName.Polygon;
 
   /**
-   * 是否允许被转换的成 ADE20K
+   * 是否允许被转换的成 Mask
    */
   const isTransfer2ACE20k = projectInfo?.toolName === EToolName.Polygon;
   const onOk = () => {
@@ -66,8 +66,8 @@ const ExportData = (props: IProps) => {
             name = `${projectInfo.name}-coco`;
             break;
 
-          case 'ADE20K':
-            name = `${projectInfo.name}-ADE20K`;
+          case 'Mask':
+            name = `${projectInfo.name}-Mask`;
             suffix = 'png';
 
             fileList.forEach((file, i) => {
@@ -170,11 +170,11 @@ const ExportData = (props: IProps) => {
                 )}
               </Radio.Button>
               <Radio.Button value='default'>{t('StandardFormat')}</Radio.Button>
-              <Radio.Button value='ADE20K' disabled={!isTransfer2ACE20k}>
+              <Radio.Button value='Mask' disabled={!isTransfer2ACE20k}>
                 {isTransfer2ACE20k ? (
-                  'ADE20K'
+                  'Mask'
                 ) : (
-                  <Popover content={t('ExportADE20KLimitMsg')}>ADE20K</Popover>
+                  <Popover content={t('ExportMaskLimitMsg')}>Mask</Popover>
                 )}
               </Radio.Button>
             </Radio.Group>

@@ -10,8 +10,8 @@
   "main": "./electron/dist/electron/main.js",
   "dependencies": {
     "@ant-design/icons": "^4.6.2",
-    "@labelbee/lb-components": "^1.2.1",
-    "@labelbee/lb-annotation": "^1.5.2",
+    "@labelbee/lb-components": "^1.2.2",
+    "@labelbee/lb-annotation": "^1.5.3",
     "antd": "~4.15.0",
     "classnames": "^2.3.1",
     "fs-extra": "^8.1.0",

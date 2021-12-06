@@ -57,7 +57,9 @@ LabelBee-Client 的`目标检测`、`语义分割`支持直接导出 COCO 数据
 - 语义的唯一性：语义分割的属性标注配置
 - 导出内容:
   - JSON 文件： 表示当前语义与颜色的索引关系
-  - 彩色 Mask
+  - Mask
+    - 彩色图（xx_segmentation.png)：用于结果校验
+    - 灰度图（xx_labelTrainIds.png)
  
 
 ```json
@@ -80,14 +82,14 @@ LabelBee-Client 的`目标检测`、`语义分割`支持直接导出 COCO 数据
 ]
 ```
 
-| 名称      | 描述                           |
-| --------- | ------------------------------ |
-| attribute | 当前语义                       |
-| color     | 当前语义颜色                   |
-| trainIds  | 训练使用的 ID （灰度值 1 - N） |
+| 名称      | 描述                                       |
+| --------- | ------------------------------------------ |
+| attribute | 当前语义                                   |
+| color     | 当前语义颜色                               |
+| trainIds  | 训练使用的 ID （灰度值 1 - N，0 表示背景） |
 
 
-- 可使用下方脚本将导出的 Mask 按照上方 JSON 文件 Color => TrainIds 的映射转换为灰度图，以用于[mmsegmentation](https://github.com/open-mmlab/mmsegmentation) 训练
+- 可使用下方脚本将导出的 Mask (xxx_labelTrainIds.png 四通道图片)转换为（单通道）灰度图，以用于[mmsegmentation](https://github.com/open-mmlab/mmsegmentation) 训练
 
 
 ```python
@@ -97,7 +99,7 @@ from pathlib import Path, PurePath
 folder_path = './img/'  # Your Export Folder
 
 p = Path(folder_path)
-files = [x for x in p.iterdir() if PurePath(x).match('*.png')]
+files = [x for x in p.iterdir() if PurePath(x).match('*_labelTrainIds.png')]
 
 for file in files:
   p_path = file

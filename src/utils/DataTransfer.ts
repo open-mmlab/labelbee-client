@@ -262,7 +262,7 @@ export default class DataTransfer {
   }
 
   /**
-   * 导出 ADE20K 的格式数据
+   * 导出 Mask 的格式数据
    * @param width
    * @param height
    * @param polygon
