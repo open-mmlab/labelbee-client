@@ -17,10 +17,15 @@
 
 ## Features
 
-- 📦 Out of the Box, built-in 6 annotation tools, only need simple configuration to
-- 🪵 Arbitrary collocation, multiple tools can be directly dependent on each other
-- 🏁 Support general data, COCO format export, semantic segmentation Mask export
+- 📦 Out of the Box, built-in 6 annotation tools, simple configuration
+- 🪵  Random combination, multiple tools can be directly dependent on each other
 - 💻 Full platform support: Mac / Linux / Windows
+- 🏁 Support format
+
+|         | General Data  | COCO  | Semantic Segmentation Mask  |
+| ------- | ------------- |-------| --------------------------- |
+| Export  |    ✔️          | ✔️     |                ✔️            |
+| Import  |    ✔️          | ✖     |                ✖            |
 
 ## Support scene
 
