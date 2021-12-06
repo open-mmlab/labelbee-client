@@ -5,7 +5,7 @@
 import { EToolName } from '@/constant/store';
 import { IFileInfo } from '@/store';
 import { jsonParser } from './tool/common';
-import { DrawUtils } from '@sensetime/annotation';
+import { DrawUtils } from '@labelbee/lb-annotation';
 import ColorCheatSheet from '@/assets/color.json';
 
 // 获取 color cheat sheet 内的颜色

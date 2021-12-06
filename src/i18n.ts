@@ -1,4 +1,4 @@
-import { i18n } from '@sensetime/label-bee';
+import { i18n } from '@labelbee/lb-components';
 
 // the translations
 // (tip move them in a JSON file and import them,
