@@ -17,20 +17,20 @@
 
 ## Features
 
-- 📦 Out of the Box, built-in 6 annotation tools, simple configuration
-- 🪵  Random combination, multiple tools can be directly dependent on each other
-- 💻 Full platform support: Mac / Linux / Windows
-- 🏁 Support format
+- 📦 Out of the Box, built-in six annotation tools, simple configurations
+- 🪵 Flexible combinations, multiple tools can directly rely on each other
+- 💻 Multiple operating systems: Mac / Linux / Windows
+- 🏁 Support Data Formats
 
 |         | General Data  | COCO  | Semantic Segmentation Mask  |
 | ------- | ------------- |-------| --------------------------- |
 | Export  |    ✔️          | ✔️     |                ✔️            |
 | Import  |    ✔️          | ✖     |                ✖            |
 
-## Support scene
+## Support Scenes
 
 - Detection: Detection scenes for vehicles, license plates, pedestrians, faces, industrial parts, etc.
-- Classification: Detection of object classification, target characteristics, right and wrong judgments and other classification scenarios
+- Classification: Detection of object classification, target characteristics, right and wrong judgments, and other classification scenarios
 - Semantic segmentation: Human body segmentation, panoramic segmentation, drivable area segmentation, vehicle segmentation, etc.
 - Text transcription: Text detection and recognition of license plates, invoices, insurance policies, signs, etc.
 - Contour detection: positioning line scenes such as human contour lines, lane lines, etc.
@@ -49,7 +49,7 @@
 
 -  [Getting Started](./docs/README.md) 
 
-## Annotation format
+## Annotation Format
 
 ```json
 {
@@ -76,7 +76,7 @@
   }
 }
 ```
-For details, please see [LabelBee Annotation Format](./docs/annotation/README.md)
+For details, click to view [LabelBee Annotation Format](./docs/annotation/README.md)
 
 ## Links
 
