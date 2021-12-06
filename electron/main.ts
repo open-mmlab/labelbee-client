@@ -50,7 +50,7 @@ function createWindow() {
       contextIsolation: false,
     },
     backgroundColor: '#B1FF9D',
-    icon: path.join(__dirname, './../../../build/icon.ico'),
+    icon: path.join(__dirname, './../../../build/icon/label-app-icon-512.png'),
   });
 
   // 这里要注意一下，这里是让浏览器窗口加载网页。

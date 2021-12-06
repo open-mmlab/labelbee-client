@@ -4,7 +4,7 @@
     <p align="center"><img width="300" src="./src/assets/logo.svg" /></p>
     <h1 style="width: 100%; text-align: center;">LabelBee-Client</h1>
     <p>
-        <a href="https://github.com/Kerwin-L/labelbee-client/releases">Releases</a>
+        <a href="https://github.com/open-mmlab/labelbee-client/releases">Releases</a>
         ·
         <a href="#特性" >Usage</a>
         ·
@@ -75,11 +75,7 @@
 
 ## 友情链接
 
-- [LabelBee](https://github.com/Kerwin-L/labelbee)（本工具都是通过 LabelBee 进行开发）
-
-## 贡献
-
-xxx
+- [LabelBee](https://github.com/open-mmlab/labelbee)（本工具都是通过 LabelBee 进行开发）
 
 ## 开源许可证
 

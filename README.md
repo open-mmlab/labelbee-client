@@ -4,7 +4,7 @@
     <p align="center"><img width="300" src="./src/assets/logo.svg" /></p>
     <h1 style="width: 100%; text-align: center;">LabelBee-Client</h1>
     <p>
-        <a href="https://github.com/Kerwin-L/labelbee-client/releases">Releases</a>
+        <a href="https://github.com/open-mmlab/labelbee-client/releases">Releases</a>
         ·
         <a href="./docs/README.md" >Getting Started</a>
         ·
@@ -45,11 +45,11 @@
 
 </p> 
 
-## Getting Started
+## Usage
 
- [Basic task creation](./docs/README.md) 
+-  [Getting Started](./docs/README.md) 
 
-## Annotation format description
+## Annotation format
 
 ```json
 {
@@ -74,16 +74,13 @@
       }
     ]
   }
+}
 ```
 For details, please see [LabelBee Annotation Format](./docs/annotation/README.md)
 
 ## Links
 
-- [LabelBee](https://github.com/Kerwin-L/labelbee)（Created by LabelBee）
-
-## Contributors
-
-xxx
+- [LabelBee](https://github.com/open-mmlab/labelbee)（Powered by LabelBee）
 
 ## LICENSE
 
