@@ -32,14 +32,17 @@
 - 轮廓线检测：人体轮廓线、车道线等定位线场景
 - 关键点检测：人脸人体关键点、车辆关键点、路沿关键点等定位场景
 
-<p align="center">
-  <img src="./docs/assets/annotation-detection-segmentation.gif">
+
+<div align="center">
+  <img src="./docs/assets/annotation-detection-segmentation.gif"/>
+
   <i style="text-align: center;">Detection / Segmentation </i>
   
-  <img src="./docs/assets/annotation-line-point-text.gif">
-  <i style="text-align: center;">Line / Point / Text </i>
+  <img src="./docs/assets/annotation-line-point-text.gif"/>
 
+  <i style="text-align: center;">Line / Point / Text </i>
 </p> 
+</div>
 
 ## 快速上手
 

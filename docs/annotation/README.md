@@ -93,10 +93,12 @@ LabelBee-Client 的`目标检测`、`语义分割`支持直接导出 COCO 数据
 
 
 ```python
+# FilePath: labelbee-client/scripts/dataTransfer.py
+
 from PIL import Image
 from pathlib import Path, PurePath
 
-folder_path = './img/'  # Your Export Folder
+folder_path = './img/'  # The folder of your exported data
 
 p = Path(folder_path)
 files = [x for x in p.iterdir() if PurePath(x).match('*_labelTrainIds.png')]

@@ -75,7 +75,7 @@
 
 <img src="./assets/hotkey.png">
 
-[基础操作展示视频](https://www.bilibili.com/video/BV1wQ4y1e7MJ/)
+[基础操作展示视频](https://www.bilibili.com/video/BV1fZ4y1X7tq)
 
 
 #### 基础标注操作

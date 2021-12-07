@@ -11,7 +11,7 @@
         <a href="./README_zh-CN.md" >简体中文</a>
     </p>
 </article>
-<img src="./docs/assets/main2.png">
+<img style="width: 700px" src="./docs/assets/main.png">
 
 </div>
 
@@ -36,10 +36,16 @@
 - Contour detection: positioning line scenes such as human contour lines, lane lines, etc.
 - Key point detection: positioning scenes such as human face key points, vehicle key points, road edge key points, etc.
 
-<p align="center">
-  <img src="./docs/assets/annotation-detection-segmentation.gif">
+<div align="center">
+  <img src="./docs/assets/annotation-detection-segmentation.gif"/>
+
   <i style="text-align: center;">Detection / Segmentation </i>
+  
+  <img src="./docs/assets/annotation-line-point-text.gif"/>
+
+  <i style="text-align: center;">Line / Point / Text </i>
 </p> 
+</div>
 
 ## Usage
 

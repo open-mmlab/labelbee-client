@@ -76,7 +76,7 @@ More detail operation methods in the lower left corner
 
 <img src="./assets/hotkey.png">
 
-[Basic operation demonstration video](https://www.bilibili.com/video/BV1wQ4y1e7MJ/)
+[Basic operation demonstration video](https://www.bilibili.com/video/BV1fZ4y1X7tq)
 
 
 #### Basic annotation operations
