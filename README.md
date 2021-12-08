@@ -1,4 +1,3 @@
-
 <div align="center">
 <article style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
     <p align="center"><img width="300" src="./src/assets/logo.svg" /></p>
@@ -26,6 +25,10 @@
 | ------ | ------------ | ---- | -------------------------- |
 | Export | ✔️            | ✔️    | ✔️                          |
 | Import | ✔️            | ✖    | ✖                          |
+
+## Download
+
+[Mac](https://github.com/open-mmlab/labelbee-client/releases/download/v0.1.0/labelbee-client-0.1.0.dmg) / [Windows](https://github.com/open-mmlab/labelbee-client/releases/download/v0.1.0/labelbee-client.Setup.0.1.0.exe) / [Linux](https://github.com/open-mmlab/labelbee-client/releases/download/v0.1.0/labelbee-client_0.1.0_amd64.deb)
 
 ## Support Scenes
 

@@ -22,6 +22,10 @@
 - 🏁 支持通用数据，COCO 格式导出，语义分割 Mask 导出
 - 💻 全平台支持：Mac / Linux / Windows
 
+## 客户端下载
+
+[Mac](https://github.com/open-mmlab/labelbee-client/releases/download/v0.1.0/labelbee-client-0.1.0.dmg) / [Windows](https://github.com/open-mmlab/labelbee-client/releases/download/v0.1.0/labelbee-client.Setup.0.1.0.exe) / [Linux](https://github.com/open-mmlab/labelbee-client/releases/download/v0.1.0/labelbee-client_0.1.0_amd64.deb)
+
 ## 支持场景
 
 
