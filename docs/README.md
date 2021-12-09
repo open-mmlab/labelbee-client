@@ -3,18 +3,18 @@ English | [简体中文](./README_zh-CN.md)
 # Getting Started
 
 ## Concept
-- Project：A annotation Task，divided into `Single Step` and `Multiple Step`
-- Single Step：The first choice for simple annotation task
-- Multiple Step：Support multiple tools with annotation, step separation annotation can be more focused on annotation the scene
+- Project： Create an Annotation Task, divided into two modules: `Single Step` and `Multiple Steps`
+- Single Step： The first choice for creating a simple annotation task
+- Multiple Step： Support multiple annotations tools, customize annotation steps and focus more on specific scene annotation
 
-## A、Project creation
+## A、Project Creation
 
-### 1. Open it
+### 1. Open the application
 <img src="./assets/projectPlatform.png">
 
-### 2. Create Project
+### 2. Create A Project
 
-Select `one step` to create a basic annotation task
+Click `New Project` on the top right, and select the `one step` to create a simple annotation task
 
 <div  align="center">
 <img src="./assets/project-step.png">
@@ -22,55 +22,55 @@ Select `one step` to create a basic annotation task
 
 ### 3. Basic Configuration
 
-Each tool has a specific configuration, both operating restrictions (minimum range of the frame), and high-level annotation configuration (text annotation, attribute annotation), the following is an example of `Detection`.
+Each tool has specific configurations, both operating restrictions (minimum range of the frame)and high-level annotation configuration (text annotation, attribute annotation). The following is an example of `Detection`:
 
 <img src="./assets/create-project.png">
 
-The first three configurations are basic:
+The first three configurations are required:
 
 * a.	Project name: For display
-* b.	Image path: Select the path to be labeled; LabelBee-Client will read all image files from the path, including images in nested folders.
-* c. Result Path: Select the save path of annotation result; Images' filename and path will be used as a reference for data storage when saving; The same can also be used as pre-labeled data injection, **Note: You need to strictly follow the LabelBee format to display correctly **, you can check for details [LabelBee format](./annotation/README.md)
+* b.	Image path: Select the path to be annotated; LabelBee-Client will read all image files from the path, including images in nested folders
+* c. Result Path: Select the save path of annotation results; Images' filenames and the path will be used as references for data storage when saving, as well as to be used as pre-labeled data injection, **Note: You need to follow the LabelBee format to display correctly strictly **, you can check for details [LabelBee format](./annotation/README.md)
 
 <img src="./assets/common-config.png">
 
 ### 4. Advanced Configuration
 
-Basic annotation tasks can be skipped directly below the configuration
-#### a. General configuration of graphics tools
+For the basic annotation tasks, you can skip the following configurations directly.
+#### a. General configurations of graphics tools
 
-- Smallest Size: The smallest range limit of the bounding box
-- Out-Of-Target: By default, annotate outside the picture is not allowed
-- Copy Prev: Directly copy the annotation result of the previous picture (mainly used to annotate the scene of the framed image)
-- Show Order: Display the order of bounding boxes
+- Minimum Size: The minimum limitation range of the bounding box
+- Out-Of-Target: By default, annotating outside the image is not allowed
+- Copy Prev: Directly copy the annotation result from the previous picture (mainly used to annotate the frame extracting scene)
+- Show Order: Display the order of annotations with bounding boxes
 
 <img src="./assets/rectTool-common-config.png">
 
 #### b. Attribute
 
-Pre-configure the attribute configuration that can be assigned to the detection box, the left side of the form is the annotation display value, and the right side is the written annotation result value
+Configure the attribute to the detection box that can be assigned. The left side of the form shows the annotation display value, while the right side shows the annotation resulting value
 
 <img src="./assets/config-attribute.png">
 
 #### c. Text Annotation
 
-Each bounding box can input specific text, and can restrict the input content, mainly open in OCR scene
+Each bounding box can enter specific text and can restrict the rules of input, mainly open in the OCR scene
 
 <img src="./assets/config-textAttribute.png">
 
 Click OK to create the project
 
-## B、Annotation Operation
+## B、Annotation Procedure
 
 ### 1. Start the project
 
-Click to Start the project
+Click the Task Name to Start a project
 
 <img src="./assets/project-face-detection.png">
 
 ### 2. Annotation
 
-More detail operation methods in the lower left corner
+More annotation operation details in the lower-left corner
 
 <img src="./assets/annotation.png">
 
@@ -81,19 +81,19 @@ More detail operation methods in the lower left corner
 
 #### Basic annotation operations
 
-- Picture switch/submit: Shortcut key AD to turn page forward and backward, it will be automatically saved to the result path
-- Drag and drop the picture: Right click and long press to move
+- Picture switch/Result submit: Shortcut key AD to turn the page forward and backward, and it will be automatically saved to the result path
+- Drag and drop the picture: Right-click and long press to move
 - Zoom Image: Mouse wheel
 - Annotation (Detection): left click - move - left click
-- Project exit in the upper left corner
+- Click the backward in the upper left corner to exit the project
 
-For other advanced operations, please refer to the shortcut keys
+For other advanced operations, please refer to the shortcut keys illustration above
 ## C、Data Export
 
-The data supports COCO and Mask format export.
+The data supports COCO and Mask data format to export.
 ### 1.Open the Export
 
-Move the mouse to the designated item and click the first export button in the lower right corner
+Move the mouse to the designated task and click the first button to export in the lower right corner
 
 <img src="./assets/project-folder.png">
 
