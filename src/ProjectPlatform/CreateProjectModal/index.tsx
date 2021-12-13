@@ -8,7 +8,7 @@ import MultiStep from './MultiStep';
 import SelectTool from './SelectTool';
 import TaskStep from '@/ProjectPlatform/CreateProjectModal/TaskStep';
 import { IStepInfo, useAnnotation } from '../../store';
-import { EToolName } from '@/constant/store';
+import { EToolName, TOOL_NAME } from '@/constant/store';
 import DefaultConfig from './ToolConfig/DefaultConfig';
 import { getCreateProjectCmt } from '@/utils/tool/common';
 import { repeatInputList } from '@/utils/tool/editTool';
@@ -78,7 +78,7 @@ const CreateProjectModal: React.FC<IProps> = ({ type, visible, onCancel }) => {
   const isBase = type === 'base';
 
   const changeTaskVisible = () => {
-    setTaskVisible((state) => !state);
+    setTaskVisible(state => !state);
   };
 
   const deleteProject = () => {
@@ -86,7 +86,7 @@ const CreateProjectModal: React.FC<IProps> = ({ type, visible, onCancel }) => {
     dispatch({
       type: 'UPDATE_PROJECT_LIST',
       payload: {
-        projectList: projectList.filter((info) => info.id !== currentProjectInfo?.id),
+        projectList: projectList.filter(info => info.id !== currentProjectInfo?.id),
       },
     });
   };
@@ -94,7 +94,7 @@ const CreateProjectModal: React.FC<IProps> = ({ type, visible, onCancel }) => {
   const createProject = () => {
     form
       .validateFields()
-      .then((values) => {
+      .then(values => {
         let list;
         if (isBase) {
           const result = formatData(omit(values, ['name', 'path', 'resultPath']), toolName, form);
@@ -171,6 +171,39 @@ const CreateProjectModal: React.FC<IProps> = ({ type, visible, onCancel }) => {
     }
   }, [form, visible]);
 
+  const importFromClipboard = () => {
+    const promise = navigator.clipboard.readText();
+    promise.then(res => {
+      try {
+        const clipboardData = JSON.parse(res);
+        const toolNames = Object.keys(TOOL_NAME);
+        const newData: any = [];
+        // 过滤掉质检步骤、暂不支持的工具、依赖过滤掉的工具
+        const filteredStep: any = [];
+        clipboardData.forEach((element: any) => {
+          const { id = uuid(), tool, type, dataSourceStep, step, config } = element;
+          if (type !== 1 || !toolNames.includes(tool) || filteredStep.includes(dataSourceStep)) {
+            filteredStep.push(step);
+          } else {
+            newData.push({
+              id,
+              tool,
+              step,
+              config,
+              dataSourceStep,
+            });
+          }
+        });
+
+        setStepList(pre => {
+          return [...pre, ...newData];
+        });
+      } catch (error) {
+        message.error('请复制正确的步骤列表');
+      }
+    });
+  };
+
   return (
     <div>
       <Modal
@@ -188,7 +221,7 @@ const CreateProjectModal: React.FC<IProps> = ({ type, visible, onCancel }) => {
             <SelectTool
               disabled={!!currentProjectInfo}
               toolName={toolName}
-              onChange={(text) => {
+              onChange={text => {
                 form.resetFields(Object.keys(omit(form.getFieldsValue(), ['name'])));
                 setToolName(text);
               }}
@@ -219,7 +252,19 @@ const CreateProjectModal: React.FC<IProps> = ({ type, visible, onCancel }) => {
                   setStepLIst={setStepList}
                   setStepId={setStepId}
                   changeTaskVisible={changeTaskVisible}
-                  footer={<Button onClick={changeTaskVisible}>{t('New')}</Button>}
+                  footer={
+                    <>
+                      <Button
+                        onClick={importFromClipboard}
+                        style={{
+                          marginRight: 16,
+                        }}
+                      >
+                        {t('ImportFromClipboard')}
+                      </Button>
+                      <Button onClick={changeTaskVisible}>{t('New')}</Button>
+                    </>
+                  }
                 />
                 <Modal
                   destroyOnClose={true}
