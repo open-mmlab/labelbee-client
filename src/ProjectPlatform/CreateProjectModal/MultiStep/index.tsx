@@ -1,7 +1,7 @@
 // cl 2021/9/13 09:53
 import React, { useEffect, useMemo, useState } from 'react';
 import { Col, Row, Select, Button, Form, message } from 'antd';
-import { isNumber, omit, pick } from 'lodash';
+import { isNumber, omit, pick, maxBy } from 'lodash';
 import { IStepInfo } from '@/store';
 import { EToolName, TOOL_NAME } from '@/constant/store';
 import SelectTool, { annotationTypeList, Itool } from '../SelectTool';
@@ -64,9 +64,10 @@ const MultiStep: React.FC<IProps> = ({ stepId, stepList, setStepLIst, changeTask
       );
       const index = stepList.findIndex((item) => item.id === stepInfo?.id);
       const newStepList = [...stepList];
+      const maxStep = maxBy(stepList, 'step')?.step ?? 0;
       if (index === -1) {
         newStepList.push({
-          step: stepList.length + 1,
+          step: maxStep + 1,
           dataSourceStep,
           tool: toolName,
           id: uuid(),

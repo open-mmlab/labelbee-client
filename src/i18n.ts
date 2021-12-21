@@ -90,6 +90,8 @@ const resources = {
       MultiSelect: 'multi-select',
       DefaultOption: 'Default Option',
       MessageBeforeExport: 'Exporting, please wait',
+      ImportFromClipboard: 'Import from clipboard',
+      PleaseCopyTheCorrectStepList: 'Please copy the correct step list',
     },
   },
   cn: {
@@ -177,6 +179,8 @@ const resources = {
       MultiSelect: '多选',
       DefaultOption: '默认选择',
       MessageBeforeExport: '导出中，请稍后',
+      ImportFromClipboard: '剪切板导入',
+      PleaseCopyTheCorrectStepList: '请复制正确的步骤列表',
     },
   },
 };
