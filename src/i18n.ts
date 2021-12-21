@@ -91,6 +91,7 @@ const resources = {
       DefaultOption: 'Default Option',
       MessageBeforeExport: 'Exporting, please wait',
       ImportFromClipboard: 'Import from clipboard',
+      PleaseCopyTheCorrectStepList: 'Please copy the correct step list',
     },
   },
   cn: {
@@ -179,6 +180,7 @@ const resources = {
       DefaultOption: '默认选择',
       MessageBeforeExport: '导出中，请稍后',
       ImportFromClipboard: '剪切板导入',
+      PleaseCopyTheCorrectStepList: '请复制正确的步骤列表',
     },
   },
 };

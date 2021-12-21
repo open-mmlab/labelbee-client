@@ -199,7 +199,7 @@ const CreateProjectModal: React.FC<IProps> = ({ type, visible, onCancel }) => {
           return [...pre, ...newData];
         });
       } catch (error) {
-        message.error('请复制正确的步骤列表');
+        message.error(t('PleaseCopyTheCorrectStepList'));
       }
     });
   };
