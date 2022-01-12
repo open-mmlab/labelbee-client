@@ -10,33 +10,33 @@ export function checkNumber(v: string) {
   return false;
 }
 
-export function formatDate(date: Date, fmt: string){
-  if(/(y+)/.test(fmt)){
-    fmt = fmt.replace(RegExp.$1, (date.getFullYear()+'').substr(4-RegExp.$1.length));
+export function formatDate(date: Date, fmt: string) {
+  if (/(y+)/.test(fmt)) {
+    fmt = fmt.replace(RegExp.$1, (date.getFullYear() + '').substr(4 - RegExp.$1.length));
   }
   let o = {
-    'M+': date.getMonth()+1,
+    'M+': date.getMonth() + 1,
     'd+': date.getDate(),
     'h+': date.getHours(),
     'm+': date.getMinutes(),
-    's+': date.getSeconds()
-  }
-  for(let k in o){
+    's+': date.getSeconds(),
+  };
+  for (let k in o) {
     // @ts-ignore
-    let str = o[k]+'';
-    if(new RegExp(`(${k})`).test(fmt)){
-      fmt = fmt.replace(RegExp.$1, (RegExp.$1.length===1)?str:padLeftZero(str));
+    let str = o[k] + '';
+    if (new RegExp(`(${k})`).test(fmt)) {
+      fmt = fmt.replace(RegExp.$1, RegExp.$1.length === 1 ? str : padLeftZero(str));
     }
   }
   return fmt;
-};
+}
 
-function padLeftZero(str: string){
-  return ('00'+str).substr(str.length);
+function padLeftZero(str: string) {
+  return ('00' + str).substr(str.length);
 }
 
 export function getCreateProjectCmt(showBase: boolean, Base: ReactNode, Step: ReactNode) {
-  return showBase ? Base : Step
+  return showBase ? Base : Step;
 }
 
 export const jsonParser = (content: any, defaultValue: any = {}) => {
@@ -49,4 +49,27 @@ export const jsonParser = (content: any, defaultValue: any = {}) => {
   } catch (e) {
     return defaultValue;
   }
+};
+
+/**
+ * 复制文本
+ * @param text
+ * @param element
+ */
+export const copyText = (text: string, element: 'input' | 'textarea' = 'input') => {
+  const copyInput = document.createElement(element);
+  copyInput.setAttribute(
+    'style',
+    `
+      display: 'none'
+    `,
+  );
+
+  document.body.appendChild(copyInput);
+
+  copyInput.value = text;
+  copyInput.select();
+
+  document.execCommand('copy');
+  document.body.removeChild(copyInput);
 };
