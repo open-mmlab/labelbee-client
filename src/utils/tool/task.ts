@@ -76,7 +76,7 @@ export function deleteStep(step: number, stepList: IStepInfo[]) {
   const deleteStepList: any = stepList
     .filter((item) => deleteList.some((i) => i === item.step))
     .map(
-      (item: any) => `${i18n.t('NStep')}
+      (item: any) => `${i18n.t('NStep', { step: item.step })}
     ：${i18n.t(TOOL_NAME[item.tool])}`,
     );
 
