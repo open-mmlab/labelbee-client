@@ -1,7 +1,7 @@
 // cl 2021/8/5 19:12
 import React, { useEffect, useState } from 'react';
 import { IFileInfo, IProjectInfo, IStepInfo, useAnnotation } from '@/store';
-import { message, Popconfirm, Tag, Spin } from 'antd';
+import { message, Popconfirm, Tag, Spin, Tooltip } from 'antd';
 import { EToolName, TOOL_NAME } from '@/constant/store';
 import {
   DeleteOutlined,
@@ -9,12 +9,13 @@ import {
   EditOutlined,
   FolderOpenOutlined,
   DeliveredProcedureOutlined,
+  CopyOutlined,
 } from '@ant-design/icons';
 import SelectFolder from '@/ProjectPlatform/CreateProjectModal/SelectFolder';
 import ExportData from './ExportData';
 import styles from '../index.module.scss';
 import { EIpcEvent } from '@/constant/event';
-import { formatDate, jsonParser } from '@/utils/tool/common';
+import { copyText, formatDate, jsonParser } from '@/utils/tool/common';
 import { IProjectType } from '@/ProjectPlatform';
 import IconRect from '@/assets/toolIcon/icon_rect.svg';
 import IconLine from '@/assets/toolIcon/icon_line.svg';
@@ -254,22 +255,37 @@ const ProjectList: React.FC<IProps> = ({ createProject }) => {
                 </div>
                 {hoverIndex === i && (
                   <div className={styles.deleteButton}>
-                    <DeliveredProcedureOutlined
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        setProjectInfo(info);
-                      }}
-                      className={styles.icon}
-                      style={{ marginRight: 12 }}
-                    />
-                    <EditOutlined
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        editProject(info);
-                      }}
-                      className={styles.icon}
-                      style={{ marginRight: 12 }}
-                    />
+                    <Tooltip title={t('CopyProjectConfig')}>
+                      <CopyOutlined
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          copyText(JSON.stringify(info.stepList));
+                          message.success(t('CopyConfigSuccessfully'));
+                        }}
+                        className={styles.icon}
+                        style={{ marginRight: 12 }}
+                      />
+                    </Tooltip>
+                    <Tooltip title={t('ExportAnnotationResults')}>
+                      <DeliveredProcedureOutlined
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setProjectInfo(info);
+                        }}
+                        className={styles.icon}
+                        style={{ marginRight: 12 }}
+                      />
+                    </Tooltip>
+                    <Tooltip title={t('ModifyConfig')}>
+                      <EditOutlined
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          editProject(info);
+                        }}
+                        className={styles.icon}
+                        style={{ marginRight: 12 }}
+                      />
+                    </Tooltip>
                     <span
                       onClick={(e) => {
                         e.stopPropagation();

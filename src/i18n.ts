@@ -90,6 +90,14 @@ const resources = {
       MultiSelect: 'multi-select',
       DefaultOption: 'Default Option',
       MessageBeforeExport: 'Exporting, please wait',
+      ImportFromClipboard: 'Import from clipboard',
+      PleaseCopyTheCorrectStepList: 'Please copy the correct step list',
+      CopyConfigSuccessfully: 'Copy project config Successfully',
+
+      // Project Operation
+      CopyProjectConfig: 'Copy project config',
+      ExportAnnotationResults: 'Export annotation results',
+      ModifyConfig: 'Modify config',
     },
   },
   cn: {
@@ -177,6 +185,14 @@ const resources = {
       MultiSelect: '多选',
       DefaultOption: '默认选择',
       MessageBeforeExport: '导出中，请稍后',
+      ImportFromClipboard: '剪切板导入',
+      PleaseCopyTheCorrectStepList: '请复制正确的步骤列表',
+      CopyConfigSuccessfully: '复制项目配置成功',
+
+      // Project Operation
+      CopyProjectConfig: '复制项目配置',
+      ExportAnnotationResults: '导出标注结果',
+      ModifyConfig: '修改配置',
     },
   },
 };
