@@ -215,6 +215,12 @@ export default class DataTransfer {
               category_id,
             };
 
+            let area = 0;
+            if (rect.width && rect.height) {
+              area = rect.width * rect.height;
+            }
+            Object.assign(defaultData, { area });
+
             if (rect.textAttribute) {
               Object.assign(defaultData, { textAttribute: rect.textAttribute });
             }

@@ -78,7 +78,7 @@ const CreateProjectModal: React.FC<IProps> = ({ type, visible, onCancel }) => {
   const isBase = type === 'base';
 
   const changeTaskVisible = () => {
-    setTaskVisible(state => !state);
+    setTaskVisible((state) => !state);
   };
 
   const deleteProject = () => {
@@ -86,7 +86,7 @@ const CreateProjectModal: React.FC<IProps> = ({ type, visible, onCancel }) => {
     dispatch({
       type: 'UPDATE_PROJECT_LIST',
       payload: {
-        projectList: projectList.filter(info => info.id !== currentProjectInfo?.id),
+        projectList: projectList.filter((info) => info.id !== currentProjectInfo?.id),
       },
     });
   };
@@ -94,7 +94,7 @@ const CreateProjectModal: React.FC<IProps> = ({ type, visible, onCancel }) => {
   const createProject = () => {
     form
       .validateFields()
-      .then(values => {
+      .then((values) => {
         let list;
         if (isBase) {
           const result = formatData(omit(values, ['name', 'path', 'resultPath']), toolName, form);
@@ -173,7 +173,7 @@ const CreateProjectModal: React.FC<IProps> = ({ type, visible, onCancel }) => {
 
   const importFromClipboard = () => {
     const promise = navigator.clipboard.readText();
-    promise.then(res => {
+    promise.then((res) => {
       try {
         const clipboardData = JSON.parse(res);
         const toolNames = Object.keys(TOOL_NAME);
@@ -182,7 +182,12 @@ const CreateProjectModal: React.FC<IProps> = ({ type, visible, onCancel }) => {
         const filteredStep: any = [];
         clipboardData.forEach((element: any) => {
           const { id = uuid(), tool, type, dataSourceStep, step, config } = element;
-          if (type !== 1 || !toolNames.includes(tool) || filteredStep.includes(dataSourceStep)) {
+          if (
+            type === 2 ||
+            type === 3 ||
+            !toolNames.includes(tool) ||
+            filteredStep.includes(dataSourceStep)
+          ) {
             filteredStep.push(step);
           } else {
             newData.push({
@@ -195,7 +200,7 @@ const CreateProjectModal: React.FC<IProps> = ({ type, visible, onCancel }) => {
           }
         });
 
-        setStepList(pre => {
+        setStepList((pre) => {
           return [...pre, ...newData];
         });
       } catch (error) {
@@ -221,7 +226,7 @@ const CreateProjectModal: React.FC<IProps> = ({ type, visible, onCancel }) => {
             <SelectTool
               disabled={!!currentProjectInfo}
               toolName={toolName}
-              onChange={text => {
+              onChange={(text) => {
                 form.resetFields(Object.keys(omit(form.getFieldsValue(), ['name'])));
                 setToolName(text);
               }}
