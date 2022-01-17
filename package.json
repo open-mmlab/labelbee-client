@@ -228,24 +228,30 @@
     ],
     "mac": {
       "icon": "./public/icon/icon_512x512@2x.icns",
-      "target": [
-        "dmg",
-        "zip"
-      ]
+      "target": {
+        "target": "dmg",
+        "arch": [
+          "x64"
+        ]
+      }
     },
     "win": {
       "icon": "./public/icon/label-app-icon-256.ico",
-      "target": [
-        "nsis",
-        "zip"
-      ]
+      "target": {
+        "target": "nsis",
+        "arch": [
+          "x64"
+        ]
+      }
     },
     "linux": {
       "icon": "./public/icon/label-app-icon-512.png",
-      "target": [
-        "deb",
-        "tar.gz"
-      ]
+      "target": {
+        "target": "deb",
+        "arch": [
+          "x64"
+        ]
+      }
     },
     "publish": null
   }
