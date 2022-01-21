@@ -29,12 +29,28 @@ const setupMenu = () => {
       label: 'Version',
       submenu: [
         {
-          label: `版本版本：${version}`,
+          label: `Version：${version}`,
           type: 'normal',
         },
+        { role: 'quit', label: 'Quit LabelBee-client' },
       ],
     },
   ];
+
+  template.push({
+    label: 'Edit',
+    submenu: [
+      { role: 'undo' },
+      { role: 'redo' },
+      { type: 'separator' },
+      { role: 'cut' },
+      { role: 'copy' },
+      { role: 'paste' },
+      { role: 'pasteandmatchstyle' },
+      { role: 'delete' },
+      { role: 'selectall' },
+    ],
+  });
 
   Menu.setApplicationMenu(Menu.buildFromTemplate(template));
 };
