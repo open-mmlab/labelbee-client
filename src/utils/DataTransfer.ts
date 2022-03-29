@@ -3,7 +3,7 @@
  */
 
 import { EToolName } from '@/constant/store';
-import { IFileInfo } from '@/store';
+import { IFileInfo, IStepInfo } from '@/store';
 import { jsonParser } from './tool/common';
 import { DrawUtils } from '@labelbee/lb-annotation';
 import ColorCheatSheet from '@/assets/color.json';
@@ -31,7 +31,7 @@ interface CocoDataFormat {
   // };
   images: Array<ICocoImage>;
   annotations: Array<ICocoObjectDetection>;
-  category: Array<{
+  categories: Array<{
     id: number;
     name: string;
     supercategory: string;
@@ -149,11 +149,11 @@ export default class DataTransfer {
    * 2. 多边形
    * @param fileList
    */
-  public static transferDefault2Coco(fileList: IFileInfo[]) {
+  public static transferDefault2Coco(fileList: IFileInfo[], stepList: IStepInfo[]) {
     const mainObject: CocoDataFormat = {
       images: [],
       annotations: [],
-      category: [
+      categories: [
         {
           id: 0,
           name: '',
@@ -161,6 +161,20 @@ export default class DataTransfer {
         },
       ],
     };
+
+    /**
+     * 提取步骤中的配置 - 将 attributeList 同步至 coco 的 categories
+     */
+    const config = jsonParser(stepList[0]?.config);
+    if (config?.attributeList) {
+      mainObject.categories = mainObject.categories.concat(
+        config?.attributeList?.map((v: any, i: number) => ({
+          id: i + 1,
+          name: v.value,
+          supercategory: '',
+        })) ?? [],
+      );
+    }
 
     let image_id = 1;
     let result_id = 1;
@@ -185,12 +199,12 @@ export default class DataTransfer {
         let category_id = 0; // 0 默认为
 
         if (data?.attribute) {
-          const category = mainObject.category.find((v) => v.name === data.attribute);
+          const category = mainObject.categories.find((v) => v.name === data.attribute);
           if (category) {
             category_id = category.id;
           } else {
-            category_id = mainObject.category.length + 1;
-            mainObject.category.push({
+            category_id = mainObject.categories.length;
+            mainObject.categories.push({
               id: category_id,
               name: data.attribute,
               supercategory: '',
