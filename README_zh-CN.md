@@ -24,7 +24,7 @@
 
 ## 客户端下载
 
-[Mac](https://github.com/open-mmlab/labelbee-client/releases/download/v0.1.1/labelbee-client-0.1.1.dmg) / [Windows](https://github.com/open-mmlab/labelbee-client/releases/download/v0.1.1/labelbee-client.Setup.0.1.1.exe) / [Linux](https://github.com/open-mmlab/labelbee-client/releases/download/v0.1.1/labelbee-client_0.1.1_amd64.deb)
+[Mac & Windows & Linux](https://github.com/open-mmlab/labelbee-client/releases)
 
 ## 支持场景
 
