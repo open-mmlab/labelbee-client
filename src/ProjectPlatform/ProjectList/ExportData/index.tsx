@@ -30,7 +30,7 @@ const ExportData = (props: IProps) => {
     return () => {
       form.resetFields();
     };
-  }, [projectInfo]);
+  }, [form, projectInfo]);
 
   /**
    * 判断当前是否允许被转换成 coco 格式
@@ -62,7 +62,9 @@ const ExportData = (props: IProps) => {
             name = `${projectInfo.name}-labelbee`;
             break;
           case 'coco':
-            data = JSON.stringify(DataTransfer.transferDefault2Coco(fileList));
+            data = JSON.stringify(
+              DataTransfer.transferDefault2Coco(fileList, projectInfo.stepList),
+            );
             name = `${projectInfo.name}-coco`;
             break;
 
