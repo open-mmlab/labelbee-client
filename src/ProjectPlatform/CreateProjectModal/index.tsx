@@ -245,7 +245,7 @@ const CreateProjectModal: React.FC<IProps> = ({ type, visible, onCancel }) => {
               wrapperCol={{ span: 18 }}
               form={form}
             >
-              <DefaultConfig disabled={!!currentProjectInfo} />
+              <DefaultConfig />
               {getCreateProjectCmt(isBase, <Tools toolName={toolName} form={form}></Tools>, null)}
             </Form>
             {getCreateProjectCmt(

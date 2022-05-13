@@ -8,17 +8,16 @@ const electron = window.require && window.require('electron');
 interface IProps {
   value?: string;
   key: string;
-  disabled?: boolean;
   onChange?: (value: any) => void;
 }
 
-const SelectFolder: React.FC<IProps> = ({ value, disabled, onChange, key }) => {
+const SelectFolder: React.FC<IProps> = ({ value, onChange, key }) => {
   const [path, setPath] = useState('');
   const pathRef = useRef<HTMLInputElement>(null);
 
   const openDir = () => {
     const ipcRenderer = electron && electron.ipcRenderer;
-    if (ipcRenderer && !disabled) {
+    if (ipcRenderer) {
       // 防止监听多个
       ipcRenderer.removeAllListeners([EIpcEvent.SelectedDirectory], () => {});
       ipcRenderer.send(EIpcEvent.SelectDirectory);
@@ -34,10 +33,9 @@ const SelectFolder: React.FC<IProps> = ({ value, disabled, onChange, key }) => {
     // 具体的图片
   };
   return (
-    <div key={key} style={{ pointerEvents: 'all', cursor: 'pointer'}} onClick={openDir}>
+    <div key={key} style={{ pointerEvents: 'all', cursor: 'pointer' }} onClick={openDir}>
       <Input
-        className={`${disabled ? 'select-folder-disabled' : styles.inputNonePointer}`}
-        disabled={disabled}
+        className={styles.inputNonePointer}
         addonAfter={<FolderOpenOutlined />}
         value={value || path}
       />
