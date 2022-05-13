@@ -83,6 +83,10 @@
 ```
 For details, click to view [LabelBee Annotation Format](./docs/annotation/README.md)
 
+## Important
+js can't export 8bit unsign Int image, so a python script is provided to solve this problem
+- [Script] (https://github.com/open-mmlab/labelbee-client/blob/main/scripts/dataTransfer.py)
+
 ## Links
 
 - [LabelBee](https://github.com/open-mmlab/labelbee)（Powered by LabelBee）
