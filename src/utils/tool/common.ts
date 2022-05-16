@@ -73,3 +73,13 @@ export const copyText = (text: string, element: 'input' | 'textarea' = 'input') 
   document.execCommand('copy');
   document.body.removeChild(copyInput);
 };
+
+/**
+ * 截取文件名
+ * @param path - 文件路径
+ */
+export const getBaseName = (path: string) => {
+  const separator = /^Win/.test(navigator.platform) ? '\\' : '/';
+  const splitPath = path.split(separator);
+  return splitPath[splitPath.length - 1];
+};

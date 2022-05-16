@@ -4,7 +4,7 @@
 
 import { EToolName } from '@/constant/store';
 import { IFileInfo, IStepInfo } from '@/store';
-import { jsonParser } from './tool/common';
+import { getBaseName, jsonParser } from './tool/common';
 import { DrawUtils } from '@labelbee/lb-annotation';
 import ColorCheatSheet from '@/assets/color.json';
 
@@ -184,7 +184,7 @@ export default class DataTransfer {
       // 1. 添加图片基础信息
       const images: ICocoImage = {
         id: image_id,
-        file_name: info.url,
+        file_name: getBaseName(info.url),
         width: result?.width ?? 0,
         height: result?.height ?? 0,
         valid: result?.valid ?? true,
