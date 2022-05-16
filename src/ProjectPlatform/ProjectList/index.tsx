@@ -153,6 +153,11 @@ const ProjectList: React.FC<IProps> = ({ createProject }) => {
       ipcRenderer.send(EIpcEvent.SendDirectoryImages, projectInfo.path, projectInfo.resultPath);
       ipcRenderer.once(EIpcEvent.GetDirectoryImages, function (event: any, fileList: any[]) {
         setLoading(false);
+        if (fileList.length === 0) {
+          message.error('当前路径没有图片');
+          return;
+        }
+        
         if (isHasWrongResult(projectInfo.toolName, fileList)) {
           message.error('工具类型不相同，结果无法解析，请选择与项目相同类型的标注结果');
 
