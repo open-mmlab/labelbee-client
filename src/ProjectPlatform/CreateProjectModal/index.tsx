@@ -124,6 +124,8 @@ const CreateProjectModal: React.FC<IProps> = ({ type, visible, onCancel }) => {
                 toolName: isBase ? toolName : undefined,
                 createdAt: Date.now(),
                 stepList: list,
+                step: 1,
+                imgIndex: 0,
               },
             ],
           },

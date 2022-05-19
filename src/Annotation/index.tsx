@@ -10,14 +10,11 @@ const electron = window.require && window.require('electron');
 const Annotation = (props: any) => {
   const {
     dispatch,
-    state: { currentProjectInfo },
+    state: { currentProjectInfo, projectList, fileList },
   } = useContext(AnnotationContext);
-  const { fileList, step, stepList } = props;
 
   const onSubmit = (data: any[], submitType: any, i: number) => {
     // 翻页时触发当前页面数据的输出
-    console.log('submitData1', data, submitType, i);
-
     if (electron) {
       // 翻页时触发数据保存
       electron.ipcRenderer.send(
@@ -46,19 +43,42 @@ const Annotation = (props: any) => {
     });
   };
 
+  const updateProjectInfo = (info: { imgIndex?: number; step?: number }) => {
+    const newProjectList = projectList.map((item) => {
+      return item.id === currentProjectInfo?.id ? { ...item, ...info } : item;
+    });
+    dispatch({
+      type: 'UPDATE_PROJECT_LIST',
+      payload: { projectList: newProjectList },
+    });
+  };
+
+  const onPageChange = (imgIndex: number) => {
+    // 保存当前页数到本地
+    updateProjectInfo({ imgIndex });
+  };
+
+  const onStepChange = (step: number) => {
+    // 保存当前步骤到本地
+    updateProjectInfo({ step });
+  };
+
   return (
     <div>
       <AnnotationOperation
         headerName={currentProjectInfo?.name}
         onSubmit={onSubmit}
+        onPageChange={onPageChange}
+        onStepChange={onStepChange}
         imgList={fileList.map((file: any) => ({
           ...file,
           url: 'file:///' + file.url,
         }))}
         goBack={goBack}
-        stepList={stepList}
-        step={step}
+        stepList={currentProjectInfo?.stepList}
+        step={currentProjectInfo?.step}
         defaultLang={i18n.language}
+        initialIndex={currentProjectInfo?.imgIndex}
       />
     </div>
   );

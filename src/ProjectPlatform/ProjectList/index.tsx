@@ -158,6 +158,19 @@ const ProjectList: React.FC<IProps> = ({ createProject }) => {
 
           return;
         }
+
+        // imgIndex超出的话重置为0
+        if (projectInfo.imgIndex > fileList.length - 1) {
+          projectInfo = { ...projectInfo, imgIndex: 0 };
+          const newProjectList = projectList.map((item) => {
+            return item.id === projectInfo?.id ? projectInfo : item;
+          });
+          dispatch({
+            type: 'UPDATE_PROJECT_LIST',
+            payload: { projectList: newProjectList },
+          });
+        }
+
         dispatch({
           type: 'UPDATE_CURRENT_PROJECTINFO',
           payload: {

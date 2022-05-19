@@ -9,6 +9,8 @@ export interface IProjectInfo {
   toolName: EToolName;
   createdAt: number;
   stepList: IStepInfo[];
+  step: number; // 保存当前标注步骤 用于下次标注时初始化
+  imgIndex: number; // 保存当前标注页数 用于下次标注时初始化
 }
 
 export interface IStepInfo {
