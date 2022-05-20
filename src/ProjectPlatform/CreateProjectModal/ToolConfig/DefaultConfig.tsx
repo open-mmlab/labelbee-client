@@ -5,12 +5,8 @@ import SelectFolder from '../SelectFolder';
 import { ExclamationCircleOutlined } from '@ant-design/icons';
 import { useTranslation } from 'react-i18next';
 
-interface IProps {
-  disabled: boolean;
-}
-
 const isRequired = true;
-const DefaultConfig: React.FC<IProps> = ({ disabled }) => {
+const DefaultConfig = () => {
   const { t } = useTranslation();
 
   return (
@@ -20,14 +16,14 @@ const DefaultConfig: React.FC<IProps> = ({ disabled }) => {
         label={<span className={styles.formTitle}>{t('ProjectName')}</span>}
         rules={[{ required: isRequired, message: t('Required') }]}
       >
-        <Input disabled={disabled} placeholder={t('InputProjectName')} />
+        <Input placeholder={t('InputProjectName')} />
       </Form.Item>
       <Form.Item
         name='path'
         label={<span className={styles.formTitle}>{t('SelectImageFolder')}</span>}
         rules={[{ required: isRequired, message: t('Required') }]}
       >
-        <SelectFolder disabled={disabled} key='path' />
+        <SelectFolder key='path' />
       </Form.Item>
       <Form.Item
         name='resultPath'
@@ -41,7 +37,7 @@ const DefaultConfig: React.FC<IProps> = ({ disabled }) => {
         }
         rules={[{ required: isRequired, message: t('Required') }]}
       >
-        <SelectFolder disabled={disabled} key='resultPath' />
+        <SelectFolder key='resultPath' />
       </Form.Item>
     </>
   );
