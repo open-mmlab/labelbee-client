@@ -59,7 +59,7 @@ const App = () => {
   }, [dispatch]);
 
   if (currentProjectInfo && fileList.length > 0) {
-    return <Annotation fileList={fileList} stepList={currentProjectInfo.stepList} step={1} />;
+    return <Annotation />;
   }
 
   return (
