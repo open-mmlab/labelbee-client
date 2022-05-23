@@ -57,7 +57,7 @@ const GraphicsPointLimitInput: React.FC<IProps> = ({
       }
 
       if (showError) {
-        message.error('PointsZeroLimitNotify');
+        message.error(t('PointsZeroLimitNotify'));
       }
     }
 

@@ -45,6 +45,7 @@ export const icon: any = {
 
 /**
  * 获取是否含错误结果
+ *
  * @param tool
  * @param fileList
  * @param step
@@ -57,19 +58,21 @@ function isHasWrongResult(tool: EToolName, fileList: IFileInfo[], step = 1) {
       return false;
     }
 
+    const stepName = `step_${step}`;
+
     const isEmpty = fileList.find((file) => {
       const result = JSON.parse(file.result);
       if (!result) {
         return false;
       }
 
-      const stepResult = result['step_1'];
+      const stepResult = result[stepName];
 
       if (!stepResult) {
         return false;
       }
 
-      return result['step_1'].toolName !== tool;
+      return result[stepName].toolName !== tool;
     });
 
     return isEmpty;
@@ -154,12 +157,12 @@ const ProjectList: React.FC<IProps> = ({ createProject }) => {
       ipcRenderer.once(EIpcEvent.GetDirectoryImages, function (event: any, fileList: any[]) {
         setLoading(false);
         if (fileList.length === 0) {
-          message.error('当前路径没有图片');
+          message.error(t('NoImgInPath'));
           return;
         }
-        
+
         if (isHasWrongResult(projectInfo.toolName, fileList)) {
-          message.error('工具类型不相同，结果无法解析，请选择与项目相同类型的标注结果');
+          message.error(t('NoSameConfig'));
 
           return;
         }

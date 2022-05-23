@@ -98,6 +98,11 @@ const resources = {
       CopyProjectConfig: 'Copy project config',
       ExportAnnotationResults: 'Export annotation results',
       ModifyConfig: 'Modify config',
+      
+      // data Check
+      NoImgInPath: 'No images in the current Path',
+      NoSameConfig: 'The toolType of project configuration does not match result in your resultPath, please check before annotating'
+
     },
   },
   cn: {
@@ -193,6 +198,10 @@ const resources = {
       CopyProjectConfig: '复制项目配置',
       ExportAnnotationResults: '导出标注结果',
       ModifyConfig: '修改配置',
+
+      // data Check
+      NoImgInPath: '当前路径没有图片', 
+      NoSameConfig: '项目配置工具类型跟结果不匹配，请检查再进入标注'
     },
   },
 };
