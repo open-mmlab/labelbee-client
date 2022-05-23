@@ -79,6 +79,7 @@ const Annotation = (props: any) => {
         step={currentProjectInfo?.step}
         defaultLang={i18n.language}
         initialIndex={currentProjectInfo?.imgIndex}
+        showTips={true}
       />
     </div>
   );
