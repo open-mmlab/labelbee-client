@@ -72,8 +72,11 @@ const ExportData = (props: IProps) => {
             name = `${projectInfo.name}-Mask`;
             suffix = 'png';
 
+            const config = jsonParser(projectInfo.stepList[0].config); // 暂定默认为第一步数据
+            defaultKeyList = config?.attributeList.map((v: any) => v.value) ?? [];
             fileList.forEach((file, i) => {
               const result = jsonParser(file.result);
+
               // 暂时设定为第一步
               if (result['step_1']?.result?.length > 0) {
                 const [data, keyList] = DataTransfer.transferPolygon2ADE20k(
@@ -109,6 +112,7 @@ const ExportData = (props: IProps) => {
             });
 
             // 导出的配置数据
+            debugger;
             const colorDataList = defaultKeyList.map((key, i) => ({
               attribute: key,
               color: getRgbFromColorCheatSheet(i + 1),
