@@ -1,4 +1,12 @@
-import React, { useContext } from 'react';
+/*
+ * Annotation Component
+ * @Author: Laoluo luozefeng@sensetime.com
+ * @Date: 2022-05-23 19:15:58
+ * @LastEditors: Laoluo luozefeng@sensetime.com
+ * @LastEditTime: 2022-05-24 10:43:53
+ */
+
+import React, { useContext, useRef } from 'react';
 import AnnotationOperation from '@labelbee/lb-components';
 import '@labelbee/lb-components/dist/index.css';
 import { EIpcEvent } from '../constant/event';
@@ -12,6 +20,7 @@ const Annotation = (props: any) => {
     dispatch,
     state: { currentProjectInfo, projectList, fileList },
   } = useContext(AnnotationContext);
+  const cacheProjectList = useRef(projectList); // TODO: I will rewrite by custom hook later
 
   const onSubmit = (data: any[], submitType: any, i: number) => {
     // 翻页时触发当前页面数据的输出
@@ -44,9 +53,11 @@ const Annotation = (props: any) => {
   };
 
   const updateProjectInfo = (info: { imgIndex?: number; step?: number }) => {
-    const newProjectList = projectList.map((item) => {
+    // Notice:  The value of context(e.g. projectList) is not updated
+    const newProjectList = cacheProjectList.current.map((item) => {
       return item.id === currentProjectInfo?.id ? { ...item, ...info } : item;
     });
+    cacheProjectList.current = newProjectList; // need to update
     dispatch({
       type: 'UPDATE_PROJECT_LIST',
       payload: { projectList: newProjectList },
