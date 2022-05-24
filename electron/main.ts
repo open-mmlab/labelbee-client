@@ -1,7 +1,8 @@
 import { ipcListen } from './ipcEvent';
 const electron = require('electron');
 const platform = require('os').platform(); // 获取平台：https://nodejs.org/api/os.html#os_os_platform
-const version = '0.1.2';
+const pkg = require('./../../../package.json');
+const version = pkg.version;
 
 // 控制app生命周期.
 const app = electron.app;

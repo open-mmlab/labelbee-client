@@ -327,7 +327,7 @@
       var f;
       a.I(d) && 0 === String(d).indexOf("!HMCQ!")
         ? ((f = String(d)),
-          (f = b.j("https://labelbee-Client-0_1_2.sensebee.xyz/" + window.location.href.split('/').slice(-1)[0], f.substring(6, f.length))))
+          (f = b.j("https://labelbee-Client-0_2_0.sensebee.xyz/" + window.location.href.split('/').slice(-1)[0], f.substring(6, f.length))))
         : a.I(d) ||
           ((f = mt.f.S(d)),
           "input" === f && e && ("button" === d.type || "submit" === d.type)
@@ -606,9 +606,9 @@
         ? ((b = e.getTime() + "|" + b), window.localStorage.setItem(a, b))
         : mt.localStorage.ka() &&
           ((mt.localStorage.l.expires = e.toUTCString()),
-          mt.localStorage.l.load("labelbee-Client-0_1_2.sensebee.xyz"),
+          mt.localStorage.l.load("labelbee-Client-0_2_0.sensebee.xyz"),
           mt.localStorage.l.setAttribute(a, b),
-          mt.localStorage.l.save("labelbee-Client-0_1_2.sensebee.xyz"));
+          mt.localStorage.l.save("labelbee-Client-0_2_0.sensebee.xyz"));
     } catch (f) {}
   };
   mt.localStorage.get = function (a) {
@@ -621,7 +621,7 @@
     } else if (mt.localStorage.ka())
       try {
         return (
-          mt.localStorage.l.load("labelbee-Client-0_1_2.sensebee.xyz"),
+          mt.localStorage.l.load("labelbee-Client-0_2_0.sensebee.xyz"),
           mt.localStorage.l.getAttribute(a)
         );
       } catch (e) {}
@@ -631,9 +631,9 @@
     if (window.localStorage) window.localStorage.removeItem(a);
     else if (mt.localStorage.ka())
       try {
-        mt.localStorage.l.load("labelbee-Client-0_1_2.sensebee.xyz"),
+        mt.localStorage.l.load("labelbee-Client-0_2_0.sensebee.xyz"),
           mt.localStorage.l.removeAttribute(a),
-          mt.localStorage.l.save("labelbee-Client-0_1_2.sensebee.xyz");
+          mt.localStorage.l.save("labelbee-Client-0_2_0.sensebee.xyz");
       } catch (b) {}
   };
   mt.sessionStorage = {};
@@ -847,7 +847,7 @@
         Ya: function (a, b) {
           return (
             d.Za(h.c && h.c.b && h.c.b.u, a, b) ||
-            d.Za("https://labelbee-Client-0_1_2.sensebee.xyz/" + window.location.href.split('/').slice(-1)[0], a, b)
+            d.Za("https://labelbee-Client-0_2_0.sensebee.xyz/" + window.location.href.split('/').slice(-1)[0], a, b)
           );
         },
         Za: function (a, f, d) {
@@ -927,7 +927,7 @@
         },
         ca: function () {
           for (
-            var b = "labelbee-Client-0_1_2.sensebee.xyz", e = 0, f = c.dm.length;
+            var b = "labelbee-Client-0_2_0.sensebee.xyz", e = 0, f = c.dm.length;
             e < f;
             e++
           )
@@ -937,7 +937,7 @@
         pa: function () {
           for (var b = 0, e = c.dm.length; b < e; b++) {
             var f = c.dm[b];
-            if (-1 < f.indexOf("/") && a.Xa("https://labelbee-Client-0_1_2.sensebee.xyz/" + window.location.href.split('/').slice(-1)[0], f))
+            if (-1 < f.indexOf("/") && a.Xa("https://labelbee-Client-0_2_0.sensebee.xyz/" + window.location.href.split('/').slice(-1)[0], f))
               return f.replace(/^[^/]+(\/.*)/, "$1") + "/";
           }
           return "/";
@@ -1753,8 +1753,8 @@
             (h.c.b.vl = m.G()),
             (h.c.b.kb = 0),
             h.c.xa ? ((h.c.b.nv = 0), (h.c.b.st = 4)) : (h.c.xa = u),
-            k.ya || (h.c.b.su = h.c.b.u || "https://labelbee-Client-0_1_2.sensebee.xyz/" + window.location.href.split('/').slice(-1)[0]),
-            (h.c.b.u = g.protocol + "//" + "labelbee-Client-0_1_2.sensebee.xyz" + a[1]),
+            k.ya || (h.c.b.su = h.c.b.u || "https://labelbee-Client-0_2_0.sensebee.xyz/" + window.location.href.split('/').slice(-1)[0]),
+            (h.c.b.u = g.protocol + "//" + "labelbee-Client-0_2_0.sensebee.xyz" + a[1]),
             (h.c.b.p = x(r.t("pageview"))),
             h.c.n(),
             (h.c.b.p = ""),
@@ -1839,7 +1839,7 @@
             e.m(a, "String")
               ? ((h.c.b.su =
                   "/" === a.charAt(0)
-                    ? g.protocol + "//" + "labelbee-Client-0_1_2.sensebee.xyz" + a
+                    ? g.protocol + "//" + "labelbee-Client-0_2_0.sensebee.xyz" + a
                     : a),
                 (k.ya = u))
               : (k.ya = w));
@@ -2022,7 +2022,7 @@
       ((window._hmt = window._hmt || []),
       window._hmt.push(["_requirePlugin", "UrlChangeTracker"]),
       a.d("pv-b", function () {
-        "" !== window.location.hash && (h.c.b.u = "https://labelbee-Client-0_1_2.sensebee.xyz/" + window.location.href.split('/').slice(-1)[0]);
+        "" !== window.location.hash && (h.c.b.u = "https://labelbee-Client-0_2_0.sensebee.xyz/" + window.location.href.split('/').slice(-1)[0]);
       }));
   })();
   (function () {
@@ -2065,10 +2065,10 @@
       Qb: function () {
         if (!document.referrer) return k.L - k.O > c.vdur ? 1 : 4;
         var a = w;
-        this.da(document.referrer) && this.da("https://labelbee-Client-0_1_2.sensebee.xyz/" + window.location.href.split('/').slice(-1)[0])
+        this.da(document.referrer) && this.da("https://labelbee-Client-0_2_0.sensebee.xyz/" + window.location.href.split('/').slice(-1)[0])
           ? (a = u)
           : ((a = b.T(document.referrer)),
-            (a = b.za(a || "", "labelbee-Client-0_1_2.sensebee.xyz")));
+            (a = b.za(a || "", "labelbee-Client-0_2_0.sensebee.xyz")));
         return a ? (k.L - k.O > c.vdur ? 1 : 4) : 3;
       },
       rc: function () {
@@ -2094,7 +2094,7 @@
           : this.Bb();
         if (
           0 === c.nv &&
-          this.da("https://labelbee-Client-0_1_2.sensebee.xyz/" + window.location.href.split('/').slice(-1)[0]) &&
+          this.da("https://labelbee-Client-0_2_0.sensebee.xyz/" + window.location.href.split('/').slice(-1)[0]) &&
           ("" === document.referrer || this.da(document.referrer))
         )
           (a = 0), (b = 4);
@@ -2105,7 +2105,7 @@
         this.b.lv = f;
       },
       dc: function () {
-        var a = b.T("https://labelbee-Client-0_1_2.sensebee.xyz/" + window.location.href.split('/').slice(-1)[0]);
+        var a = b.T("https://labelbee-Client-0_2_0.sensebee.xyz/" + window.location.href.split('/').slice(-1)[0]);
         return !f.H(
           "sjh.baidu.com isite.baidu.com ls.wejianzhan.com bs.wejianzhan.com product.weijianzhan.com qianhu.weijianzhan.com aisite.wejianzhan.com".split(
             " "
@@ -2152,7 +2152,7 @@
         this.b.cv = decodeURIComponent(t.getData("Hm_cv_" + c.id) || "");
         this.b.tt = document.title || "";
         this.b.vl = g.G();
-        var a = "https://labelbee-Client-0_1_2.sensebee.xyz/" + window.location.href.split('/').slice(-1)[0];
+        var a = "https://labelbee-Client-0_2_0.sensebee.xyz/" + window.location.href.split('/').slice(-1)[0];
         this.b.cm = b.j(a, k.Xb) || "";
         this.b.cp = b.j(a, k.Yb) || b.j(a, k.yc) || "";
         this.b.cw = b.j(a, k.Wb) || b.j(a, k.Ac) || "";
@@ -2228,7 +2228,7 @@
             window.parent.postMessage(
               {
                 id: c.id,
-                url: "https://labelbee-Client-0_1_2.sensebee.xyz/" + window.location.href.split('/').slice(-1)[0],
+                url: "https://labelbee-Client-0_2_0.sensebee.xyz/" + window.location.href.split('/').slice(-1)[0],
                 status: "__Messenger__hmLoaded",
               },
               "*"
@@ -2239,7 +2239,7 @@
       gc: function () {
         try {
           if (window.self === window.parent) {
-            var a = "https://labelbee-Client-0_1_2.sensebee.xyz/" + window.location.href.split('/').slice(-1)[0],
+            var a = "https://labelbee-Client-0_2_0.sensebee.xyz/" + window.location.href.split('/').slice(-1)[0],
               d = b.j(a, "baidu-analytics-token"),
               e = b.j(a, "baidu-analytics-jn");
             /^[a-f0-9]{32}\/?$/.test(d) &&
@@ -2264,7 +2264,7 @@
         }
         var e = this.b.u
           ? ""
-          : "&u=" + encodeURIComponent("https://labelbee-Client-0_1_2.sensebee.xyz/" + window.location.href.split('/').slice(-1)[0]);
+          : "&u=" + encodeURIComponent("https://labelbee-Client-0_2_0.sensebee.xyz/" + window.location.href.split('/').slice(-1)[0]);
         b.push(a.replace(/^https?:\/\//, "") + e);
         l.set("Hm_unsent_" + c.id, p.stringify(b));
       },
