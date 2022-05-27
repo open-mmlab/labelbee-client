@@ -254,6 +254,12 @@
         ]
       }
     },
-    "publish": null
+    "publish": null,
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowElevation": true,
+      "allowToChangeInstallationDirectory": true
+    }
   }
 }
