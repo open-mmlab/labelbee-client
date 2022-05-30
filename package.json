@@ -259,7 +259,12 @@
       "oneClick": false,
       "perMachine": false,
       "allowElevation": true,
-      "allowToChangeInstallationDirectory": true
+      "allowToChangeInstallationDirectory": true,
+      "installerIcon": "./public/icon/label-app-icon-256.ico",
+      "uninstallerIcon": "./public/icon/label-app-icon-256.ico",
+      "installerHeaderIcon": "./public/icon/label-app-icon-256.ico",
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true
     }
   }
 }
