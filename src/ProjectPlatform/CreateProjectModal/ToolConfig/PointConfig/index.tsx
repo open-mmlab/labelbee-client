@@ -1,11 +1,17 @@
+/*
+ * @Author: Laoluo luozefeng@sensetime.com
+ * @Date: 2022-01-12 13:15:51
+ * @LastEditors: Laoluo luozefeng@sensetime.com
+ * @LastEditTime: 2022-05-30 16:15:22
+ */
 // import SenseInput from '@/components/customAntd/Input';
-import { Switch, InputNumber, Form, FormInstance } from 'antd';
+import { Switch, InputNumber, Form } from 'antd';
 import React from 'react';
 import styles from '../index.module.scss';
 import { MapStateJSONTab } from '@/ProjectPlatform/CreateProjectModal/ToolConfig/RectConfig/AttributeConfig';
 import TextConfigurable from '../TextConfigurable';
 import ToolCommonFiled from '../ToolCommonFiled';
-import { ETextType, EToolName } from '@/constant/store';
+import { DEFAULT_ATTRIBUTE_LIST, ETextType } from '@/constant/store';
 import { ToolConfigIProps } from '../../Tools';
 import { useTranslation } from 'react-i18next';
 
@@ -48,16 +54,7 @@ const PointConfig = (props: ToolConfigIProps) => {
         {() => {
           return (
             props.form?.getFieldValue('attributeConfigurable') && (
-              <Form.Item
-                label=' '
-                name='attributeList'
-                initialValue={[
-                  {
-                    key: '类别1',
-                    value: '类别1',
-                  },
-                ]}
-              >
+              <Form.Item label=' ' name='attributeList' initialValue={DEFAULT_ATTRIBUTE_LIST}>
                 <MapStateJSONTab isAttributeList={true} readonly={isAllReadOnly} />
               </Form.Item>
             )

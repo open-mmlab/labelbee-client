@@ -98,11 +98,16 @@ const resources = {
       CopyProjectConfig: 'Copy project config',
       ExportAnnotationResults: 'Export annotation results',
       ModifyConfig: 'Modify config',
-      
+
       // data Check
       NoImgInPath: 'No images in the current Path',
-      NoSameConfig: 'The toolType of project configuration does not match result in your resultPath, please check before annotating'
+      NoSameConfig:
+        'The toolType of project configuration does not match result in your resultPath, please check before annotating',
 
+      // Form Check
+      FormHasEmptyData: 'The configuration is not allowed to be empty, please fill it',
+      NoSemiInValue: 'Not allow to use semi, please use other symbol',
+      NoSameData: 'Not allow to use the same value',
     },
   },
   cn: {
@@ -200,8 +205,13 @@ const resources = {
       ModifyConfig: '修改配置',
 
       // data Check
-      NoImgInPath: '当前路径没有图片', 
-      NoSameConfig: '项目配置工具类型跟结果不匹配，请检查再进入标注'
+      NoImgInPath: '当前路径没有图片',
+      NoSameConfig: '项目配置工具类型跟结果不匹配，请检查再进入标注',
+
+      // Form Check
+      FormHasEmptyData: '请填写完整标注的表单信息',
+      NoSemiInValue: 'value 并不能带有分号',
+      NoSameData: '表单项不能设置相同的值！',
     },
   },
 };

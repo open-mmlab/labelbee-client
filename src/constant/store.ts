@@ -1,3 +1,9 @@
+/*
+ * @Author: Laoluo luozefeng@sensetime.com
+ * @Date: 2022-01-12 13:15:51
+ * @LastEditors: Laoluo luozefeng@sensetime.com
+ * @LastEditTime: 2022-05-30 14:22:28
+ */
 export const EStore = {
   LOCAL_PROJECT_LIST: 'honey-client-projectList',
 };
@@ -74,3 +80,11 @@ export enum ELineColor {
   SingleColor,
   MultiColor,
 }
+
+/** 默认属性配置 */
+export const DEFAULT_ATTRIBUTE_LIST = [
+  {
+    key: 'className1',
+    value: 'class-1',
+  }
+]

@@ -1,7 +1,13 @@
+/*
+ * @Author: Laoluo luozefeng@sensetime.com
+ * @Date: 2022-01-12 13:15:51
+ * @LastEditors: Laoluo luozefeng@sensetime.com
+ * @LastEditTime: 2022-05-30 16:17:12
+ */
 // import SenseInput from '@/components/customAntd/Input';
 import { Form, FormInstance } from 'antd';
 import React from 'react';
-import { ETextType, EToolName } from '@/constant/store';
+import { EToolName } from '@/constant/store';
 import TextList from './TextList';
 import styles from '@/ProjectPlatform/CreateProjectModal/ToolConfig/index.module.scss';
 import { useTranslation } from 'react-i18next';
@@ -12,7 +18,7 @@ interface IProps {
 }
 
 export const defaultValue = {
-  label: '文本',
+  label: 'textName',
   key: 'text',
   required: false,
   default: '',

@@ -1,7 +1,7 @@
 // cl 2021/8/5 09:49
 import React, { useEffect } from 'react';
-import { Form, FormInstance, Select, Switch } from 'antd';
-import { ELineTypes, ELineColor, ETextType, EToolName } from '@/constant/store';
+import { Form, Select, Switch } from 'antd';
+import { ELineTypes, ETextType, EToolName, DEFAULT_ATTRIBUTE_LIST } from '@/constant/store';
 import GraphicsPointLimitInput from './GraphicsPointLimitInput';
 import TextConfigurable from '../../ToolConfig/TextConfigurable';
 import ToolCommonFiled from '../ToolCommonFiled';
@@ -120,16 +120,7 @@ const PolygonToolConfig: React.FC<ToolConfigIProps> = ({ dataSourceStep, toolNam
         {() => {
           return (
             form?.getFieldValue('attributeConfigurable') && (
-              <Form.Item
-                label=' '
-                name='attributeList'
-                initialValue={[
-                  {
-                    key: '类别1',
-                    value: '类别1',
-                  },
-                ]}
-              >
+              <Form.Item label=' ' name='attributeList' initialValue={DEFAULT_ATTRIBUTE_LIST}>
                 <MapStateJSONTab isAttributeList={true} readonly={false} />
               </Form.Item>
             )

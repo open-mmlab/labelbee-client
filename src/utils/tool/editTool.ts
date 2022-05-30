@@ -2,6 +2,7 @@ import { cloneDeep } from 'lodash';
 import uuid from './uuid';
 import { message } from 'antd';
 import { IInputList } from '@/ProjectPlatform/CreateProjectModal/ToolConfig/TagConfig';
+import i18n from '@/i18n';
 
 // export const DEFAULT_LINK = '@@';
 // const DEFAULT_TOOL_ATTRIBUTE = ['valid', 'invalid'];
@@ -233,16 +234,16 @@ export function repeatInputList(inputList?: IInputList[]) {
   function dep(list: IInputList[], key: string) {
     list.forEach((item, index: number) => {
       if (item.key === '' || item.value === '') {
-        message.info('请填写完整标注的表单信息');
+        message.info(i18n.t('FormHasEmptyData'));
         isRepeat = true;
       }
       if (item.value.includes(';')) {
-        message.info('value 并不能带有分号');
+        message.info(i18n.t('NoSemiInValue'));
         isRepeat = true;
       }
       if (keyMap[key] || valMap[key]) {
         if (keyMap[key].includes(item.key) || valMap[key].includes(item.value)) {
-          message.info('表单项不能设置相同的值！');
+          message.info(i18n.t('NoSameData'));
           isRepeat = true;
         }
         keyMap[key].push(item.key);

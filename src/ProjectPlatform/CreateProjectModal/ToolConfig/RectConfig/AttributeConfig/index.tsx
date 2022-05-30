@@ -7,6 +7,8 @@ import MonacoEditor from 'react-monaco-editor';
 import styles from '../../index.module.scss';
 import './index.scss';
 import { useTranslation } from 'react-i18next';
+import { DEFAULT_ATTRIBUTE_LIST } from '@/constant/store';
+import i18n from '@/i18n';
 
 interface IJsonTabProps {
   value?: any[];
@@ -37,17 +39,7 @@ const JSONTab = (props: IJsonTabProps) => {
   const [jsonCode, setJsonCode] = useState('');
   const attributeListDom = useRef(null);
   const { t } = useTranslation();
-  const {
-    value = [
-      {
-        key: '类别1',
-        value: '类别1',
-      },
-    ],
-    readonly,
-    onChange,
-    isAttributeList,
-  } = props;
+  const { value = DEFAULT_ATTRIBUTE_LIST, readonly, onChange, isAttributeList } = props;
 
   useEffect(() => {
     setJsonCode(JSON.stringify(value, null, 2));
@@ -61,7 +53,11 @@ const JSONTab = (props: IJsonTabProps) => {
   }, [value]);
 
   const addInputInfo = () => {
-    onChange?.(addInputList(value, EDIT_SUBSELECTED));
+    onChange?.(
+      addInputList(value, EDIT_SUBSELECTED, undefined, {
+        lang: i18n.language,
+      }),
+    );
   };
 
   const changeTagType = (v: any) => {};
