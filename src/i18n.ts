@@ -85,6 +85,7 @@ const resources = {
       StandardFormat: 'LabelBee format',
       ExportSuccess: 'Export successfully',
       ExportCOCOLimitMsg: 'Only rectTool and polygonTool can realize the conversion of coco data',
+      ExportYOLOLimitMsg: 'Only rectTool can realize the conversion of yolo data',
       ExportMaskLimitMsg: 'Only polygonTool can realize the conversion of Mask',
       SelectedExportPath: 'Choose Export path',
       MultiSelect: 'multi-select',
@@ -98,11 +99,11 @@ const resources = {
       CopyProjectConfig: 'Copy project config',
       ExportAnnotationResults: 'Export annotation results',
       ModifyConfig: 'Modify config',
-      
+
       // data Check
       NoImgInPath: 'No images in the current Path',
-      NoSameConfig: 'The toolType of project configuration does not match result in your resultPath, please check before annotating'
-
+      NoSameConfig:
+        'The toolType of project configuration does not match result in your resultPath, please check before annotating',
     },
   },
   cn: {
@@ -185,6 +186,7 @@ const resources = {
       StandardFormat: 'labelbee 格式',
       ExportSuccess: '导出成功',
       ExportCOCOLimitMsg: '仅限拉框、多边形工具可以实现 coco 数据的转换',
+      ExportYOLOLimitMsg: '仅限拉框工具可以实现 yolo 数据的转换',
       ExportMaskLimitMsg: '仅限多边形工具可以实现 Mask 数据的转换',
       SelectedExportPath: '选择导出的路径',
       MultiSelect: '多选',
@@ -200,8 +202,8 @@ const resources = {
       ModifyConfig: '修改配置',
 
       // data Check
-      NoImgInPath: '当前路径没有图片', 
-      NoSameConfig: '项目配置工具类型跟结果不匹配，请检查再进入标注'
+      NoImgInPath: '当前路径没有图片',
+      NoSameConfig: '项目配置工具类型跟结果不匹配，请检查再进入标注',
     },
   },
 };

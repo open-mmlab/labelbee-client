@@ -39,6 +39,11 @@ const ExportData = (props: IProps) => {
     projectInfo?.toolName === EToolName.Rect || projectInfo?.toolName === EToolName.Polygon;
 
   /**
+   * 判断当前是否允许被转换成 yolo 格式
+   */
+  const isTransfer2Yolo = projectInfo?.toolName === EToolName.Rect;
+
+  /**
    * 是否允许被转换的成 Mask
    */
   const isTransfer2ACE20k = projectInfo?.toolName === EToolName.Polygon;
@@ -55,6 +60,7 @@ const ExportData = (props: IProps) => {
         let name = '';
         let suffix = 'json';
         let defaultKeyList: string[] = [];
+        let attributeStr = '';
 
         switch (values.format) {
           case 'default':
@@ -66,6 +72,34 @@ const ExportData = (props: IProps) => {
               DataTransfer.transferDefault2Coco(fileList, projectInfo.stepList),
             );
             name = `${projectInfo.name}-coco`;
+            break;
+          case 'yolo':
+            name = `${projectInfo.name}-yolo`;
+            suffix = 'txt';
+            const { categories, idString } = DataTransfer.attributeConfigFormat(
+              projectInfo.stepList,
+            );
+            fileList.forEach((file, i) => {
+              const result = jsonParser(file.result);
+              const dataList = DataTransfer.transferDefault2Yolo(result, categories);
+              attributeStr = idString;
+              electron.ipcRenderer.send(
+                EIpcEvent.SaveFile,
+                dataList,
+                values.path,
+                'utf8',
+                `${file.fileName}_yolo.${suffix}`,
+              );
+            });
+
+            electron.ipcRenderer.send(
+              EIpcEvent.SaveFile,
+              attributeStr,
+              values.path,
+              'utf8',
+              `${name}_ids.${suffix}`,
+            );
+
             break;
 
           case 'Mask':
@@ -112,7 +146,6 @@ const ExportData = (props: IProps) => {
             });
 
             // 导出的配置数据
-            debugger;
             const colorDataList = defaultKeyList.map((key, i) => ({
               attribute: key,
               color: getRgbFromColorCheatSheet(i + 1),
@@ -173,6 +206,13 @@ const ExportData = (props: IProps) => {
                   'COCO'
                 ) : (
                   <Popover content={t('ExportCOCOLimitMsg')}>COCO</Popover>
+                )}
+              </Radio.Button>
+              <Radio.Button value='yolo' disabled={!isTransfer2Yolo}>
+                {isTransfer2Yolo ? (
+                  'YOLO'
+                ) : (
+                  <Popover content={t('ExportYOLOLimitMsg')}>YOLO</Popover>
                 )}
               </Radio.Button>
               <Radio.Button value='default'>{t('StandardFormat')}</Radio.Button>
