@@ -295,7 +295,6 @@ export default class DataTransfer {
       },
     ];
     let idString = '';
-    let ids = '';
     /**
      * 提取步骤中的配置 - 将 attributeList 同步至 categories
      */
@@ -311,12 +310,7 @@ export default class DataTransfer {
       );
     }
     categories.forEach((v: any, i: number) => {
-      if (i === categories.length - 1) {
-        ids = `${v.id} ${v.value ? v.value : null}`;
-      } else {
-        ids = `${v.id} ${v.value ? v.value : null}` + '\n';
-      }
-      idString = idString + ids;
+      idString += `${v.id} ${v.value}` + '\n';
     });
 
     return { categories, idString };
@@ -329,7 +323,6 @@ export default class DataTransfer {
    */
   public static transferDefault2Yolo(result: any, categories: any[]) {
     let dataString = '';
-    let data = '';
     const width = result?.width ?? 0;
     const height = result?.height ?? 0;
 
@@ -346,12 +339,12 @@ export default class DataTransfer {
         const ratioWidth = (bboxWidth / width).toFixed(6);
         const ratioHeight = (bboxHeight / height).toFixed(6);
         const labelClass = category.id ?? -1;
-        if (i === result?.step_1?.result?.length - 1) {
-          data = `${labelClass} ${ratioX} ${ratioY} ${ratioWidth} ${ratioHeight}`;
-        } else {
-          data = `${labelClass} ${ratioX} ${ratioY} ${ratioWidth} ${ratioHeight}` + '\n';
+        dataString += `${labelClass} ${ratioX} ${ratioY} ${ratioWidth} ${ratioHeight}`;
+
+        // 非最后一行都加换行
+        if (i !== result?.step_1?.result?.length - 1) {
+          dataString = dataString + '\n';
         }
-        dataString = dataString + data;
       });
     }
 
