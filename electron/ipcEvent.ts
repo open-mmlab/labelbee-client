@@ -1,5 +1,10 @@
 import { EIpcEvent } from '../src/constant/event';
-import { getFilesFromDirectory, getResultFromFiles, getResultPathFromImgPath } from './file';
+import {
+  getFilesFromDirectory,
+  getImgRelativePath,
+  getResultFromImg,
+  getResultPathFromImgPath,
+} from './file';
 import { IMAGE_SUFFIX } from '../src/constant/file';
 const fs = require('fs');
 const path = require('path');
@@ -63,8 +68,27 @@ export const ipcListen = (mainWindow) => {
   // 获取当前目录下数据
   ipc.on(EIpcEvent.SendDirectoryImages, (event, path, resultPath) => {
     const files = getFilesFromDirectory(path, IMAGE_SUFFIX);
-    const newFiles = getResultFromFiles(files, IMAGE_SUFFIX, path, resultPath);
+    const newFiles = files.map((url, i) => {
+      const fileName = getImgRelativePath(url, path, resultPath);
+      return { id: i + 1, result: '{}', url, fileName };
+    });
     event.reply(EIpcEvent.GetDirectoryImages, newFiles, files);
+  });
+
+  // 获取多个文件标注结果
+  ipc.on(EIpcEvent.GetFileListResult, (event, fileList, path, resultPath) => {
+    const newFileList = fileList.map((file) => {
+      const resultUrl = getResultFromImg(
+        getResultPathFromImgPath(file.url, path, resultPath),
+        IMAGE_SUFFIX,
+      );
+      let result = file.result;
+      try {
+        result = fs.readFileSync(resultUrl).toString();
+      } catch {}
+      return { ...file, result: result };
+    });
+    event.reply(EIpcEvent.GetFileListResultReply, newFileList);
   });
 
   ipc.on(EIpcEvent.OpenDirectory, (event, path) => {

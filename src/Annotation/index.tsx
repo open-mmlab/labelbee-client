@@ -14,6 +14,7 @@ import { AnnotationContext } from '../store';
 import i18n from '@/i18n';
 
 const electron = window.require && window.require('electron');
+const ipcRenderer = electron?.ipcRenderer;
 
 const Annotation = (props: any) => {
   const {
@@ -24,9 +25,9 @@ const Annotation = (props: any) => {
 
   const onSubmit = (data: any[], submitType: any, i: number) => {
     // 翻页时触发当前页面数据的输出
-    if (electron) {
+    if (ipcRenderer) {
       // 翻页时触发数据保存
-      electron.ipcRenderer.send(
+      ipcRenderer.send(
         EIpcEvent.SaveResult,
         data,
         currentProjectInfo?.path,
@@ -74,6 +75,24 @@ const Annotation = (props: any) => {
     updateProjectInfo({ step });
   };
 
+  const loadFileList = (page: number, size: number) => {
+    return new Promise((resolve) => {
+      const currentList = fileList.slice(page * size, (page + 1) * size);
+      ipcRenderer.send(
+        EIpcEvent.GetFileListResult,
+        currentList,
+        currentProjectInfo?.path,
+        currentProjectInfo?.resultPath,
+      );
+      ipcRenderer.once(EIpcEvent.GetFileListResultReply, (event: any, newFileList: any[]) => {
+        resolve({
+          fileList: newFileList.map((file: any) => ({ ...file, url: 'file:///' + file.url })),
+          total: fileList.length,
+        });
+      });
+    });
+  };
+
   return (
     <div>
       <AnnotationOperation
@@ -81,10 +100,7 @@ const Annotation = (props: any) => {
         onSubmit={onSubmit}
         onPageChange={onPageChange}
         onStepChange={onStepChange}
-        imgList={fileList.map((file: any) => ({
-          ...file,
-          url: 'file:///' + file.url,
-        }))}
+        loadFileList={loadFileList}
         goBack={goBack}
         stepList={currentProjectInfo?.stepList}
         step={currentProjectInfo?.step}

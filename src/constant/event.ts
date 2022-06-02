@@ -11,4 +11,8 @@ export const EIpcEvent = {
   OpenDirectory: 'open-directory',
 
   SaveFile: 'save-file',
+
+  // 获取多个文件标注结果
+  GetFileListResult: 'get-file-list-result',
+  GetFileListResultReply: 'get-file-list-result-reply',
 };

@@ -64,43 +64,6 @@ export const getResultFromImg = (path: string, supportedSuffix: string[]) => {
 };
 
 /**
- * 获取当前路径下的结果集合
- * @param files 当前图片的路径
- * @param supportedSuffix 需要支持的图片后缀
- * @param path 图片的根路径
- * @param resultPath 结果的跟路径
- * @returns
- */
-export const getResultFromFiles = (
-  files: any[],
-  supportedSuffix: string[],
-  path: string,
-  resultPath: string,
-) => {
-  return files.map((url, i) => {
-    const fileName = getImgRelativePath(url, path, resultPath);
-    try {
-      const result = fs.readFileSync(
-        getResultFromImg(getResultPathFromImgPath(url, path, resultPath), supportedSuffix),
-      );
-      return {
-        id: i + 1,
-        result: result.toString(),
-        url,
-        fileName,
-      };
-    } catch {
-      return {
-        id: i + 1,
-        result: '{}',
-        url,
-        fileName,
-      };
-    }
-  });
-};
-
-/**
  * 通过图片路径 + 图片文件夹 + 结果文件夹路径，得到结果文件夹
  * @param url
  * @param path
