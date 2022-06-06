@@ -273,12 +273,82 @@ export default class DataTransfer {
           //
         }
       }
-
       mainObject.images.push(images);
       mainObject.annotations = mainObject.annotations.concat(annotation);
       image_id++;
     });
+
     return mainObject;
+  }
+
+  /**
+   * 格式化属性配置，提取属性配置字符串
+   *
+   * @param stepList
+   */
+  public static attributeConfigFormat(stepList: IStepInfo[]) {
+    let categories = [
+      {
+        id: -1,
+        value: '',
+        name: '',
+      },
+    ];
+    let idString = '';
+    /**
+     * 提取步骤中的配置 - 将 attributeList 同步至 categories
+     */
+    const config = jsonParser(stepList[0]?.config);
+
+    if (config?.attributeList) {
+      categories = categories.concat(
+        config?.attributeList?.map((v: any, i: number) => ({
+          id: i,
+          value: v.value,
+          name: v.key,
+        })) ?? [],
+      );
+    }
+    categories.forEach((v: any, i: number) => {
+      idString += `${v.id} ${v.value}` + '\n';
+    });
+
+    return { categories, idString };
+  }
+
+  /**
+   * 将 sensebee 格式转换为 yolo 格式
+   * 仅限工具： 拉框
+   * @param result
+   */
+  public static transferDefault2Yolo(result: any, categories: any[]) {
+    let dataString = '';
+    const width = result?.width ?? 0;
+    const height = result?.height ?? 0;
+
+    if (result?.step_1) {
+      result?.step_1?.result?.forEach((v: any, i: number) => {
+        const x = v?.x ?? 0;
+        const y = v?.y ?? 0;
+        const bboxWidth = v?.width;
+        const bboxHeight = v?.height;
+        const category = categories.find((item: any) => v.attribute === item.value);
+
+        const ratioX = (x / width).toFixed(6);
+        const ratioY = (y / height).toFixed(6);
+        const ratioWidth = (bboxWidth / width).toFixed(6);
+        const ratioHeight = (bboxHeight / height).toFixed(6);
+        const labelClass = category.id ?? -1;
+        dataString += `${labelClass} ${ratioX} ${ratioY} ${ratioWidth} ${ratioHeight}`;
+
+        // 非最后一行都加换行
+        if (i !== result?.step_1?.result?.length - 1) {
+          dataString = dataString + '\n';
+        }
+      });
+    }
+
+    return dataString;
   }
 
   /**
