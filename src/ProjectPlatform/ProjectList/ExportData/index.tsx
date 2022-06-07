@@ -44,9 +44,15 @@ const ExportData = (props: IProps) => {
   const isTransfer2Yolo = projectInfo?.toolName === EToolName.Rect;
 
   /**
+   * 判断当前是否允许被转换成 VOC2012 Detection 格式
+   */
+  const isTransfer2PascalVoc = projectInfo?.toolName === EToolName.Rect;
+
+  /**
    * 是否允许被转换的成 Mask
    */
   const isTransfer2ACE20k = projectInfo?.toolName === EToolName.Polygon;
+
   const onOk = () => {
     if (!ipcRenderer || !projectInfo) {
       return;
@@ -101,7 +107,20 @@ const ExportData = (props: IProps) => {
             );
 
             break;
+          case 'voc':
+            name = `${projectInfo.name}-voc`;
 
+            fileList.forEach((file, i) => {
+              const doc = DataTransfer.transferDefault2Voc(file);
+              electron.ipcRenderer.send(
+                EIpcEvent.SaveFile,
+                doc,
+                values.path,
+                'utf8',
+                `${file.fileName}_voc.xml`,
+              );
+            });
+            break;
           case 'Mask':
             name = `${projectInfo.name}-Mask`;
             suffix = 'png';
@@ -201,22 +220,33 @@ const ExportData = (props: IProps) => {
         <Form labelCol={{ span: 6 }} wrapperCol={{ span: 16 }} layout='horizontal' form={form}>
           <Form.Item label={t('ExportFormat')} name='format' initialValue='default'>
             <Radio.Group>
-              <Radio.Button value='coco' disabled={!isTransfer2Coco}>
+              <Radio.Button value='coco' disabled={!isTransfer2Coco} style={{ margin: 4 }}>
                 {isTransfer2Coco ? (
                   'COCO'
                 ) : (
                   <Popover content={t('ExportCOCOLimitMsg')}>COCO</Popover>
                 )}
               </Radio.Button>
-              <Radio.Button value='yolo' disabled={!isTransfer2Yolo}>
+              <Radio.Button value='yolo' disabled={!isTransfer2Yolo} style={{ margin: 4 }}>
                 {isTransfer2Yolo ? (
                   'YOLO'
                 ) : (
                   <Popover content={t('ExportYOLOLimitMsg')}>YOLO</Popover>
                 )}
               </Radio.Button>
-              <Radio.Button value='default'>{t('StandardFormat')}</Radio.Button>
-              <Radio.Button value='Mask' disabled={!isTransfer2ACE20k}>
+
+              <Radio.Button value='voc' disabled={!isTransfer2PascalVoc} style={{ margin: 4 }}>
+                {isTransfer2PascalVoc ? (
+                  'VOC2012 Detection'
+                ) : (
+                  <Popover content={t('ExportVOCLimitMsg')}>VOC2012 Detection</Popover>
+                )}
+              </Radio.Button>
+
+              <Radio.Button value='default' style={{ margin: 4 }}>
+                {t('StandardFormat')}
+              </Radio.Button>
+              <Radio.Button value='Mask' disabled={!isTransfer2ACE20k} style={{ margin: 4 }}>
                 {isTransfer2ACE20k ? (
                   'Mask'
                 ) : (

@@ -7,6 +7,7 @@ import { IFileInfo, IStepInfo } from '@/store';
 import { getBaseName, jsonParser } from './tool/common';
 import { DrawUtils } from '@labelbee/lb-annotation';
 import ColorCheatSheet from '@/assets/color.json';
+import CreateDoc from '@/utils/CreateDoc';
 
 // 获取 color cheat sheet 内的颜色
 export const getRgbFromColorCheatSheet = (index: number) => {
@@ -314,6 +315,198 @@ export default class DataTransfer {
     });
 
     return { categories, idString };
+  }
+
+  /**
+   * 格式化xml代码
+   *
+   * @param xmlStr
+   */
+  public static formateXml(xmlStr: any) {
+    var text = xmlStr;
+
+    //使用replace去空格
+    text =
+      '\n' +
+      text
+        .replace(/(<\w+)(\s.*?>)/g, function ($0: any, name: any, props: any) {
+          return name + ' ' + props.replace(/\s+(\w+=)/g, ' $1');
+        })
+        .replace(/>\s*?</g, '>\n<');
+
+    //调整格式	以压栈方式递归调整缩进
+    var rgx = /\n(<(([^\?]).+?)(?:\s|\s*?>|\s*?(\/)>)(?:.*?(?:(?:(\/)>)|(?:<(\/)\2>)))?)/gm;
+    var nodeStack: any = [];
+    var output = text.replace(
+      rgx,
+      function (
+        $0: any,
+        all: any,
+        name: any,
+        isBegin: any,
+        isCloseFull1: any,
+        isCloseFull2: any,
+        isFull1: any,
+        isFull2: any,
+      ) {
+        var isClosed =
+          isCloseFull1 == '/' || isCloseFull2 == '/' || isFull1 == '/' || isFull2 == '/';
+        var prefix = '';
+        if (isBegin == '!') {
+          //!开头
+          prefix = DataTransfer.setPrefix(nodeStack.length);
+        } else {
+          if (isBegin != '/') {
+            ///开头
+            prefix = DataTransfer.setPrefix(nodeStack.length);
+            if (!isClosed) {
+              //非关闭标签
+              nodeStack.push(name);
+            }
+          } else {
+            nodeStack.pop(); //弹栈
+            prefix = DataTransfer.setPrefix(nodeStack.length);
+          }
+        }
+        var ret = '\n' + prefix + all;
+        return ret;
+      },
+    );
+    var outputText = output.substring(1);
+    return outputText;
+  }
+
+  /**
+   * 计算头函数，用来缩进
+   *
+   * @param prefixIndex
+   */
+  public static setPrefix(prefixIndex: any) {
+    var result = '';
+    var span = '    '; //缩进长度
+    var output = [];
+    for (var i = 0; i < prefixIndex; ++i) {
+      output.push(span);
+    }
+    result = output.join('');
+    return result;
+  }
+
+  /**
+   * 将 sensebee 格式转换为 pascal voc 格式
+   *
+   * @param file
+   */
+  public static transferDefault2Voc(file: any) {
+    const result = jsonParser(file?.result);
+    const folder = file.url.replace(file?.fileName, ''); // 文件夹
+
+    let labelObj = {
+      tagName: 'annotation',
+      children: [
+        {
+          tagName: 'folder', // 图片所处文件夹
+          children: [folder],
+        },
+        {
+          tagName: 'filename', // 图片名
+          children: [file?.fileName],
+        },
+        {
+          tagName: 'path',
+          children: [file?.url],
+        },
+        {
+          tagName: 'source', // 图片来源相关信息
+          children: [
+            {
+              tagName: 'database',
+              children: [],
+            },
+          ],
+        },
+        {
+          tagName: 'size', // 图片尺寸
+          children: [
+            {
+              tagName: 'width',
+              children: [result?.width],
+            },
+            {
+              tagName: 'height',
+              children: [result?.height],
+            },
+            {
+              tagName: 'depth',
+              children: [3],
+            },
+          ],
+        },
+        {
+          tagName: 'segmented', // 是否有分割
+          children: [0],
+        },
+      ],
+    };
+
+    if (result?.step_1?.result?.length > 0) {
+      result?.step_1.result.forEach((v: any) => {
+        const xmin = (v.x - v.width / 2).toFixed(6); // 最小横坐标
+        const ymin = (v.x - v.height / 2).toFixed(6); // 最小纵坐标
+        const xmax = (v.x + v.width / 2).toFixed(6); // 最小横坐标
+        const ymax = (v.x + v.height / 2).toFixed(6); // 最大纵坐标
+        const object = {
+          tagName: 'object', // 包含物体
+          children: [
+            {
+              tagName: 'name', // 物体类别
+              children: [],
+            },
+            {
+              tagName: 'pose', // 物体姿态
+              children: ['Unspecified'],
+            },
+            {
+              tagName: 'truncated', // 物体是否被遮挡
+              children: [0],
+            },
+            {
+              tagName: 'difficult', // 是否为难识别的物体
+              children: [0],
+            },
+            {
+              tagName: 'bndbox',
+              children: [
+                {
+                  tagName: 'xmin',
+                  children: [xmin],
+                },
+                {
+                  tagName: 'ymin',
+                  children: [ymin],
+                },
+                {
+                  tagName: 'xmax',
+                  children: [xmax],
+                },
+                {
+                  tagName: 'ymax',
+                  children: [ymax],
+                },
+              ],
+            },
+          ],
+        };
+        labelObj.children.push(object);
+      });
+    }
+    const doc = new CreateDoc(labelObj);
+    const xmlSerializer = new XMLSerializer();
+    let setupSerial = xmlSerializer.serializeToString(doc.render());
+    const reg = new RegExp(' xmlns="http://www.w3.org/1999/xhtml"', 'g');
+    setupSerial = setupSerial.replace(reg, '');
+    setupSerial = this.formateXml(setupSerial);
+    return setupSerial;
   }
 
   /**
