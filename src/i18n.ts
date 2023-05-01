@@ -62,7 +62,7 @@ const resources = {
       ResultPath: 'Result Path',
       ConfirmToDelete: 'Confirm To Delete',
       OutOfTargetAnnotation: 'Out-Of-Target',
-      CopyThePreview: 'Copy The Preview',
+      CopyThePreview: 'Copy The Previous Annotation',
       ShowOrder: 'Show Order',
       Detection: 'Detection',
       Classification: 'Classification',
